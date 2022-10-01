@@ -5,6 +5,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -15,7 +17,7 @@ import com.example.wifiradar.ui.theme.WiFiRadarTheme
 
 /*
 * TODO functionality
-*  - ScanList on UI
+*  + ScanList on UI
 *  - WiFi scanning
 *  - distance calculation
 *  - map chart element on UI
@@ -23,9 +25,15 @@ import com.example.wifiradar.ui.theme.WiFiRadarTheme
 *  - BT scanning
 *
 * TODO application
+*  - App layout
 *  - icon
 *  - enable crashlytics
 *  - publish to play store
+*
+* TODO project/github
+*  - project description
+*  - readme
+*
 */
 
 class MainActivity : ComponentActivity() {
@@ -38,31 +46,40 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    ScanListScreen()
+                    ScanListScreen(
+                        listOf(
+                            WifiAp(name="eka", strength = 14),
+                            WifiAp(name="toka", strength = 65)
+                        )
+                    )
                 }
             }
         }
     }
 }
 
+class WifiAp(val name: String, var strength: Int = 100)
+
 @Composable
-fun ScanListItem(name: String, strength: Int) {
+fun ScanListItem(ap: WifiAp) {
     Text(
-        text = "$name (rssi=$strength)",
+        text = "${ap.name} (rssi=${ap.strength})",
         style = MaterialTheme.typography.bodyMedium,
     )
 }
 
 @Composable
-fun ScanListScreen() {
+fun ScanListScreen(wifiApList: List<WifiAp>) {
     Column {
         Text(
             text = "WiFi Radar",
             style = MaterialTheme.typography.titleMedium,
         )
-        ScanListItem("AP2", 64)
-        ScanListItem("My WiFi network", 37)
-        ScanListItem("Some other SSID", 49)
+        LazyColumn {
+            items(wifiApList) { wifiAp ->
+                ScanListItem(ap = wifiAp)
+            }
+        }
     }
 }
 
@@ -71,7 +88,7 @@ fun ScanListScreen() {
 @Composable
 fun ScanListItemPreview() {
     WiFiRadarTheme {
-        ScanListItem("WiFi 1", 54)
+        ScanListItem(WifiAp(name="WiFi 1", strength = 54))
     }
 }
 
@@ -79,6 +96,12 @@ fun ScanListItemPreview() {
 @Composable
 fun ScanListPagePreview() {
     WiFiRadarTheme {
-        ScanListScreen()
+        ScanListScreen(
+            listOf(
+                WifiAp(name="eka"),
+                WifiAp(name="toka", strength = 65),
+                WifiAp(name="kolmas", strength = 97)
+            )
+        )
     }
 }
