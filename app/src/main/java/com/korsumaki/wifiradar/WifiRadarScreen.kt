@@ -1,4 +1,4 @@
-package com.example.wifiradar
+package com.korsumaki.wifiradar
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.lazy.LazyColumn
@@ -10,7 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.wifiradar.ui.theme.WiFiRadarTheme
+import com.korsumaki.wifiradar.ui.theme.WiFiRadarTheme
 
 
 @Composable

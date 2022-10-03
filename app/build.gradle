@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.wifiradar'
+    namespace 'com.korsumaki.wifiradar'
     compileSdk 32
 
     defaultConfig {
-        applicationId "com.example.wifiradar"
+        applicationId "com.korsumaki.wifiradar"
         minSdk 28
         targetSdk 32
         versionCode 1

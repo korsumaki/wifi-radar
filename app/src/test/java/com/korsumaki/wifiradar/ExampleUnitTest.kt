@@ -1,4 +1,4 @@
-package com.example.wifiradar
+package com.korsumaki.wifiradar
 
 import org.junit.Test
 

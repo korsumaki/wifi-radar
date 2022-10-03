@@ -27,7 +27,6 @@ Here is list of ideas what to do
   - compose testing?
     - https://developer.android.com/jetpack/compose/testing
 
-- TODO project/github
+- Project/github
   - project description
   - readme
-  - package name -> korsumaki

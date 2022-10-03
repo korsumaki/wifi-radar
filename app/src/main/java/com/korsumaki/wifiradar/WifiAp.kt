@@ -1,4 +1,4 @@
-package com.example.wifiradar
+package com.korsumaki.wifiradar
 
 data class WifiAp(val name: String, var strength: Int = 100)
 

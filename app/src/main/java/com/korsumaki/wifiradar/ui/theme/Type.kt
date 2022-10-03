@@ -1,4 +1,4 @@
-package com.example.wifiradar.ui.theme
+package com.korsumaki.wifiradar.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
