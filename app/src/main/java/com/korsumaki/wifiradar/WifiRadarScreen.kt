@@ -1,5 +1,6 @@
 package com.korsumaki.wifiradar
 
+import android.content.Context
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -14,17 +15,20 @@ import com.korsumaki.wifiradar.ui.theme.WiFiRadarTheme
 
 
 @Composable
-fun WifiRadarScreen() {
+fun WifiRadarScreen(context: Context) {
     val scanList = remember { mutableStateListOf<WifiAp>() }
+    val scanner = WiFiRadarScanner(context = context, scanList)
 
     ScanListScreen(
         scanList,
-        onScanButtonPress = { scanList.add(getRandomWifiAp()) }
+        onScanButtonPress = {
+            scanner.scan()
+        }
     )
 }
 
 @Composable
-fun ScanListScreen(wifiApList: List<WifiAp>, onScanButtonPress: () -> Unit ) { /*MutableList*/
+fun ScanListScreen(wifiApList: List<WifiAp>, onScanButtonPress: () -> Unit ) {
     Column {
         Text(
             text = "WiFi Radar",
@@ -50,20 +54,20 @@ fun ScanListItem(ap: WifiAp) {
 }
 
 
-@Preview(showBackground = true)
+/*@Preview(showBackground = true)
 @Composable
 fun WifiRadarScreenPreview() {
     WiFiRadarTheme {
-        WifiRadarScreen()
+        WifiRadarScreen(null)
     }
-}
+}*/
 
 @Preview(showBackground = true)
 @Composable
 fun ScanListPagePreview() {
     WiFiRadarTheme {
         ScanListScreen(
-            listOf( //mutableListOf
+            listOf(
                 WifiAp(name="eka"),
                 WifiAp(name="toka", strength = 65),
                 WifiAp(name="kolmas", strength = 97)
