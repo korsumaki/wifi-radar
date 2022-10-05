@@ -28,6 +28,12 @@ class WiFiRadarScanner(val context: Context, var scanList: MutableList<WifiAp>) 
             val intentFilter = IntentFilter()
             intentFilter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)
             context.registerReceiver(wifiScanReceiver, intentFilter)
+            /*
+            * TODO: Fix intent receiver unregisterReceiver()
+            *   Activity com.korsumaki.wifiradar.MainActivity has leaked IntentReceiver com.korsumaki.wifiradar.WiFiRadarScanner$wifiScanReceiver$1@7a2f7f5 that was originally registered here. Are you missing a call to unregisterReceiver()?
+            *   android.app.IntentReceiverLeaked: Activity com.korsumaki.wifiradar.MainActivity has leaked IntentReceiver com.korsumaki.wifiradar.WiFiRadarScanner$wifiScanReceiver$1@7a2f7f5 that was originally registered here. Are you missing a call to unregisterReceiver()?
+            *       at com.korsumaki.wifiradar.WiFiRadarScanner.scan(WiFiRadarScanner.kt:30)
+            * */
             firstCall = false
         }
 

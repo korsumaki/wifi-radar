@@ -18,6 +18,7 @@ Here is list of ideas what to do
 
 - Application
   - remember list during orientation change
+    - missing call to unregisterReceiver()
   - scroll scanList
   - viewModel
   - App layout (Scaffold)
