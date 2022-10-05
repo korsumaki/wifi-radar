@@ -1,7 +1,7 @@
 package com.korsumaki.wifiradar
 
 import android.content.Context
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
@@ -10,7 +10,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.korsumaki.wifiradar.ui.theme.WiFiRadarTheme
 
 
@@ -30,17 +33,25 @@ fun WifiRadarScreen(context: Context) {
 @Composable
 fun ScanListScreen(wifiApList: List<WifiAp>, onScanButtonPress: () -> Unit ) {
     Column {
-        Text(
-            text = "WiFi Radar",
-            style = MaterialTheme.typography.titleMedium,
-        )
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "WiFi Radar",
+                style = MaterialTheme.typography.titleLarge,
+                modifier = Modifier.padding(8.dp)
+            )
+            Button(
+                onClick = onScanButtonPress,
+                modifier = Modifier.padding(8.dp)
+            ) {
+                Text(text = "Scan")
+            }
+        }
         LazyColumn {
             items(wifiApList) { wifiAp ->
                 ScanListItem(ap = wifiAp)
             }
-        }
-        Button(onClick = onScanButtonPress) {
-            Text(text = "Scan")
         }
     }
 }
