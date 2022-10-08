@@ -1,13 +1,24 @@
 package com.korsumaki.wifiradar
 
+import android.Manifest
+import android.app.Activity
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.wifi.WifiManager
 
-class WiFiRadarScanner(val context: Context, var scanList: MutableList<WifiAp>) {
-    val wifiManager = context.getSystemService(Context.WIFI_SERVICE) as WifiManager
+class WiFiRadarScanner(val activity: Activity, var scanList: MutableList<WifiAp>) {
+    val wifiManager = activity.getSystemService(Context.WIFI_SERVICE) as WifiManager
+
+    var rationaleTitleForPermission = "Location service is required"
+    var rationaleForPermission = "Location service is required to listen Wifi access points. " +
+            "This App is constructing map based on Wifi Access Points."
+
+    val locationPermissionController = PermissionController(activity = activity,
+        permissionList = listOf(Manifest.permission.ACCESS_FINE_LOCATION),
+        rationaleTitle = rationaleTitleForPermission,
+        rationale = rationaleForPermission)
 
     val wifiScanReceiver = object : BroadcastReceiver() {
 
@@ -23,11 +34,15 @@ class WiFiRadarScanner(val context: Context, var scanList: MutableList<WifiAp>) 
 
     var firstCall = true
     fun scan() {
+        if (!locationPermissionController.checkPermission()) {
+            return
+        }
+
         if (firstCall) {
             // TODO move these to some constructor etc.
             val intentFilter = IntentFilter()
             intentFilter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)
-            context.registerReceiver(wifiScanReceiver, intentFilter)
+            activity.registerReceiver(wifiScanReceiver, intentFilter)
             /*
             * TODO: Fix intent receiver unregisterReceiver()
             *   Activity com.korsumaki.wifiradar.MainActivity has leaked IntentReceiver com.korsumaki.wifiradar.WiFiRadarScanner$wifiScanReceiver$1@7a2f7f5 that was originally registered here. Are you missing a call to unregisterReceiver()?

@@ -1,6 +1,6 @@
 package com.korsumaki.wifiradar
 
-import android.content.Context
+import android.app.Activity
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -18,9 +18,9 @@ import com.korsumaki.wifiradar.ui.theme.WiFiRadarTheme
 
 
 @Composable
-fun WifiRadarScreen(context: Context) {
+fun WifiRadarScreen(activity: Activity) {
     val scanList = remember { mutableStateListOf<WifiAp>() }
-    val scanner = WiFiRadarScanner(context = context, scanList)
+    val scanner = WiFiRadarScanner(activity = activity, scanList)
 
     ScanListScreen(
         scanList,

@@ -7,19 +7,19 @@ WiFi Radar is (experimental) application to scan WiFi access points and create m
 Here is list of ideas what to do
 
 - Functionality
-  + WiFi scanning
-  - request permissions (location)
   - distance calculation
   - map chart element on UI
   - more advanced methods for getting distance
     - https://developer.android.com/guide/topics/connectivity/wifi-rtt
     - https://github.com/Plinzen/android-rttmanager-sample
   - BT scanning
+  - gather real scan data to be used in simulations
+  - get step count for estimating distance between scans
 
 - Application
   - remember list during orientation change
     - missing call to unregisterReceiver()
-  - scroll scanList
+  - check app version number, change to use git tag version?
   - viewModel
   - App layout (Scaffold)
   - icon
