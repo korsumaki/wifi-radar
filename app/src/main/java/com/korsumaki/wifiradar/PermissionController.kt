@@ -2,7 +2,6 @@ package com.korsumaki.wifiradar
 
 import android.app.Activity
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -50,7 +49,7 @@ import androidx.core.content.ContextCompat
 class PermissionController(val activity: Activity, val permissionList: List<String>, val rationaleTitle: String, val rationale: String) {
 
     fun checkPermission(): Boolean {
-        println("PermissionController.checkPermission($permissionList)")
+        //println("PermissionController.checkPermission($permissionList)")
 
         // Step 4. Check whether user has already granted permission
         var userAlreadyGrantedAllRequiredPermissions = true
@@ -74,25 +73,24 @@ class PermissionController(val activity: Activity, val permissionList: List<Stri
         var shouldShowRationaleToUser = false
         for (permission in permissionList) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(activity, permission)) {
-                println("$permission -> should show rationale")
+                //println("$permission -> should show rationale")
                 shouldShowRationaleToUser = true
             }
         }
 
         if (shouldShowRationaleToUser) {
-            // show rationale to user
             AlertDialog.Builder(activity)
                 .setTitle(rationaleTitle)
                 .setMessage(rationale)
-                .setPositiveButton("OK",
-                    DialogInterface.OnClickListener { dialog, id ->
-                        // Continue with requesting permissions
-                        triggerPermissionRequest()
-                    })
-                .setNegativeButton("Cancel",
-                    DialogInterface.OnClickListener { dialog, id ->
-                        // User cancelled the dialog
-                    })
+                .setPositiveButton("OK"
+                ) { dialog, id ->
+                    // Continue with requesting permissions
+                    triggerPermissionRequest()
+                }
+                .setNegativeButton("Cancel"
+                ) { dialog, id ->
+                    // User cancelled the dialog
+                }
                 .create()
                 .show()
             return false
