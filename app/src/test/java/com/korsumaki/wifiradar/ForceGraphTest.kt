@@ -43,6 +43,17 @@ class ForceGraphTest {
         assertThat(coordinate1-coordinate2).isEqualTo(coordinate3)
     }
 
+    @Test
+    fun test_Coordinate_distance() {
+        assertThat(Coordinate(10f, 0f).distance()).isEqualTo(10)
+        assertThat(Coordinate(0f, 31f).distance()).isEqualTo(31)
+        assertThat(Coordinate(30f, 40f).distance()).isEqualTo(50)
+
+        assertThat(Coordinate(-30f, 40f).distance()).isEqualTo(50)
+        assertThat(Coordinate(30f, -40f).distance()).isEqualTo(50)
+        assertThat(Coordinate(-30f, -40f).distance()).isEqualTo(50)
+    }
+
     // ====================
     // ForceNode
     // ====================
@@ -88,6 +99,50 @@ class ForceGraphTest {
         relation.coordinates.clear()
 
         assertThat(relation.coordinates.size).isEqualTo(0)
+    }
+
+    @Test
+    fun test_ForceRelation_calculateForce_simple() {
+        val relation = ForceRelation(10f)
+        relation.coordinates.add(Coordinate(0f,0f))
+        relation.coordinates.add(Coordinate(5f,0f))
+
+        relation.calculateForce()
+        assertThat(relation.force).isEqualTo(50f)
+    }
+
+    // ====================
+    // ForceGraph
+    // ====================
+    @Test
+    fun test_ForceGraph_usage() {
+        val forceGraph = ForceGraph()
+
+        val currentPosition = Coordinate(4f, 7f)
+        val currentPositionNode = ForceNode("Position-1", currentPosition)
+
+        // Current position
+        val newPositionNode = ForceNode("Position-2", currentPosition.copy(y = currentPosition.y + 5))
+        forceGraph.connectNodesWithRelation(currentPositionNode, newPositionNode, ForceRelation(10f))
+
+        val strength = 3f
+        val apNode = ForceNode("ap1")
+        forceGraph.connectNodesWithRelation(apNode, newPositionNode, ForceRelation(strength))
+
+        assertThat(forceGraph.nodes.size).isEqualTo(3)
+        assertThat(forceGraph.relations.size).isEqualTo(2)
+
+        val apNodeButNewInstance = ForceNode("ap1")
+        forceGraph.connectNodesWithRelation(apNodeButNewInstance, currentPositionNode, ForceRelation(5f))
+
+        assertThat(forceGraph.nodes.size).isEqualTo(3)
+        assertThat(forceGraph.relations.size).isEqualTo(3)
+
+        //println("nodes: ${forceGraph.nodes}")
+        //println("relations: ${forceGraph.relations}")
+
+        //println("nodes[0].relations: ${forceGraph.nodes[0].relations}")
+        //println("nodes[1].relations: ${forceGraph.nodes[1].relations}")
     }
 }
 

@@ -23,6 +23,7 @@ Here is list of ideas what to do
   - viewModel
   - App layout (Scaffold)
   - icon
+  - support for different languages (en, fi)
   - enable crashlytics
   - enable leakcanary
   - publish to play store
