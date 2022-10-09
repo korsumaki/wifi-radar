@@ -220,7 +220,7 @@ class ForceGraphTest {
     }
 
     @Test
-    fun test_ForceGraph_calculateSumForceVector_2() {
+    fun test_ForceGraph_calculateSumForceVector_skewed() {
         val forceGraph = ForceGraph()
 
         // Setup graph
@@ -244,6 +244,25 @@ class ForceGraphTest {
         assertThat(rightForceVector).isEqualTo(Coordinate(-10f,0f)) // Force to left
         assertThat(centerForceVector).isEqualTo(Coordinate(10f,-10f)) // Force to down and right
         assertThat(upForceVector).isEqualTo(Coordinate(0f,10f)) // Force to up
+    }
+
+    @Test
+    fun test_ForceGraph_iterateRelations() {
+        val forceGraph = ForceGraph()
+
+        // Setup graph
+        val centerNode = ForceNode("Center", Coordinate(0f,100f))
+        val rightNode = ForceNode("Right", Coordinate(11f,100f))
+        val upNode = ForceNode("Up", Coordinate(0f,109f))
+        forceGraph.connectNodesWithRelation(centerNode, rightNode, ForceRelation(10f))
+        forceGraph.connectNodesWithRelation(centerNode, upNode, ForceRelation(10f))
+
+        // Iterations
+        for (i in 0..50) {
+            forceGraph.iterateRelations()
+            //println(upNode)
+        }
+        // NOTE: This testcase is not actually verifying anything, but just running iterations
     }
 }
 
