@@ -5,51 +5,57 @@ import kotlin.math.sqrt
 
 class ForceGraph {
 
-    var nodes = ArrayList<ForceNode>()
-    var relations = ArrayList<ForceRelation>()
+    var nodeList = ArrayList<ForceNode>()
+    var relationList = ArrayList<ForceRelation>()
 
     fun connectNodesWithRelation(node1: ForceNode, node2: ForceNode, relation: ForceRelation) {
 
         // Add nodes to list if not already there
-        if (!nodes.contains(node1)) {
-            nodes.add(node1)
+        if (!nodeList.contains(node1)) {
+            nodeList.add(node1)
         }
-        if (!nodes.contains(node2)) {
-            nodes.add(node2)
+        if (!nodeList.contains(node2)) {
+            nodeList.add(node2)
         }
 
         // Add relation to list
-        relations.add(relation)
+        relationList.add(relation)
 
         // Update to both nodes with index to relation table
-        val relationIndex = relations.size - 1
-        node1.relations.add(relationIndex)
-        node2.relations.add(relationIndex)
+        val relationIndex = relationList.size - 1
+        node1.relationIndexList.add(relationIndex)
+        node2.relationIndexList.add(relationIndex)
     }
 
     fun iterateRelations() {
         // For all ForceRelations: Clear coordinates
-        for (relation in relations) {
-            relation.coordinates.clear()
+        for (relation in relationList) {
+            relation.coordinateList.clear()
         }
 
         // For all ForceNodes: Update coordinate to all ForceRelations
-        for (node in nodes) {
-            for (relationIndex in node.relations) {
-                relations[relationIndex].coordinates.add(node.coordinate)
+        for (node in nodeList) {
+            for (relationIndex in node.relationIndexList) {
+                relationList[relationIndex].coordinateList.add(node.coordinate)
             }
         }
 
         // For all ForceRelations: Calculate force
-        for (relation in relations) {
+        for (relation in relationList) {
             relation.calculateForce()
         }
 
         // For all ForceNodes: Calculate sum force vector, calculate new x,y
-        for (node in nodes) {
+        for (node in nodeList) {
+            val sumForceVector = calculateSumForceVector(node)
             // TODO sum force vector need to be calculated here in ForceGraph class
-            node.calculateNewCoordinates()
+            node.calculateNewCoordinates(sumForceVector)
         }
+    }
+
+    fun calculateSumForceVector(node: ForceNode): Coordinate {
+
+        return Coordinate(0f, 0f)
     }
 }
 
@@ -60,9 +66,9 @@ class ForceGraph {
  */
 data class ForceNode(val id: String, var coordinate: Coordinate = Coordinate(0f, 0f)) {
     var name = ""
-    var relations = ArrayList<Int>(0)
+    var relationIndexList = ArrayList<Int>(0)
 
-    fun calculateNewCoordinates() {
+    fun calculateNewCoordinates(sumForceVector: Coordinate) {
         // TODO would be easier to have forces already in components?
 
         // calculate a -> v -> s == new coordinates
@@ -97,7 +103,7 @@ data class Coordinate(val x: Float, val y: Float) {
 
 
 data class ForceRelation(val targetLength: Float) {
-    var coordinates = ArrayList<Coordinate>()
+    var coordinateList = ArrayList<Coordinate>()
     var force = 0f // TODO should this be Coordinate, both components separately?
 
     val springConstant = 10f // spring constant, N/m
@@ -106,7 +112,7 @@ data class ForceRelation(val targetLength: Float) {
      * Calculate force for this relation.
      */
     fun calculateForce() {
-        val deltaCoordinate = coordinates[0] - coordinates[1]
+        val deltaCoordinate = coordinateList[0] - coordinateList[1]
         val x = deltaCoordinate.distance() - targetLength
 
         // Spring force

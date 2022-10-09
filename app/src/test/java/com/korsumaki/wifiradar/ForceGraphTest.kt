@@ -67,11 +67,11 @@ class ForceGraphTest {
     @Test
     fun test_ForceNode_relationsList() {
         val node = ForceNode("some id")
-        node.relations.add(5)
-        assertThat(node.relations.size).isEqualTo(1)
-        assertThat(node.relations[0]).isEqualTo(5)
-        node.relations.add(87)
-        assertThat(node.relations[1]).isEqualTo(87)
+        node.relationIndexList.add(5)
+        assertThat(node.relationIndexList.size).isEqualTo(1)
+        assertThat(node.relationIndexList[0]).isEqualTo(5)
+        node.relationIndexList.add(87)
+        assertThat(node.relationIndexList[1]).isEqualTo(87)
     }
 
     // ====================
@@ -88,24 +88,24 @@ class ForceGraphTest {
     fun test_ForceRelation_addAndClearCoordinates() {
         val relation = ForceRelation(45f)
 
-        relation.coordinates.add(Coordinate(2f,8f))
-        assertThat(relation.coordinates.size).isEqualTo(1)
+        relation.coordinateList.add(Coordinate(2f,8f))
+        assertThat(relation.coordinateList.size).isEqualTo(1)
 
-        relation.coordinates.add(Coordinate(123f,44.4f))
-        assertThat(relation.coordinates.size).isEqualTo(2)
+        relation.coordinateList.add(Coordinate(123f,44.4f))
+        assertThat(relation.coordinateList.size).isEqualTo(2)
 
-        assertThat(relation.coordinates[0]).isEqualTo(Coordinate(2f, 8f))
-        assertThat(relation.coordinates[1]).isEqualTo(Coordinate(123f, 44.4f))
-        relation.coordinates.clear()
+        assertThat(relation.coordinateList[0]).isEqualTo(Coordinate(2f, 8f))
+        assertThat(relation.coordinateList[1]).isEqualTo(Coordinate(123f, 44.4f))
+        relation.coordinateList.clear()
 
-        assertThat(relation.coordinates.size).isEqualTo(0)
+        assertThat(relation.coordinateList.size).isEqualTo(0)
     }
 
     @Test
     fun test_ForceRelation_calculateForce_simple() {
         val relation = ForceRelation(10f)
-        relation.coordinates.add(Coordinate(0f,0f))
-        relation.coordinates.add(Coordinate(5f,0f))
+        relation.coordinateList.add(Coordinate(0f,0f))
+        relation.coordinateList.add(Coordinate(5f,0f))
 
         relation.calculateForce()
         assertThat(relation.force).isEqualTo(50f)
@@ -129,14 +129,14 @@ class ForceGraphTest {
         val apNode = ForceNode("ap1")
         forceGraph.connectNodesWithRelation(apNode, newPositionNode, ForceRelation(strength))
 
-        assertThat(forceGraph.nodes.size).isEqualTo(3)
-        assertThat(forceGraph.relations.size).isEqualTo(2)
+        assertThat(forceGraph.nodeList.size).isEqualTo(3)
+        assertThat(forceGraph.relationList.size).isEqualTo(2)
 
         val apNodeButNewInstance = ForceNode("ap1")
         forceGraph.connectNodesWithRelation(apNodeButNewInstance, currentPositionNode, ForceRelation(5f))
 
-        assertThat(forceGraph.nodes.size).isEqualTo(3)
-        assertThat(forceGraph.relations.size).isEqualTo(3)
+        assertThat(forceGraph.nodeList.size).isEqualTo(3)
+        assertThat(forceGraph.relationList.size).isEqualTo(3)
 
         //println("nodes: ${forceGraph.nodes}")
         //println("relations: ${forceGraph.relations}")
