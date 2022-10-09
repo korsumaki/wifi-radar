@@ -173,5 +173,59 @@ class ForceGraphTest {
         //println("nodes[0].relations: ${forceGraph.nodes[0].relations}")
         //println("nodes[1].relations: ${forceGraph.nodes[1].relations}")
     }
+
+    @Test
+    fun test_ForceGraph_calculateSumForceVector() {
+        val forceGraph = ForceGraph()
+
+        // Setup graph
+        val centerNode = ForceNode("Center", Coordinate(0f,100f))
+        val rightNode = ForceNode("Right", Coordinate(10f,100f))
+        val leftNode = ForceNode("Left", Coordinate(-11f,100f))
+        forceGraph.connectNodesWithRelation(centerNode, rightNode, ForceRelation(10f))
+        forceGraph.connectNodesWithRelation(centerNode, leftNode, ForceRelation(10f))
+
+        // Calculations (forces for each relation)
+        forceGraph.clearRelationCoordinates()
+        forceGraph.updateNodeCoordinatesToRelations()
+        forceGraph.calculateRelationForces()
+
+        // Calculate sum force vectors
+        val centerForceVector = forceGraph.calculateSumForceVector(centerNode)
+        val rightForceVector = forceGraph.calculateSumForceVector(rightNode)
+        val leftForceVector = forceGraph.calculateSumForceVector(leftNode)
+
+        // testing
+        assertThat(rightForceVector).isEqualTo(Coordinate(0f,0f)) // No force
+        assertThat(centerForceVector).isEqualTo(Coordinate(-10f,0f)) // Force to left
+        assertThat(leftForceVector).isEqualTo(Coordinate(10f,0f)) // Force to right
+    }
+
+    @Test
+    fun test_ForceGraph_calculateSumForceVector_2() {
+        val forceGraph = ForceGraph()
+
+        // Setup graph
+        val centerNode = ForceNode("Center", Coordinate(0f,100f))
+        val rightNode = ForceNode("Right", Coordinate(11f,100f))
+        val upNode = ForceNode("Up", Coordinate(0f,109f))
+        forceGraph.connectNodesWithRelation(centerNode, rightNode, ForceRelation(10f))
+        forceGraph.connectNodesWithRelation(centerNode, upNode, ForceRelation(10f))
+
+        // Calculations (forces for each relation)
+        forceGraph.clearRelationCoordinates()
+        forceGraph.updateNodeCoordinatesToRelations()
+        forceGraph.calculateRelationForces()
+
+        // Calculate sum force vectors
+        val centerForceVector = forceGraph.calculateSumForceVector(centerNode)
+        val rightForceVector = forceGraph.calculateSumForceVector(rightNode)
+        val upForceVector = forceGraph.calculateSumForceVector(upNode)
+
+        // testing
+        assertThat(rightForceVector).isEqualTo(Coordinate(-10f,0f)) // Force to left
+        assertThat(centerForceVector).isEqualTo(Coordinate(10f,-10f)) // Force to down and right
+        assertThat(upForceVector).isEqualTo(Coordinate(0f,10f)) // Force to up
+    }
 }
 

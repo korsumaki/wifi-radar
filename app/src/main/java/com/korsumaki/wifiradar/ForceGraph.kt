@@ -27,23 +27,20 @@ class ForceGraph {
         node2.relationIndexList.add(relationIndex)
     }
 
+    /**
+     * Iterate all relations and movements once.
+     *
+     * Calculate forces and update node coordinates.
+     */
     fun iterateRelations() {
         // For all ForceRelations: Clear coordinates
-        for (relation in relationList) {
-            relation.coordinateList.clear()
-        }
+        clearRelationCoordinates()
 
         // For all ForceNodes: Update coordinate to all ForceRelations
-        for (node in nodeList) {
-            for (relationIndex in node.relationIndexList) {
-                relationList[relationIndex].coordinateList.add(node.coordinate)
-            }
-        }
+        updateNodeCoordinatesToRelations()
 
         // For all ForceRelations: Calculate force
-        for (relation in relationList) {
-            relation.calculateForce()
-        }
+        calculateRelationForces()
 
         // For all ForceNodes: Calculate sum force vector, calculate new x,y
         for (node in nodeList) {
@@ -53,12 +50,44 @@ class ForceGraph {
         }
     }
 
+    fun clearRelationCoordinates() {
+        for (relation in relationList) {
+            relation.coordinateList.clear()
+        }
+    }
+
+    fun updateNodeCoordinatesToRelations() {
+        for (node in nodeList) {
+            for (relationIndex in node.relationIndexList) {
+                relationList[relationIndex].coordinateList.add(node.coordinate)
+            }
+        }
+    }
+
+    fun calculateRelationForces() {
+        for (relation in relationList) {
+            relation.calculateForce()
+        }
+    }
+
+    /**
+     * Calculate sum force vector for node
+     *
+     * @param node  ForceNode for which force vector should be calculated
+     */
     fun calculateSumForceVector(node: ForceNode): Coordinate {
         var sumForceVector = Coordinate(0f, 0f)
 
         for (relationIndex in node.relationIndexList) {
-            // TODO check and apply direction of force
-            sumForceVector += relationList[relationIndex].force
+            // Check direction of force.
+            // If node's coordinate is first in relation's list, then force vector is pointing
+            // already to correct direction. Otherwise force should be inverted.
+            if (node.coordinate == relationList[relationIndex].coordinateList[0]) {
+                sumForceVector += relationList[relationIndex].force
+            }
+            else {
+                sumForceVector -= relationList[relationIndex].force
+            }
         }
         return sumForceVector
     }
