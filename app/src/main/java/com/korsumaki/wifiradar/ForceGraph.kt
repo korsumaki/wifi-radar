@@ -47,15 +47,20 @@ class ForceGraph {
 
         // For all ForceNodes: Calculate sum force vector, calculate new x,y
         for (node in nodeList) {
+            // Sum force vector need to be calculated here in ForceGraph class
             val sumForceVector = calculateSumForceVector(node)
-            // TODO sum force vector need to be calculated here in ForceGraph class
             node.calculateNewCoordinates(sumForceVector)
         }
     }
 
     fun calculateSumForceVector(node: ForceNode): Coordinate {
+        var sumForceVector = Coordinate(0f, 0f)
 
-        return Coordinate(0f, 0f)
+        for (relationIndex in node.relationIndexList) {
+            // TODO check and apply direction of force
+            sumForceVector += relationList[relationIndex].force
+        }
+        return sumForceVector
     }
 }
 
@@ -104,18 +109,30 @@ data class Coordinate(val x: Float, val y: Float) {
 
 data class ForceRelation(val targetLength: Float) {
     var coordinateList = ArrayList<Coordinate>()
-    var force = 0f // TODO should this be Coordinate, both components separately?
-
     val springConstant = 10f // spring constant, N/m
+
+    /**
+     * Force vector, direction is for first coordinate.
+     */
+    var force = Coordinate(0f, 0f)
 
     /**
      * Calculate force for this relation.
      */
     fun calculateForce() {
-        val deltaCoordinate = coordinateList[0] - coordinateList[1]
-        val x = deltaCoordinate.distance() - targetLength
+        check(coordinateList.size == 2) { "ForceRelation shall have exactly two Coordinates (now is has ${coordinateList.size})" }
 
+        // Calculate force magnitude
+        val deltaCoordinate = coordinateList[0] - coordinateList[1]
+        val length = deltaCoordinate.distance()
+
+        val deltaS = length - targetLength
         // Spring force
-        force = -springConstant * x
+        val forceMagnitude = -springConstant * deltaS
+
+        // Divide force to components with unit vector
+        force = Coordinate(
+            x = deltaCoordinate.x/length * forceMagnitude,
+            y = deltaCoordinate.y/length * forceMagnitude)
     }
 }

@@ -81,7 +81,6 @@ class ForceGraphTest {
     fun test_ForceRelation_create() {
         val relation = ForceRelation(45f)
         assertThat(relation.targetLength).isEqualTo(45f)
-        assertThat(relation.force).isEqualTo(0f)
     }
 
     @Test
@@ -103,12 +102,42 @@ class ForceGraphTest {
 
     @Test
     fun test_ForceRelation_calculateForce_simple() {
+        // x direction
         val relation = ForceRelation(10f)
         relation.coordinateList.add(Coordinate(0f,0f))
-        relation.coordinateList.add(Coordinate(5f,0f))
-
+        relation.coordinateList.add(Coordinate(11f,0f))
         relation.calculateForce()
-        assertThat(relation.force).isEqualTo(50f)
+        assertThat(relation.force).isEqualTo(Coordinate(10f, -0f))
+
+        // y direction
+        val relationY = ForceRelation(20f)
+        relationY.coordinateList.add(Coordinate(100f,100f))
+        relationY.coordinateList.add(Coordinate(100f,122f))
+        relationY.calculateForce()
+        assertThat(relationY.force).isEqualTo(Coordinate(-0f, 20f))
+
+        // y direction (other way)
+        val relationY2 = ForceRelation(20f)
+        relationY2.coordinateList.add(Coordinate(100f,122f))
+        relationY2.coordinateList.add(Coordinate(100f,100f))
+        relationY2.calculateForce()
+        assertThat(relationY2.force).isEqualTo(Coordinate(-0f, -20f))
+
+        // Zero force
+        val relation2 = ForceRelation(50f)
+        relation2.coordinateList.add(Coordinate(100f,100f))
+        relation2.coordinateList.add(Coordinate(130f,140f))
+        relation2.calculateForce()
+        assertThat(relation2.force).isEqualTo(Coordinate(0f, 0f))
+    }
+
+    @Test
+    fun test_ForceRelation_calculateForce_skewedForce() {
+        val relation = ForceRelation(50f)
+        relation.coordinateList.add(Coordinate(100f,100f))
+        relation.coordinateList.add(Coordinate(160f,180f))
+        relation.calculateForce()
+        assertThat(relation.force).isEqualTo(Coordinate(300f,400f))
     }
 
     // ====================
