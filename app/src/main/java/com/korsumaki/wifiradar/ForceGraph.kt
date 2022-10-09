@@ -120,6 +120,10 @@ data class ForceNode(val id: String, var coordinate: Coordinate = Coordinate(0f,
         vX += aX * t
         vY += aY * t
 
+        // Slow down movement
+        vX *= 0.9f
+        vY *= 0.9f
+
         val sX = vX * t
         val sY = vY * t
 

@@ -82,14 +82,14 @@ class ForceGraphTest {
         assertThat(node.coordinate).isEqualTo(Coordinate(10f,10f))
 
         node.calculateNewCoordinates(sumForceVector =  Coordinate(100f,0f)) // 100N to right
-        assertThat(node.coordinate).isEqualTo(Coordinate(11f,10f))
+        assertThat(node.coordinate).isEqualTo(Coordinate(10.9f,10f))
         node.calculateNewCoordinates(sumForceVector =  Coordinate(100f,0f)) // 100N to right
-        assertThat(node.coordinate).isEqualTo(Coordinate(13f,10f))
+        assertThat(node.coordinate).isEqualTo(Coordinate(12.61f,10f))
         node.calculateNewCoordinates(sumForceVector =  Coordinate(100f,0f)) // 100N to right
-        assertThat(node.coordinate).isEqualTo(Coordinate(16f,10f))
+        assertThat(node.coordinate).isEqualTo(Coordinate(15.049f,10f))
 
         node.calculateNewCoordinates(sumForceVector =  Coordinate(0f,0f)) // No force, but speed is already to right
-        assertThat(node.coordinate).isEqualTo(Coordinate(19f,10f))
+        assertThat(node.coordinate).isEqualTo(Coordinate(17.244099f,10f))
     }
 
     // ====================

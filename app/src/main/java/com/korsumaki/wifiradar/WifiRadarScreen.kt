@@ -17,7 +17,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
-//import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.korsumaki.wifiradar.ui.theme.WiFiRadarTheme
@@ -50,7 +49,7 @@ fun WifiRadarScreen(activity: Activity) {
                 id = "new-${forceGraph.value.nodeList.size}",
                 coordinate = Coordinate(coordinateRange.random().toFloat(), coordinateRange.random().toFloat()))
 
-            forceGraph.value.connectNodesWithRelation(centerNode, newNode, ForceRelation(100f))
+            forceGraph.value.connectNodesWithRelation(centerNode, newNode, ForceRelation(300f))
         },
         onIterateButtonPress = {
             println("onIterateButtonPress")
@@ -167,7 +166,7 @@ fun MapScreenPreview() {
                     id = "new-${forceGraph.value.nodeList.size}",
                     coordinate = Coordinate(coordinateRange.random().toFloat(), coordinateRange.random().toFloat()))
 
-                forceGraph.value.connectNodesWithRelation(centerNode, newNode, ForceRelation(100f))
+                forceGraph.value.connectNodesWithRelation(centerNode, newNode, ForceRelation(300f))
             },
             onIterateButtonPress = {
                 println("onIterateButtonPress")
