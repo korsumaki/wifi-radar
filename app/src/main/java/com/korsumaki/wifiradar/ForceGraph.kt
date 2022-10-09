@@ -102,10 +102,28 @@ data class ForceNode(val id: String, var coordinate: Coordinate = Coordinate(0f,
     var name = ""
     var relationIndexList = ArrayList<Int>(0)
 
-    fun calculateNewCoordinates(sumForceVector: Coordinate) {
-        // TODO would be easier to have forces already in components?
+    var vX = 0f // Velocity in m/s
+    var vY = 0f // Velocity in m/s
 
-        // calculate a -> v -> s == new coordinates
+    fun calculateNewCoordinates(sumForceVector: Coordinate) {
+        val m = 1f // Mass in kg
+        val t = 0.1f // time in seconds
+
+        // Acceleration -> velocity -> position
+        // a = F/m  <- F=m*a
+        // v = v0 + a*t
+        // s = v*t
+
+        val aX = sumForceVector.x / m
+        val aY = sumForceVector.y / m
+
+        vX += aX * t
+        vY += aY * t
+
+        val sX = vX * t
+        val sY = vY * t
+
+        coordinate = Coordinate(x = coordinate.x+sX, y = coordinate.y+sY)
     }
 }
 
