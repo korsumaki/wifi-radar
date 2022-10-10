@@ -48,6 +48,9 @@ class ForceGraph {
             val sumForceVector = calculateSumForceVector(node)
             node.calculateNewCoordinates(sumForceVector)
         }
+
+        clearRelationCoordinates()
+        updateNodeCoordinatesToRelations()
     }
 
     fun clearRelationCoordinates() {
