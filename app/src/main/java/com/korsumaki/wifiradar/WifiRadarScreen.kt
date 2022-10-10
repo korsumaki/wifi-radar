@@ -50,6 +50,13 @@ fun WifiRadarScreen(activity: Activity) {
                 coordinate = Coordinate(coordinateRange.random().toFloat(), coordinateRange.random().toFloat()))
 
             forceGraph.value.connectNodesWithRelation(centerNode, newNode, ForceRelation(300f))
+            if (forceGraph.value.nodeList.size > 4) {
+                val node1 = forceGraph.value.nodeList.random()
+                val node2 = forceGraph.value.nodeList.random()
+                if (node1 != node2) {
+                    forceGraph.value.connectNodesWithRelation(node1, node2, ForceRelation(150f))
+                }
+            }
         },
         onIterateButtonPress = {
             println("onIterateButtonPress")
@@ -167,6 +174,13 @@ fun MapScreenPreview() {
                     coordinate = Coordinate(coordinateRange.random().toFloat(), coordinateRange.random().toFloat()))
 
                 forceGraph.value.connectNodesWithRelation(centerNode, newNode, ForceRelation(300f))
+                if (forceGraph.value.nodeList.size > 4) {
+                    val node1 = forceGraph.value.nodeList.random()
+                    val node2 = forceGraph.value.nodeList.random()
+                    if (node1 != node2) {
+                        forceGraph.value.connectNodesWithRelation(node1, node2, ForceRelation(150f))
+                    }
+                }
             },
             onIterateButtonPress = {
                 println("onIterateButtonPress")

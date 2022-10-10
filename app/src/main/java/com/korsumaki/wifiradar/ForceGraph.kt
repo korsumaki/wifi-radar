@@ -9,6 +9,7 @@ class ForceGraph {
     var relationList = ArrayList<ForceRelation>()
 
     fun connectNodesWithRelation(node1: ForceNode, node2: ForceNode, relation: ForceRelation) {
+        require(node1 != node2) { "ForceNode cannot have ForceRelation with itself" }
 
         // Add nodes to list if not already there
         if (!nodeList.contains(node1)) {
