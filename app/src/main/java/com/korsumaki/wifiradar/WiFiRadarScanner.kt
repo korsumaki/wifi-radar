@@ -52,6 +52,7 @@ class WiFiRadarScanner(val activity: Activity, var scanList: MutableList<WifiAp>
             firstCall = false
         }
 
+        scanList.clear() // Clear old entries from list
         val success = wifiManager.startScan()
         if (!success) {
             println("wifiManager.startScan() failed")
@@ -63,18 +64,18 @@ class WiFiRadarScanner(val activity: Activity, var scanList: MutableList<WifiAp>
     private fun scanSuccess() {
         val results = wifiManager.scanResults
         println("scanSuccess")
-        //... use new scan results ...
         for (result in results) {
             println("SSID: ${result.SSID}, BSSID: ${result.BSSID}, level: ${result.level}")
-            scanList.add(WifiAp(name=result.SSID, strength = result.level))
+            val ap = WifiAp(mac = result.BSSID)
+            ap.name=result.SSID
+            ap.strength = result.level
+            scanList.add(ap)
         }
     }
 
     private fun scanFailure() {
-        // handle failure: new scan did NOT succeed
-        // consider using old scan results: these are the OLD results!
-        val results = wifiManager.scanResults
-        println("scanFailure: $results")
+        //val results = wifiManager.scanResults
+        println("scanFailure")
         //... potentially use older scan results ...
     }
 }

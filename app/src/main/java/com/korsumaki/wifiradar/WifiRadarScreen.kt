@@ -20,13 +20,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.korsumaki.wifiradar.ui.theme.WiFiRadarTheme
 
+/*
+* TODO
+*  - timer for iteration
+*  - scale to middle of the screen
+*
+* */
 
 @Composable
 fun WifiRadarScreen(activity: Activity) {
-    /*
     val scanList = remember { mutableStateListOf<WifiAp>() }
     val scanner = WiFiRadarScanner(activity = activity, scanList)
-
+    /*
     ScanListScreen(
         scanList,
         onScanButtonPress = {
@@ -40,22 +45,36 @@ fun WifiRadarScreen(activity: Activity) {
     val centerNode = ForceNode("Center")
     centerNode.coordinate = Coordinate(600f,600f)
 
+    var currentLocationNodeNumber by remember { mutableStateOf(0) }
+
     MapScreen(
         forceGraph = forceGraph,
+        onScanButtonPress = { scanner.scan() },
         onAddNodeButtonPress = {
             println("onAddNodeButtonPress")
-            val coordinateRange = 200..1000
-            val newNode = ForceNode(id = "new-${forceGraph.nodeList.size}")
-            newNode.coordinate = Coordinate(coordinateRange.random().toFloat(), coordinateRange.random().toFloat())
 
-            forceGraph.connectNodesWithRelation(centerNode, newNode, ForceRelation(300f))
-            if (forceGraph.nodeList.size > 4) {
-                val node1 = forceGraph.nodeList.random()
-                val node2 = forceGraph.nodeList.random()
-                if (node1 != node2) {
-                    forceGraph.connectNodesWithRelation(node1, node2, ForceRelation(150f))
-                }
+            val previousLocationNode = ForceNode(id = "Loc-$currentLocationNodeNumber")
+            currentLocationNodeNumber++
+            val currentLocationNode = ForceNode(id = "Loc-$currentLocationNodeNumber")
+
+            // = estimated distance from previous location
+            currentLocationNode.coordinate = Coordinate(300f, currentLocationNodeNumber*100f)
+
+            if (forceGraph.nodeList.contains(previousLocationNode)) {
+
+                forceGraph.connectNodesWithRelation(
+                    currentLocationNode,
+                    previousLocationNode,
+                    ForceRelation(100f) // = estimated distance from previous location
+                )
             }
+            else {
+                // Add first node
+                forceGraph.nodeList.add(currentLocationNode)
+            }
+
+            addNodesFromScanList(forceGraph, currentLocationNode, scanList)
+            scanList.clear()
         },
         onIterateButtonPress = {
             println("onIterateButtonPress")
@@ -64,18 +83,46 @@ fun WifiRadarScreen(activity: Activity) {
     )
 }
 
+fun addNodesFromScanList(forceGraph: ForceGraph, currentLocationNode: ForceNode, scanList: List<WifiAp>) {
+    for (scanResult in scanList) {
+        val node = ForceNode(id = scanResult.mac)
+        println("Adding: $scanResult with distance ${scanResult.getDistance()}")
+
+        node.name = scanResult.name
+        node.coordinate = Coordinate(
+            x = currentLocationNode.coordinate.x + 100,
+            y = currentLocationNode.coordinate.y + scanResult.getDistance()
+        )
+        forceGraph.connectNodesWithRelation(
+            node1 = currentLocationNode,
+            node2 = node,
+            relation = ForceRelation(scanResult.getDistance())
+        )
+    }
+    println("Current nodes:")
+    for (node in forceGraph.nodeList) {
+        println(node)
+    }
+    println("with ${forceGraph.relationList.size} relations")
+}
 
 @Composable
-fun MapScreen(forceGraph: ForceGraph, onAddNodeButtonPress: () -> Unit, onIterateButtonPress: () -> Unit) {
+fun MapScreen(forceGraph: ForceGraph, onScanButtonPress: () -> Unit, onAddNodeButtonPress: () -> Unit, onIterateButtonPress: () -> Unit) {
     Column {
+        Text(
+            text = "WiFi Map",
+            style = MaterialTheme.typography.titleLarge,
+            modifier = Modifier.padding(8.dp)
+        )
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
-                text = "WiFi Map",
-                style = MaterialTheme.typography.titleLarge,
+            Button(
+                onClick = onScanButtonPress,
                 modifier = Modifier.padding(8.dp)
-            )
+            ) {
+                Text(text = "Scan")
+            }
             Button(
                 onClick = { onAddNodeButtonPress() },
                 modifier = Modifier.padding(8.dp)
@@ -166,6 +213,7 @@ fun MapScreenPreview() {
 
         MapScreen(
             forceGraph = forceGraph,
+            onScanButtonPress = { },
             onAddNodeButtonPress = {
                 println("onAddNodeButtonPress")
                 val coordinateRange = 200..1000
@@ -195,9 +243,9 @@ fun ScanListPagePreview() {
     WiFiRadarTheme {
         ScanListScreen(
             listOf(
-                WifiAp(name="eka"),
-                WifiAp(name="toka", strength = 65),
-                WifiAp(name="kolmas", strength = 97)
+                WifiAp(mac="eka"),
+                WifiAp(mac="toka"),
+                WifiAp(mac="kolmas")
             ),
             onScanButtonPress = { }
         )
@@ -208,6 +256,6 @@ fun ScanListPagePreview() {
 @Composable
 fun ScanListItemPreview() {
     WiFiRadarTheme {
-        ScanListItem(WifiAp(name="WiFi 1", strength = 54))
+        ScanListItem(WifiAp(mac="WiFi 1"))
     }
 }

@@ -8,7 +8,7 @@ Here is list of ideas what to do
 
 - Functionality
   - distance calculation
-  - map chart element on UI
+  + map chart element on UI
   - Canvas: add automatic centering and scaling
   - more advanced methods for getting distance
     - https://developer.android.com/guide/topics/connectivity/wifi-rtt

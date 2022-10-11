@@ -1,11 +1,23 @@
 package com.korsumaki.wifiradar
 
-data class WifiAp(val name: String, var strength: Int = 100)
+import kotlin.math.abs
+
+data class WifiAp(val mac: String = "") {
+    var name = ""
+    var strength = -100
+
+    // TODO implement better estimation
+    fun getDistance(): Float {
+        return abs(strength)/3f * 10
+    }
+}
 
 fun getRandomWifiAp(): WifiAp {
     val nameNumberRange = 1..10
     val strengthRange = 30..100
-    val ap = WifiAp(name = "AP-${nameNumberRange.random()}", strength = strengthRange.random() )
+    val ap = WifiAp(mac = "MAC")
+    ap.name = "AP-${nameNumberRange.random()}"
+    ap.strength = strengthRange.random()
     println("getRandomWifiAp(): $ap")
     return ap
 }

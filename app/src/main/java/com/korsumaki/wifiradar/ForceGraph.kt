@@ -15,17 +15,20 @@ class ForceGraph {
         if (!nodeList.contains(node1)) {
             nodeList.add(node1)
         }
+        val realNode1 = nodeList[nodeList.indexOf(node1)]
+
         if (!nodeList.contains(node2)) {
             nodeList.add(node2)
         }
+        val realNode2 = nodeList[nodeList.indexOf(node2)]
 
         // Add relation to list
         relationList.add(relation)
 
         // Update to both nodes with index to relation table
         val relationIndex = relationList.size - 1
-        node1.relationIndexList.add(relationIndex)
-        node2.relationIndexList.add(relationIndex)
+        realNode1.relationIndexList.add(relationIndex)
+        realNode2.relationIndexList.add(relationIndex)
     }
 
     /**
