@@ -100,10 +100,11 @@ class ForceGraph {
 /**
  * ForceNode is "position of something" which is connected to other ForceNodes with ForceRelation
  *
- * TODO should coordinate be out of constructor? Then it would be out of equals()
+ * @param id    Identifier for node. This should be unique withing ForceNodes in ForceGraph.
  */
-data class ForceNode(val id: String, var coordinate: Coordinate = Coordinate(0f, 0f)) {
+data class ForceNode(val id: String) {
     var name = ""
+    var coordinate: Coordinate = Coordinate(0f, 0f)
     var relationIndexList = ArrayList<Int>(0)
 
     var vX = 0f // Velocity in m/s

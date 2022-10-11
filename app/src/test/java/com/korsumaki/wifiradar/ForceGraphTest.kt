@@ -76,7 +76,8 @@ class ForceGraphTest {
 
     @Test
     fun test_ForceNode_calculateNewCoordinates() {
-        val node = ForceNode("some id", Coordinate(10f,10f))
+        val node = ForceNode("some id")
+        node.coordinate = Coordinate(10f,10f)
 
         node.calculateNewCoordinates(sumForceVector =  Coordinate(0f,0f)) // No force yet
         assertThat(node.coordinate).isEqualTo(Coordinate(10f,10f))
@@ -166,10 +167,12 @@ class ForceGraphTest {
         val forceGraph = ForceGraph()
 
         val currentPosition = Coordinate(4f, 7f)
-        val currentPositionNode = ForceNode("Position-1", currentPosition)
+        val currentPositionNode = ForceNode("Position-1")
+        currentPositionNode.coordinate = currentPosition
 
         // Current position
-        val newPositionNode = ForceNode("Position-2", currentPosition.copy(y = currentPosition.y + 5))
+        val newPositionNode = ForceNode("Position-2")
+        newPositionNode.coordinate =  currentPosition.copy(y = currentPosition.y + 5)
         forceGraph.connectNodesWithRelation(currentPositionNode, newPositionNode, ForceRelation(10f))
 
         val strength = 3f
@@ -197,9 +200,12 @@ class ForceGraphTest {
         val forceGraph = ForceGraph()
 
         // Setup graph
-        val centerNode = ForceNode("Center", Coordinate(0f,100f))
-        val rightNode = ForceNode("Right", Coordinate(10f,100f))
-        val leftNode = ForceNode("Left", Coordinate(-11f,100f))
+        val centerNode = ForceNode("Center")
+        centerNode.coordinate = Coordinate(0f,100f)
+        val rightNode = ForceNode("Right")
+        rightNode.coordinate = Coordinate(10f,100f)
+        val leftNode = ForceNode("Left")
+        leftNode.coordinate = Coordinate(-11f,100f)
         forceGraph.connectNodesWithRelation(centerNode, rightNode, ForceRelation(10f))
         forceGraph.connectNodesWithRelation(centerNode, leftNode, ForceRelation(10f))
 
@@ -224,9 +230,12 @@ class ForceGraphTest {
         val forceGraph = ForceGraph()
 
         // Setup graph
-        val centerNode = ForceNode("Center", Coordinate(0f,100f))
-        val rightNode = ForceNode("Right", Coordinate(11f,100f))
-        val upNode = ForceNode("Up", Coordinate(0f,109f))
+        val centerNode = ForceNode("Center")
+        centerNode.coordinate = Coordinate(0f,100f)
+        val rightNode = ForceNode("Right")
+        rightNode.coordinate = Coordinate(11f,100f)
+        val upNode = ForceNode("Up")
+        upNode.coordinate = Coordinate(0f,109f)
         forceGraph.connectNodesWithRelation(centerNode, rightNode, ForceRelation(10f))
         forceGraph.connectNodesWithRelation(centerNode, upNode, ForceRelation(10f))
 
@@ -251,9 +260,12 @@ class ForceGraphTest {
         val forceGraph = ForceGraph()
 
         // Setup graph
-        val centerNode = ForceNode("Center", Coordinate(0f,100f))
-        val rightNode = ForceNode("Right", Coordinate(11f,100f))
-        val upNode = ForceNode("Up", Coordinate(0f,109f))
+        val centerNode = ForceNode("Center")
+        centerNode.coordinate = Coordinate(0f,100f)
+        val rightNode = ForceNode("Right")
+        rightNode.coordinate = Coordinate(11f,100f)
+        val upNode = ForceNode("Up")
+        upNode.coordinate = Coordinate(0f,109f)
         forceGraph.connectNodesWithRelation(centerNode, rightNode, ForceRelation(10f))
         forceGraph.connectNodesWithRelation(centerNode, upNode, ForceRelation(10f))
 

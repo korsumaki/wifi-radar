@@ -37,16 +37,16 @@ fun WifiRadarScreen(activity: Activity) {
 
     val forceGraph by remember { mutableStateOf<ForceGraph>(ForceGraph()) }
 
-    val centerNode = ForceNode("Center", Coordinate(600f,600f))
+    val centerNode = ForceNode("Center")
+    centerNode.coordinate = Coordinate(600f,600f)
 
     MapScreen(
         forceGraph = forceGraph,
         onAddNodeButtonPress = {
             println("onAddNodeButtonPress")
             val coordinateRange = 200..1000
-            val newNode = ForceNode(
-                id = "new-${forceGraph.nodeList.size}",
-                coordinate = Coordinate(coordinateRange.random().toFloat(), coordinateRange.random().toFloat()))
+            val newNode = ForceNode(id = "new-${forceGraph.nodeList.size}")
+            newNode.coordinate = Coordinate(coordinateRange.random().toFloat(), coordinateRange.random().toFloat())
 
             forceGraph.connectNodesWithRelation(centerNode, newNode, ForceRelation(300f))
             if (forceGraph.nodeList.size > 4) {
@@ -56,7 +56,6 @@ fun WifiRadarScreen(activity: Activity) {
                     forceGraph.connectNodesWithRelation(node1, node2, ForceRelation(150f))
                 }
             }
-            println(forceGraph.nodeList)
         },
         onIterateButtonPress = {
             println("onIterateButtonPress")
@@ -162,16 +161,16 @@ fun MapScreenPreview() {
     val forceGraph by remember { mutableStateOf<ForceGraph>(ForceGraph()) }
 
     WiFiRadarTheme {
-        val centerNode = ForceNode("Center", Coordinate(600f,600f))
+        val centerNode = ForceNode("Center")
+        centerNode.coordinate = Coordinate(600f,600f)
 
         MapScreen(
             forceGraph = forceGraph,
             onAddNodeButtonPress = {
                 println("onAddNodeButtonPress")
                 val coordinateRange = 200..1000
-                val newNode = ForceNode(
-                    id = "new-${forceGraph.nodeList.size}",
-                    coordinate = Coordinate(coordinateRange.random().toFloat(), coordinateRange.random().toFloat()))
+                val newNode = ForceNode(id = "new-${forceGraph.nodeList.size}")
+                newNode.coordinate = Coordinate(coordinateRange.random().toFloat(), coordinateRange.random().toFloat())
 
                 forceGraph.connectNodesWithRelation(centerNode, newNode, ForceRelation(300f))
                 if (forceGraph.nodeList.size > 4) {
