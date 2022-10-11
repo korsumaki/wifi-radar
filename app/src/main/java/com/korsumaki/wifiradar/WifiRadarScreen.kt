@@ -1,21 +1,20 @@
 package com.korsumaki.wifiradar
 
 import android.app.Activity
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.foundation.Canvas
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -36,31 +35,32 @@ fun WifiRadarScreen(activity: Activity) {
     )
     */
 
-    val forceGraph = remember { mutableStateOf<ForceGraph>(ForceGraph()) }
+    val forceGraph by remember { mutableStateOf<ForceGraph>(ForceGraph()) }
 
     val centerNode = ForceNode("Center", Coordinate(600f,600f))
 
     MapScreen(
-        forceGraph = forceGraph.value,
+        forceGraph = forceGraph,
         onAddNodeButtonPress = {
             println("onAddNodeButtonPress")
             val coordinateRange = 200..1000
             val newNode = ForceNode(
-                id = "new-${forceGraph.value.nodeList.size}",
+                id = "new-${forceGraph.nodeList.size}",
                 coordinate = Coordinate(coordinateRange.random().toFloat(), coordinateRange.random().toFloat()))
 
-            forceGraph.value.connectNodesWithRelation(centerNode, newNode, ForceRelation(300f))
-            if (forceGraph.value.nodeList.size > 4) {
-                val node1 = forceGraph.value.nodeList.random()
-                val node2 = forceGraph.value.nodeList.random()
+            forceGraph.connectNodesWithRelation(centerNode, newNode, ForceRelation(300f))
+            if (forceGraph.nodeList.size > 4) {
+                val node1 = forceGraph.nodeList.random()
+                val node2 = forceGraph.nodeList.random()
                 if (node1 != node2) {
-                    forceGraph.value.connectNodesWithRelation(node1, node2, ForceRelation(150f))
+                    forceGraph.connectNodesWithRelation(node1, node2, ForceRelation(150f))
                 }
             }
+            println(forceGraph.nodeList)
         },
         onIterateButtonPress = {
             println("onIterateButtonPress")
-            forceGraph.value.iterateRelations()
+            forceGraph.iterateRelations()
         }
     )
 }
@@ -159,32 +159,32 @@ fun WifiRadarScreenPreview() {
 @Preview(showBackground = true)
 @Composable
 fun MapScreenPreview() {
-    val forceGraph = remember { mutableStateOf<ForceGraph>(ForceGraph()) }
+    val forceGraph by remember { mutableStateOf<ForceGraph>(ForceGraph()) }
 
     WiFiRadarTheme {
         val centerNode = ForceNode("Center", Coordinate(600f,600f))
 
         MapScreen(
-            forceGraph = forceGraph.value,
+            forceGraph = forceGraph,
             onAddNodeButtonPress = {
                 println("onAddNodeButtonPress")
                 val coordinateRange = 200..1000
                 val newNode = ForceNode(
-                    id = "new-${forceGraph.value.nodeList.size}",
+                    id = "new-${forceGraph.nodeList.size}",
                     coordinate = Coordinate(coordinateRange.random().toFloat(), coordinateRange.random().toFloat()))
 
-                forceGraph.value.connectNodesWithRelation(centerNode, newNode, ForceRelation(300f))
-                if (forceGraph.value.nodeList.size > 4) {
-                    val node1 = forceGraph.value.nodeList.random()
-                    val node2 = forceGraph.value.nodeList.random()
+                forceGraph.connectNodesWithRelation(centerNode, newNode, ForceRelation(300f))
+                if (forceGraph.nodeList.size > 4) {
+                    val node1 = forceGraph.nodeList.random()
+                    val node2 = forceGraph.nodeList.random()
                     if (node1 != node2) {
-                        forceGraph.value.connectNodesWithRelation(node1, node2, ForceRelation(150f))
+                        forceGraph.connectNodesWithRelation(node1, node2, ForceRelation(150f))
                     }
                 }
             },
             onIterateButtonPress = {
                 println("onIterateButtonPress")
-                forceGraph.value.iterateRelations()
+                forceGraph.iterateRelations()
             }
         )
     }
