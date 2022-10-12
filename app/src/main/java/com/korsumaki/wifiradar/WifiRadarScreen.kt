@@ -53,28 +53,30 @@ fun WifiRadarScreen(activity: Activity) {
         onAddNodeButtonPress = {
             println("onAddNodeButtonPress")
 
-            val previousLocationNode = ForceNode(id = "Loc-$currentLocationNodeNumber")
-            currentLocationNodeNumber++
-            val currentLocationNode = ForceNode(id = "Loc-$currentLocationNodeNumber")
+            if (scanList.size > 0) {
+                val previousLocationNode = ForceNode(id = "Loc-$currentLocationNodeNumber")
+                currentLocationNodeNumber++
+                val currentLocationNode = ForceNode(id = "Loc-$currentLocationNodeNumber")
 
-            // = estimated distance from previous location
-            currentLocationNode.coordinate = Coordinate(300f, currentLocationNodeNumber*100f)
+                // = estimated distance from previous location
+                currentLocationNode.coordinate = Coordinate(300f, currentLocationNodeNumber*100f)
 
-            if (forceGraph.nodeList.contains(previousLocationNode)) {
+                if (forceGraph.nodeList.contains(previousLocationNode)) {
 
-                forceGraph.connectNodesWithRelation(
-                    currentLocationNode,
-                    previousLocationNode,
-                    ForceRelation(100f) // = estimated distance from previous location
-                )
+                    forceGraph.connectNodesWithRelation(
+                        currentLocationNode,
+                        previousLocationNode,
+                        ForceRelation(100f) // = estimated distance from previous location
+                    )
+                }
+                else {
+                    // Add first node
+                    forceGraph.nodeList.add(currentLocationNode)
+                }
+
+                addNodesFromScanList(forceGraph, currentLocationNode, scanList)
+                scanList.clear()
             }
-            else {
-                // Add first node
-                forceGraph.nodeList.add(currentLocationNode)
-            }
-
-            addNodesFromScanList(forceGraph, currentLocationNode, scanList)
-            scanList.clear()
         },
         onIterateButtonPress = {
             println("onIterateButtonPress")
@@ -88,9 +90,12 @@ fun addNodesFromScanList(forceGraph: ForceGraph, currentLocationNode: ForceNode,
         val node = ForceNode(id = scanResult.mac)
         println("Adding: $scanResult with distance ${scanResult.getDistance()}")
 
+        // TODO moving node sideways with random makes distance longer that it should be.
+        //  With many WifiAps it create too high force and too high velocity...
+        val xRange = -100..100
         node.name = scanResult.name
         node.coordinate = Coordinate(
-            x = currentLocationNode.coordinate.x + 100,
+            x = currentLocationNode.coordinate.x + xRange.random(),
             y = currentLocationNode.coordinate.y + scanResult.getDistance()
         )
         forceGraph.connectNodesWithRelation(
@@ -150,7 +155,12 @@ fun MapScreen(forceGraph: ForceGraph, onScanButtonPress: () -> Unit, onAddNodeBu
             }
 
             for (node in forceGraph.nodeList) {
-                drawCircle(Color.Red, center = Offset(node.coordinate.x, node.coordinate.y), radius = 20f)
+                if (node.id.contains("Loc-")) {
+                    drawCircle(Color.Blue, center = Offset(node.coordinate.x, node.coordinate.y), radius = 15f)
+                }
+                else {
+                    drawCircle(Color.Red, center = Offset(node.coordinate.x, node.coordinate.y), radius = 20f)
+                }
             }
         }
     }
