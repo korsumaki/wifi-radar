@@ -65,10 +65,11 @@ class WiFiRadarScanner(val activity: Activity, var scanList: MutableList<WifiAp>
         val results = wifiManager.scanResults
         println("scanSuccess")
         for (result in results) {
-            println("SSID: ${result.SSID}, BSSID: ${result.BSSID}, level: ${result.level}")
+            println("SSID: ${result.SSID}, BSSID: ${result.BSSID}, level: ${result.level}, frequency: ${result.frequency}")
             val ap = WifiAp(mac = result.BSSID)
             ap.name=result.SSID
             ap.strength = result.level
+            ap.frequency = result.frequency
             scanList.add(ap)
         }
     }

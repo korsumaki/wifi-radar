@@ -7,7 +7,7 @@ WiFi Radar is (experimental) application to scan WiFi access points and create m
 Here is list of ideas what to do
 
 - Functionality
-  - distance calculation
+  + distance calculation
   + map chart element on UI
   - Canvas: add automatic centering and scaling
   - more advanced methods for getting distance
