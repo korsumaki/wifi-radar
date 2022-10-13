@@ -1,5 +1,6 @@
 package com.korsumaki.wifiradar
 
+import kotlin.math.abs
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -137,6 +138,13 @@ data class ForceNode(val id: String) {
         // Slow down movement
         vX *= 0.9f
         vY *= 0.9f
+
+        // If speed is too high, stop it
+        if (abs(vX) > 300 || abs(vY) > 300) {
+            println("$name: velocity too high ($vX, $vY) -> braking")
+            vX = 0f
+            vY = 0f
+        }
 
         val sX = vX * t
         val sY = vY * t

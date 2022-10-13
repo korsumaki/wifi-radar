@@ -85,12 +85,13 @@ fun addNodesFromScanList(forceGraph: ForceGraph, currentLocationNode: ForceNode,
         // With many WifiAps it create too high force and too high velocity...
         // Now randomNumber usage (below) tries to eliminate that problem.
         val xRange = -100..100
+        val sign = listOf(-1, 1)
         val randomNumber = xRange.random()
         node.name = scanResult.name
         node.type = ForceNode.Type.WIFI
         node.coordinate = Coordinate(
             x = currentLocationNode.coordinate.x + randomNumber,
-            y = currentLocationNode.coordinate.y + scanResult.getDistance() - abs(randomNumber/3)
+            y = currentLocationNode.coordinate.y + (scanResult.getDistance() - abs(randomNumber/3)) * sign.random()
         )
         forceGraph.connectNodesWithRelation(
             node1 = currentLocationNode,
@@ -145,7 +146,7 @@ fun MapScreen(forceGraph: ForceGraph, onScanButtonPress: () -> Unit, onAddNodeBu
             for (relation in forceGraph.relationList) {
                 if (relation.coordinateList.size == 2) {
                     drawLine(
-                        color = Color.LightGray,
+                        color = Color.DarkGray,
                         start = Offset(
                             relation.coordinateList[0].x*scaleFactor + centerX,
                             relation.coordinateList[0].y*scaleFactor + centerY),
