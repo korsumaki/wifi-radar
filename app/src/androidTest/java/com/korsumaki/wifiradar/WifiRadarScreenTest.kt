@@ -17,7 +17,6 @@ import org.junit.Rule
  * See [testing documentation](https://developer.android.com/jetpack/compose/testing).
  *
  */
-// @RunWith(AndroidJUnit4::class)
 class WifiRadarScreenTest {
 
     @get:Rule
@@ -30,9 +29,9 @@ class WifiRadarScreenTest {
             WiFiRadarTheme {
                 ScanListScreen(
                     listOf(
-                        WifiAp(name="eka"),
-                        WifiAp(name="toka", strength = 65),
-                        WifiAp(name="kolmas", strength = 97)
+                        WifiAp(mac="eka"),
+                        WifiAp(mac="toka"),
+                        WifiAp(mac="kolmas")
                     ),
                     onScanButtonPress = { isScanButtonPressed = true }
                 )
