@@ -61,6 +61,7 @@ fun WifiRadarScreen(activity: Activity) {
 
                 // Add new node for current location
                 val currentLocationNode = ForceNode(id = "Loc-$currentLocationNodeNumber")
+                currentLocationNode.type = ForceNode.Type.ROUTE
                 currentLocationNode.coordinate = Coordinate(0f, 0f)
                 forceGraph.nodeList.add(currentLocationNode)
 
@@ -86,6 +87,7 @@ fun addNodesFromScanList(forceGraph: ForceGraph, currentLocationNode: ForceNode,
         val xRange = -100..100
         val randomNumber = xRange.random()
         node.name = scanResult.name
+        node.type = ForceNode.Type.WIFI
         node.coordinate = Coordinate(
             x = currentLocationNode.coordinate.x + randomNumber,
             y = currentLocationNode.coordinate.y + scanResult.getDistance() - abs(randomNumber/3)
@@ -156,7 +158,7 @@ fun MapScreen(forceGraph: ForceGraph, onScanButtonPress: () -> Unit, onAddNodeBu
             }
 
             for (node in forceGraph.nodeList) {
-                if (node.id.contains("Loc-")) {
+                if (node.type == ForceNode.Type.ROUTE) {
                     drawCircle(Color.Blue, center = Offset(
                         node.coordinate.x*scaleFactor + centerX,
                         node.coordinate.y*scaleFactor + centerY), radius = 15f)

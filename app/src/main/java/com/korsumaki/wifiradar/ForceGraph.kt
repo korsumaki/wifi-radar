@@ -107,6 +107,12 @@ class ForceGraph {
  */
 data class ForceNode(val id: String) {
     var name = ""
+
+    enum class Type {
+        ROUTE, WIFI, BT
+    }
+    var type = Type.ROUTE
+
     var coordinate: Coordinate = Coordinate(0f, 0f)
     var relationIndexList = ArrayList<Int>(0)
 
