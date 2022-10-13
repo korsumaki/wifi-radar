@@ -8,13 +8,16 @@ import com.google.common.truth.Truth.assertThat
  */
 class WifiApTest {
 
-    // ====================
-    // Coordinate
-    // ====================
     @Test
     fun test_WifiAp_create() {
         val ap = WifiAp("identifier")
         assertThat(ap.mac).isEqualTo("identifier")
+    }
+
+    @Test
+    fun test_WifiAp_getRandomWifiAp() {
+        val ap = getRandomWifiAp()
+        assertThat(ap.mac).isNotEmpty()
     }
 
     @Test

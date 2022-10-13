@@ -19,11 +19,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.korsumaki.wifiradar.ui.theme.WiFiRadarTheme
+import kotlin.math.abs
 
 /*
 * TODO
 *  - timer for iteration
 *  - scale to middle of the screen
+*       + get center coordinates
+*  - limit velocity
+*       - to what value?
+*       - or is it better to define coordinates
 *
 * */
 
@@ -42,9 +47,6 @@ fun WifiRadarScreen(activity: Activity) {
 
     val forceGraph by remember { mutableStateOf<ForceGraph>(ForceGraph()) }
 
-    val centerNode = ForceNode("Center")
-    centerNode.coordinate = Coordinate(600f,600f)
-
     var currentLocationNodeNumber by remember { mutableStateOf(0) }
 
     MapScreen(
@@ -54,25 +56,13 @@ fun WifiRadarScreen(activity: Activity) {
             println("onAddNodeButtonPress")
 
             if (scanList.size > 0) {
-                val previousLocationNode = ForceNode(id = "Loc-$currentLocationNodeNumber")
+                //val previousLocationNode = ForceNode(id = "Loc-$currentLocationNodeNumber")
                 currentLocationNodeNumber++
+
+                // Add new node for current location
                 val currentLocationNode = ForceNode(id = "Loc-$currentLocationNodeNumber")
-
-                // = estimated distance from previous location
-                currentLocationNode.coordinate = Coordinate(300f, currentLocationNodeNumber*100f)
-
-                if (forceGraph.nodeList.contains(previousLocationNode)) {
-
-                    forceGraph.connectNodesWithRelation(
-                        currentLocationNode,
-                        previousLocationNode,
-                        ForceRelation(100f) // = estimated distance from previous location
-                    )
-                }
-                else {
-                    // Add first node
-                    forceGraph.nodeList.add(currentLocationNode)
-                }
+                currentLocationNode.coordinate = Coordinate(0f, 0f)
+                forceGraph.nodeList.add(currentLocationNode)
 
                 addNodesFromScanList(forceGraph, currentLocationNode, scanList)
                 scanList.clear()
@@ -90,13 +80,15 @@ fun addNodesFromScanList(forceGraph: ForceGraph, currentLocationNode: ForceNode,
         val node = ForceNode(id = scanResult.mac)
         println("Adding: $scanResult with distance ${scanResult.getDistance()}")
 
-        // TODO moving node sideways with random makes distance longer that it should be.
-        //  With many WifiAps it create too high force and too high velocity...
+        // Moving node sideways with random makes distance longer that it should be.
+        // With many WifiAps it create too high force and too high velocity...
+        // Now randomNumber usage (below) tries to eliminate that problem.
         val xRange = -100..100
+        val randomNumber = xRange.random()
         node.name = scanResult.name
         node.coordinate = Coordinate(
-            x = currentLocationNode.coordinate.x + xRange.random(),
-            y = currentLocationNode.coordinate.y + scanResult.getDistance()
+            x = currentLocationNode.coordinate.x + randomNumber,
+            y = currentLocationNode.coordinate.y + scanResult.getDistance() - abs(randomNumber/3)
         )
         forceGraph.connectNodesWithRelation(
             node1 = currentLocationNode,
@@ -142,13 +134,22 @@ fun MapScreen(forceGraph: ForceGraph, onScanButtonPress: () -> Unit, onAddNodeBu
             }
         }
         Canvas(modifier = Modifier.fillMaxSize()) {
+            val canvasWidth = size.width
+            val canvasHeight = size.height
+            val centerX = canvasWidth/2
+            val centerY = canvasHeight/2
+            val scaleFactor = 3
 
             for (relation in forceGraph.relationList) {
                 if (relation.coordinateList.size == 2) {
                     drawLine(
                         color = Color.LightGray,
-                        start = Offset(relation.coordinateList[0].x, relation.coordinateList[0].y),
-                        end = Offset(relation.coordinateList[1].x, relation.coordinateList[1].y),
+                        start = Offset(
+                            relation.coordinateList[0].x*scaleFactor + centerX,
+                            relation.coordinateList[0].y*scaleFactor + centerY),
+                        end = Offset(
+                            relation.coordinateList[1].x*scaleFactor + centerX,
+                            relation.coordinateList[1].y*scaleFactor + centerY),
                         strokeWidth = 5f
                     )
                 }
@@ -156,10 +157,14 @@ fun MapScreen(forceGraph: ForceGraph, onScanButtonPress: () -> Unit, onAddNodeBu
 
             for (node in forceGraph.nodeList) {
                 if (node.id.contains("Loc-")) {
-                    drawCircle(Color.Blue, center = Offset(node.coordinate.x, node.coordinate.y), radius = 15f)
+                    drawCircle(Color.Blue, center = Offset(
+                        node.coordinate.x*scaleFactor + centerX,
+                        node.coordinate.y*scaleFactor + centerY), radius = 15f)
                 }
                 else {
-                    drawCircle(Color.Red, center = Offset(node.coordinate.x, node.coordinate.y), radius = 20f)
+                    drawCircle(Color.Red, center = Offset(
+                        node.coordinate.x*scaleFactor + centerX,
+                        node.coordinate.y*scaleFactor + centerY), radius = 20f)
                 }
             }
         }
@@ -219,14 +224,14 @@ fun MapScreenPreview() {
 
     WiFiRadarTheme {
         val centerNode = ForceNode("Center")
-        centerNode.coordinate = Coordinate(600f,600f)
+        centerNode.coordinate = Coordinate(0f,0f)
 
         MapScreen(
             forceGraph = forceGraph,
             onScanButtonPress = { },
             onAddNodeButtonPress = {
                 println("onAddNodeButtonPress")
-                val coordinateRange = 200..1000
+                val coordinateRange = -200..200
                 val newNode = ForceNode(id = "new-${forceGraph.nodeList.size}")
                 newNode.coordinate = Coordinate(coordinateRange.random().toFloat(), coordinateRange.random().toFloat())
 
