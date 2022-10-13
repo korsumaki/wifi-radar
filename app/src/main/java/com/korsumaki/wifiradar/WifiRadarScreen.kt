@@ -45,7 +45,7 @@ fun WifiRadarScreen(activity: Activity) {
     )
     */
 
-    val forceGraph by remember { mutableStateOf<ForceGraph>(ForceGraph()) }
+    val forceGraph by remember { mutableStateOf(ForceGraph()) }
 
     var currentLocationNodeNumber by remember { mutableStateOf(0) }
 
@@ -158,15 +158,29 @@ fun MapScreen(forceGraph: ForceGraph, onScanButtonPress: () -> Unit, onAddNodeBu
             }
 
             for (node in forceGraph.nodeList) {
-                if (node.type == ForceNode.Type.ROUTE) {
-                    drawCircle(Color.Blue, center = Offset(
-                        node.coordinate.x*scaleFactor + centerX,
-                        node.coordinate.y*scaleFactor + centerY), radius = 15f)
-                }
-                else {
-                    drawCircle(Color.Red, center = Offset(
-                        node.coordinate.x*scaleFactor + centerX,
-                        node.coordinate.y*scaleFactor + centerY), radius = 20f)
+                when (node.type) {
+                    ForceNode.Type.ROUTE ->
+                        drawCircle(Color.Green,
+                            center = Offset(
+                                node.coordinate.x*scaleFactor + centerX,
+                                node.coordinate.y*scaleFactor + centerY),
+                            radius = 15f)
+
+                    ForceNode.Type.WIFI ->
+                        drawCircle(Color.Red,
+                            center = Offset(
+                                node.coordinate.x*scaleFactor + centerX,
+                                node.coordinate.y*scaleFactor + centerY),
+                            radius = 20f,
+                            alpha = 0.5f)
+
+                    ForceNode.Type.BT ->
+                        drawCircle(Color.Blue,
+                            center = Offset(
+                                node.coordinate.x*scaleFactor + centerX,
+                                node.coordinate.y*scaleFactor + centerY),
+                            radius = 20f,
+                            alpha = 0.5f)
                 }
             }
         }
@@ -222,10 +236,11 @@ fun WifiRadarScreenPreview() {
 @Preview(showBackground = true)
 @Composable
 fun MapScreenPreview() {
-    val forceGraph by remember { mutableStateOf<ForceGraph>(ForceGraph()) }
+    val forceGraph by remember { mutableStateOf(ForceGraph()) }
 
     WiFiRadarTheme {
         val centerNode = ForceNode("Center")
+        centerNode.type = ForceNode.Type.ROUTE
         centerNode.coordinate = Coordinate(0f,0f)
 
         MapScreen(
@@ -233,16 +248,17 @@ fun MapScreenPreview() {
             onScanButtonPress = { },
             onAddNodeButtonPress = {
                 println("onAddNodeButtonPress")
-                val coordinateRange = -200..200
+                val coordinateRange = -150..150
                 val newNode = ForceNode(id = "new-${forceGraph.nodeList.size}")
+                newNode.type = ForceNode.Type.values().random()
                 newNode.coordinate = Coordinate(coordinateRange.random().toFloat(), coordinateRange.random().toFloat())
 
-                forceGraph.connectNodesWithRelation(centerNode, newNode, ForceRelation(300f))
+                forceGraph.connectNodesWithRelation(centerNode, newNode, ForceRelation(200f))
                 if (forceGraph.nodeList.size > 4) {
                     val node1 = forceGraph.nodeList.random()
                     val node2 = forceGraph.nodeList.random()
                     if (node1 != node2) {
-                        forceGraph.connectNodesWithRelation(node1, node2, ForceRelation(150f))
+                        forceGraph.connectNodesWithRelation(node1, node2, ForceRelation(100f))
                     }
                 }
             },
