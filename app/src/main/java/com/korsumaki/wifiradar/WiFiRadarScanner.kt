@@ -33,10 +33,14 @@ class WiFiRadarScanner(val activity: Activity, var scanList: MutableList<WifiAp>
     }
 
     var firstCall = true
-    fun scan() {
+
+    lateinit var scanDoneCallback: (Boolean) -> Unit
+
+    fun scan(_scanDoneCallback: (isSuccess: Boolean) -> Unit) {
         if (!locationPermissionController.checkPermission()) {
             return
         }
+        scanDoneCallback = _scanDoneCallback
 
         if (firstCall) {
             // TODO move these to some constructor etc.
@@ -72,11 +76,13 @@ class WiFiRadarScanner(val activity: Activity, var scanList: MutableList<WifiAp>
             ap.frequency = result.frequency
             scanList.add(ap)
         }
+        scanDoneCallback(true)
     }
 
     private fun scanFailure() {
         //val results = wifiManager.scanResults
         println("scanFailure")
         //... potentially use older scan results ...
+        scanDoneCallback(false)
     }
 }
