@@ -36,44 +36,43 @@ import kotlin.math.abs
 fun WifiRadarScreen(activity: Activity) {
     val scanList = remember { mutableStateListOf<WifiAp>() }
     val scanner = WiFiRadarScanner(activity = activity, scanList)
-    /*
-    ScanListScreen(
-        scanList,
-        onScanButtonPress = {
-            scanner.scan()
-        }
-    )
-    */
 
     val forceGraph by remember { mutableStateOf(ForceGraph()) }
-
     var currentLocationNodeNumber by remember { mutableStateOf(0) }
+    var forceNodeCount by remember { mutableStateOf(0) }
+    var forceRelationCount by remember { mutableStateOf(0) }
 
     MapScreen(
         forceGraph = forceGraph,
-        onScanButtonPress = { scanner.scan() },
-        onAddNodeButtonPress = {
-            println("onAddNodeButtonPress")
-
-            if (scanList.size > 0) {
-                //val previousLocationNode = ForceNode(id = "Loc-$currentLocationNodeNumber")
+        onScanButtonPress = { scanner.scan { isSuccess ->
+            if (isSuccess) {
                 currentLocationNodeNumber++
-
-                // Add new node for current location
-                val currentLocationNode = ForceNode(id = "Loc-$currentLocationNodeNumber")
-                currentLocationNode.type = ForceNode.Type.ROUTE
-                currentLocationNode.coordinate = Coordinate(0f, 0f)
-                forceGraph.nodeList.add(currentLocationNode)
-
-                addNodesFromScanList(forceGraph, currentLocationNode, scanList)
+                addLocationAndScanList(scanList, forceGraph, currentLocationNodeNumber)
                 scanList.clear()
+                forceNodeCount = forceGraph.nodeList.size
+                forceRelationCount = forceGraph.relationList.size
             }
-        },
+        } },
         onIterateButtonPress = {
             println("onIterateButtonPress")
             forceGraph.iterateRelations()
-        }
+        },
+        nodeCount = forceNodeCount,
+        relationCount = forceRelationCount
     )
+}
+
+fun addLocationAndScanList(scanList: List<WifiAp>, forceGraph: ForceGraph, currentLocationNodeNumber: Int) {
+    println("addLocationAndScanList")
+    if (scanList.isNotEmpty()) {
+        // Add new node for current location
+        val currentLocationNode = ForceNode(id = "Loc-$currentLocationNodeNumber")
+        currentLocationNode.type = ForceNode.Type.ROUTE
+        currentLocationNode.coordinate = Coordinate(0f, 0f)
+        forceGraph.nodeList.add(currentLocationNode)
+
+        addNodesFromScanList(forceGraph, currentLocationNode, scanList)
+    }
 }
 
 fun addNodesFromScanList(forceGraph: ForceGraph, currentLocationNode: ForceNode, scanList: List<WifiAp>) {
@@ -107,7 +106,7 @@ fun addNodesFromScanList(forceGraph: ForceGraph, currentLocationNode: ForceNode,
 }
 
 @Composable
-fun MapScreen(forceGraph: ForceGraph, onScanButtonPress: () -> Unit, onAddNodeButtonPress: () -> Unit, onIterateButtonPress: () -> Unit) {
+fun MapScreen(forceGraph: ForceGraph, onScanButtonPress: () -> Unit, onIterateButtonPress: () -> Unit, nodeCount: Int, relationCount: Int) {
     Column {
         Text(
             text = "WiFi Map",
@@ -124,17 +123,12 @@ fun MapScreen(forceGraph: ForceGraph, onScanButtonPress: () -> Unit, onAddNodeBu
                 Text(text = "Scan")
             }
             Button(
-                onClick = { onAddNodeButtonPress() },
-                modifier = Modifier.padding(8.dp)
-            ) {
-                Text(text = "Add node")
-            }
-            Button(
                 onClick = { onIterateButtonPress() },
                 modifier = Modifier.padding(8.dp)
             ) {
                 Text(text = "Iterate")
             }
+            Text(text = "$nodeCount nodes, $relationCount relations")
         }
         Canvas(modifier = Modifier.fillMaxSize()) {
             val canvasWidth = size.width
@@ -246,9 +240,8 @@ fun MapScreenPreview() {
 
         MapScreen(
             forceGraph = forceGraph,
-            onScanButtonPress = { },
-            onAddNodeButtonPress = {
-                println("onAddNodeButtonPress")
+            onScanButtonPress = {
+                println("onScanButtonPress")
                 val coordinateRange = -150..150
                 val newNode = ForceNode(id = "new-${forceGraph.nodeList.size}")
                 newNode.type = ForceNode.Type.values().random()
@@ -266,7 +259,9 @@ fun MapScreenPreview() {
             onIterateButtonPress = {
                 println("onIterateButtonPress")
                 forceGraph.iterateRelations()
-            }
+            },
+            nodeCount = forceGraph.nodeList.size,
+            relationCount = forceGraph.relationList.size
         )
     }
 }
