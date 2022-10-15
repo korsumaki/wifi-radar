@@ -6,8 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -205,51 +203,6 @@ fun MapScreen(forceGraph: ForceGraph, onScanButtonPress: () -> Unit, onIterateBu
 }
 
 
-
-@Composable
-fun ScanListScreen(wifiApList: List<WifiAp>, onScanButtonPress: () -> Unit ) {
-    Column {
-        Row(
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = "WiFi Radar",
-                style = MaterialTheme.typography.titleLarge,
-                modifier = Modifier.padding(8.dp)
-            )
-            Button(
-                onClick = onScanButtonPress,
-                modifier = Modifier.padding(8.dp)
-            ) {
-                Text(text = "Scan")
-            }
-        }
-        LazyColumn {
-            items(wifiApList) { wifiAp ->
-                ScanListItem(ap = wifiAp)
-            }
-        }
-    }
-}
-
-@Composable
-fun ScanListItem(ap: WifiAp) {
-    Text(
-        text = "${ap.name} (rssi=${ap.strength})",
-        style = MaterialTheme.typography.bodyMedium,
-    )
-}
-
-
-/*@Preview(showBackground = true)
-@Composable
-fun WifiRadarScreenPreview() {
-    WiFiRadarTheme {
-        WifiRadarScreen(null)
-    }
-}*/
-
-
 @Preview(showBackground = true)
 @Composable
 fun MapScreenPreview() {
@@ -285,28 +238,5 @@ fun MapScreenPreview() {
             nodeCount = forceGraph.nodeList.size,
             relationCount = forceGraph.relationList.size
         )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun ScanListPagePreview() {
-    WiFiRadarTheme {
-        ScanListScreen(
-            listOf(
-                WifiAp(mac="eka"),
-                WifiAp(mac="toka"),
-                WifiAp(mac="kolmas")
-            ),
-            onScanButtonPress = { }
-        )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun ScanListItemPreview() {
-    WiFiRadarTheme {
-        ScanListItem(WifiAp(mac="WiFi 1"))
     }
 }
