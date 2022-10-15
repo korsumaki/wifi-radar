@@ -178,6 +178,28 @@ fun MapScreen(forceGraph: ForceGraph, onScanButtonPress: () -> Unit, onIterateBu
                             alpha = 0.5f)
                 }
             }
+
+            // Draw lines between route points
+            val routeList = forceGraph.nodeList.filter { it.type == ForceNode.Type.ROUTE }
+            lateinit var startNode: ForceNode
+            routeList.forEachIndexed { index, forceNode ->
+                if (index == 0) {
+                    startNode = forceNode
+                }
+                else {
+                    drawLine(
+                        color = Color.Green,
+                        start = Offset(
+                            startNode.coordinate.x*scaleFactor + centerX,
+                            startNode.coordinate.y*scaleFactor + centerY),
+                        end = Offset(
+                            forceNode.coordinate.x*scaleFactor + centerX,
+                            forceNode.coordinate.y*scaleFactor + centerY),
+                        strokeWidth = 10f
+                    )
+                    startNode = forceNode
+                }
+            }
         }
     }
 }
