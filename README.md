@@ -35,7 +35,7 @@ Each ForceNode(type=WIFI) is connected to ForceNode(type=ROUTE) with ForceRelati
 
 When application is scanning more Wifi access points, ForceGraph build up so that basically every ForceNode(type=WIFI) is connected to many different ForceNode(type=ROUTE).
 
-Now ForceGraph is continuously iterating new locations to each ForceNode and Wifi access points and locations are finding their actual locations.
+Now when ForceGraph is continuously iterating new locations to each ForceNode, locations of Wifi access points and routes are finding their actual locations.
 
 ## TODO list
 

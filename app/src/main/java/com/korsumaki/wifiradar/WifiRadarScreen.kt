@@ -213,6 +213,9 @@ fun MapScreenPreview() {
         centerNode.type = ForceNode.Type.ROUTE
         centerNode.coordinate = Coordinate(0f,0f)
 
+        var forceNodeCount by remember { mutableStateOf(0) }
+        var forceRelationCount by remember { mutableStateOf(0) }
+
         MapScreen(
             forceGraph = forceGraph,
             onScanButtonPress = {
@@ -230,13 +233,15 @@ fun MapScreenPreview() {
                         forceGraph.connectNodesWithRelation(node1, node2, ForceRelation(100f))
                     }
                 }
+                forceNodeCount = forceGraph.nodeList.size
+                forceRelationCount = forceGraph.relationList.size
             },
             onIterateButtonPress = {
                 println("onIterateButtonPress")
                 forceGraph.iterateRelations()
             },
-            nodeCount = forceGraph.nodeList.size,
-            relationCount = forceGraph.relationList.size
+            nodeCount = forceNodeCount,
+            relationCount = forceRelationCount
         )
     }
 }

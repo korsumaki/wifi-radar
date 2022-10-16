@@ -8,7 +8,6 @@ import com.korsumaki.wifiradar.ui.theme.WiFiRadarTheme
 
 import org.junit.Test
 
-import org.junit.Assert.*
 import org.junit.Rule
 
 /**
@@ -23,22 +22,18 @@ class WifiRadarScreenTest {
     val composeTestRule = createComposeRule()
 
     @Test
-    fun test_ScanListScreen() {
-        var isScanButtonPressed = false
+    fun test_MapScreen() {
+        // TODO change testcase to test MapScreen instead of MapScreenPreview
         composeTestRule.setContent {
             WiFiRadarTheme {
-                ScanListScreen(
-                    listOf(
-                        WifiAp(mac="eka"),
-                        WifiAp(mac="toka"),
-                        WifiAp(mac="kolmas")
-                    ),
-                    onScanButtonPress = { isScanButtonPressed = true }
-                )
+                MapScreenPreview()
             }
         }
         composeTestRule.onNodeWithText("Scan").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Iterate").assertIsDisplayed()
+        composeTestRule.onNodeWithText("0 nodes, 0 relations").assertIsDisplayed()
         composeTestRule.onNodeWithText("Scan").performClick()
-        assertTrue(isScanButtonPressed)
+        composeTestRule.onNodeWithText("Iterate").performClick()
+        composeTestRule.onNodeWithText("2 nodes, 1 relations").assertIsDisplayed()
     }
 }
