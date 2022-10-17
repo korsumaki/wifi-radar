@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -12,6 +13,9 @@ import com.korsumaki.wifiradar.ui.theme.WiFiRadarTheme
 
 
 class MainActivity : ComponentActivity() {
+
+    val wifiRadarViewModel by viewModels<WifiRadarViewModel>()
+
     val requestPermissionLauncher =
         registerForActivityResult(
             ActivityResultContracts.RequestPermission()
@@ -58,7 +62,10 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    WifiRadarScreen(activity = this)
+                    WifiRadarScreen(
+                        activity = this,
+                        wifiRadarViewModel = wifiRadarViewModel
+                    )
                 }
             }
         }
