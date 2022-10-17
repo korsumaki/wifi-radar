@@ -13,6 +13,10 @@ data class WifiAp(val mac: String = "") {
      * Get estimated distance from Wifi AP
      */
     fun getDistance(): Float {
+        // Limit minimum frequency
+        if (frequency < 500) {
+            frequency = 500
+        }
         return calculateDistance(strength, frequency)
     }
 
@@ -26,6 +30,7 @@ data class WifiAp(val mac: String = "") {
      * @param freqInMHz         Frequency in MHz
      */
     fun calculateDistance(signalLevelInDb: Int, freqInMHz: Int): Float {
+        check(freqInMHz > 0) { "Frequency must be bigger than zero (was now $freqInMHz)"}
         val exp = (27.55f - 20f * log10(freqInMHz.toFloat()) + abs(signalLevelInDb)) / 20.0f
         return 10f.pow(exp)
     }
