@@ -27,6 +27,8 @@ import kotlin.math.abs
 *  - limit velocity
 *       - to what value?
 *       - or is it better to define coordinates
+*  - better initial coordinates (less random)
+*  - better initial location coordinate (could be related to latest&updated location)
 *
 * */
 
