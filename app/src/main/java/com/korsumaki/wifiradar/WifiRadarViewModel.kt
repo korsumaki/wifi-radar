@@ -12,7 +12,7 @@ class WifiRadarViewModel : ViewModel() {
     var forceRelationCount by mutableStateOf(0)
 
     fun onNewScanResults() {
-        // TODO Create WifiRadarUtils
+        // TODO Use WifiRadarUtils
     }
 
     fun onScanDone() {
