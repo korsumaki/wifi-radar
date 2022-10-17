@@ -33,25 +33,11 @@ import kotlin.math.abs
 * */
 
 @Composable
-fun WifiRadarScreen(activity: Activity, wifiRadarViewModel: WifiRadarViewModel) {
-    val scanList = remember { mutableStateListOf<WifiAp>() }
-    val scanner = WiFiRadarScanner(activity = activity, scanList)
-
-    // TODO this currentLocationNodeNumber needs some handling, should not clear on orientation change
-    var currentLocationNodeNumber by remember { mutableStateOf(0) }
-
+fun WifiRadarScreen(wifiRadarViewModel: WifiRadarViewModel, onScanButtonPress: () -> Unit) {
     MapScreen(
         forceGraph = wifiRadarViewModel.forceGraph,
-        onScanButtonPress = { scanner.scan { isSuccess ->
-            if (isSuccess) {
-                currentLocationNodeNumber++
-                addLocationAndScanList(scanList, wifiRadarViewModel.forceGraph, currentLocationNodeNumber)
-                scanList.clear()
-                wifiRadarViewModel.onScanDone()
-            }
-        } },
+        onScanButtonPress = onScanButtonPress,
         onIterateButtonPress = {
-            println("onIterateButtonPress")
             wifiRadarViewModel.forceGraph.iterateRelations()
         },
         nodeCount = wifiRadarViewModel.forceNodeCount,
@@ -205,6 +191,7 @@ fun MapScreen(forceGraph: ForceGraph, onScanButtonPress: () -> Unit, onIterateBu
 @Preview(showBackground = true)
 @Composable
 fun MapScreenPreview() {
+    // TODO update to use ViewModel
     val forceGraph by remember { mutableStateOf(ForceGraph()) }
 
     WiFiRadarTheme {

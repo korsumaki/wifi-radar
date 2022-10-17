@@ -14,7 +14,10 @@ import com.korsumaki.wifiradar.ui.theme.WiFiRadarTheme
 
 class MainActivity : ComponentActivity() {
 
-    val wifiRadarViewModel by viewModels<WifiRadarViewModel>()
+    private val wifiRadarViewModel by viewModels<WifiRadarViewModel>()
+
+    private val scanList = ArrayList<WifiAp>()
+    private lateinit var scanner: WiFiRadarScanner
 
     val requestPermissionLauncher =
         registerForActivityResult(
@@ -53,6 +56,24 @@ class MainActivity : ComponentActivity() {
             }
         }
 
+    private var currentLocationNodeNumber = 0 // TODO this is changed for testing, move to ViewModel etc.
+
+    private fun onScanButtonPress() {
+        println("MainActivity: onScanButtonPress()")
+        scanner.scan { isSuccess ->
+            if (isSuccess) {
+                currentLocationNodeNumber++
+                addLocationAndScanList(
+                    scanList,
+                    wifiRadarViewModel.forceGraph,
+                    currentLocationNodeNumber
+                )
+                scanList.clear()
+                wifiRadarViewModel.onScanDone()
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -63,11 +84,19 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     WifiRadarScreen(
-                        activity = this,
-                        wifiRadarViewModel = wifiRadarViewModel
+                        wifiRadarViewModel = wifiRadarViewModel,
+                        onScanButtonPress =  { onScanButtonPress() }
                     )
                 }
             }
         }
+
+        // Initialize scanner (remember to close in onDestroy())
+        scanner = WiFiRadarScanner(activity = this, scanList)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        scanner.close()
     }
 }

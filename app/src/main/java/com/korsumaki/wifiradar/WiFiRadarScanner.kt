@@ -32,8 +32,25 @@ class WiFiRadarScanner(val activity: Activity, var scanList: MutableList<WifiAp>
         }
     }
 
-    var firstCall = true
+    init {
+        val intentFilter = IntentFilter()
+        intentFilter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)
+        activity.registerReceiver(wifiScanReceiver, intentFilter)
+    }
 
+    /**
+     * Close WiFiRadarScanner instance
+     */
+    fun close() {
+        activity.unregisterReceiver(wifiScanReceiver)
+    }
+
+    /*
+    * TODO BUG: When orientation is changed and close() is called from Activity, next scanResults
+    *  does not call scanDoneCallback() before scan() is called next time.
+    *  Possible solution:
+    *   - scanDoneCallback is got when WiFiRadarScanner instance is created
+    */
     lateinit var scanDoneCallback: (Boolean) -> Unit
 
     fun scan(_scanDoneCallback: (isSuccess: Boolean) -> Unit) {
@@ -41,20 +58,6 @@ class WiFiRadarScanner(val activity: Activity, var scanList: MutableList<WifiAp>
             return
         }
         scanDoneCallback = _scanDoneCallback
-
-        if (firstCall) {
-            // TODO move these to some constructor etc.
-            val intentFilter = IntentFilter()
-            intentFilter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)
-            activity.registerReceiver(wifiScanReceiver, intentFilter)
-            /*
-            * TODO: Fix intent receiver unregisterReceiver()
-            *   Activity com.korsumaki.wifiradar.MainActivity has leaked IntentReceiver com.korsumaki.wifiradar.WiFiRadarScanner$wifiScanReceiver$1@7a2f7f5 that was originally registered here. Are you missing a call to unregisterReceiver()?
-            *   android.app.IntentReceiverLeaked: Activity com.korsumaki.wifiradar.MainActivity has leaked IntentReceiver com.korsumaki.wifiradar.WiFiRadarScanner$wifiScanReceiver$1@7a2f7f5 that was originally registered here. Are you missing a call to unregisterReceiver()?
-            *       at com.korsumaki.wifiradar.WiFiRadarScanner.scan(WiFiRadarScanner.kt:30)
-            * */
-            firstCall = false
-        }
 
         scanList.clear() // Clear old entries from list
         val success = wifiManager.startScan()
@@ -76,13 +79,20 @@ class WiFiRadarScanner(val activity: Activity, var scanList: MutableList<WifiAp>
             ap.frequency = result.frequency
             scanList.add(ap)
         }
-        scanDoneCallback(true)
+
+        // Check lateinit scanDoneCallback before use.
+        if (this::scanDoneCallback.isInitialized) {
+            scanDoneCallback(true)
+        }
     }
 
     private fun scanFailure() {
         //val results = wifiManager.scanResults
         println("scanFailure")
         //... potentially use older scan results ...
-        scanDoneCallback(false)
+
+        if (this::scanDoneCallback.isInitialized) {
+            scanDoneCallback(false)
+        }
     }
 }
