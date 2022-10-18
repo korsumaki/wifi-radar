@@ -56,17 +56,15 @@ class MainActivity : ComponentActivity() {
             }
         }
 
-    private var currentLocationNodeNumber = 0 // TODO this is changed for testing, move to ViewModel etc.
-
     private fun onScanButtonPress() {
         println("MainActivity: onScanButtonPress()")
         scanner.scan { isSuccess ->
             if (isSuccess) {
-                currentLocationNodeNumber++
+                wifiRadarViewModel.currentLocationNodeNumber++
                 addLocationAndScanList(
                     scanList,
                     wifiRadarViewModel.forceGraph,
-                    currentLocationNodeNumber
+                    wifiRadarViewModel.currentLocationNodeNumber
                 )
                 scanList.clear()
                 wifiRadarViewModel.onScanDone()

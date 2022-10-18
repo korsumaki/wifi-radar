@@ -10,6 +10,7 @@ class WifiRadarViewModel : ViewModel() {
     val forceGraph by mutableStateOf(ForceGraph())
     var forceNodeCount by mutableStateOf(0)
     var forceRelationCount by mutableStateOf(0)
+    var currentLocationNodeNumber by mutableStateOf(0)
 
     fun onNewScanResults() {
         // TODO Use WifiRadarUtils
