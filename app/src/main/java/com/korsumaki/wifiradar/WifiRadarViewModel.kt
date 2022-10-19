@@ -12,11 +12,18 @@ class WifiRadarViewModel : ViewModel() {
     var forceRelationCount by mutableStateOf(0)
     var currentLocationNodeNumber by mutableStateOf(0)
 
-    fun onNewScanResults() {
-        // TODO Use WifiRadarUtils
-    }
 
-    fun onScanDone() {
+    fun onScanSuccess(scanList: MutableList<WifiAp>) {
+        println("WifiRadarViewModel:onScanSuccess()")
+
+        currentLocationNodeNumber++
+        addLocationAndScanList(
+            scanList,
+            forceGraph,
+            currentLocationNodeNumber
+        )
+        scanList.clear()
+
         forceNodeCount = forceGraph.nodeList.size
         forceRelationCount = forceGraph.relationList.size
     }

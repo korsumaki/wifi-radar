@@ -60,14 +60,7 @@ class MainActivity : ComponentActivity() {
         println("MainActivity: onScanButtonPress()")
         scanner.scan { isSuccess ->
             if (isSuccess) {
-                wifiRadarViewModel.currentLocationNodeNumber++
-                addLocationAndScanList(
-                    scanList,
-                    wifiRadarViewModel.forceGraph,
-                    wifiRadarViewModel.currentLocationNodeNumber
-                )
-                scanList.clear()
-                wifiRadarViewModel.onScanDone()
+                wifiRadarViewModel.onScanSuccess(scanList)
             }
         }
     }
