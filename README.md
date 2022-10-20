@@ -42,13 +42,7 @@ Now when ForceGraph is continuously iterating new locations to each ForceNode, l
 Here is list of ideas what to do
 
 - Functionality
-  - take viewModel into use
-    - create viewModel
-    - wifi scanner out from composable
-      - no need for activity in compose
-      - unregisterReceiver() would be better in control during orientation change
-    - use timer to update data in viewModel
-  - Timer for automatic iteration (viewModel might help with this?)
+  - use timer to update data in viewModel
   - calculation in coroutine?
   - Canvas
     - add automatic centering and scaling (pinch zoom?)
@@ -61,13 +55,8 @@ Here is list of ideas what to do
   - get step count for estimating distance between scans
 
 - Application
-  - remember list during orientation change
-    - missing call to unregisterReceiver()
-    - rememberSaveable
   - check app version number, change to use git tag version?
   - Bump dependency versions
-  - viewModel
-  - separate composables better to own file, other functionality to other files, if possible
   - App layout (Scaffold)
   - icon
   - support for different languages (en, fi)
