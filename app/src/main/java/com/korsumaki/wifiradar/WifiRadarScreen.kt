@@ -61,7 +61,7 @@ fun MapScreen(forceGraph: ForceGraph, onScanButtonPress: () -> Unit, onIterateBu
                 Text(text = "Scan")
             }
             Button(
-                onClick = { onIterateButtonPress() },
+                onClick = onIterateButtonPress,
                 modifier = Modifier.padding(8.dp)
             ) {
                 Text(text = "Iterate")
