@@ -46,6 +46,7 @@ fun WifiRadarScreen(wifiRadarViewModel: WifiRadarViewModel, onScanButtonPress: (
 
 @Composable
 fun MapScreen(forceGraph: ForceGraph, onScanButtonPress: () -> Unit, onIterateButtonPress: () -> Unit, onClearButtonPress: () -> Unit, nodeCount: Int, relationCount: Int) {
+    var scaleFactor: Float by remember { mutableStateOf(3.0f) }
     Column {
         Text(
             text = "WiFi Map",
@@ -56,22 +57,32 @@ fun MapScreen(forceGraph: ForceGraph, onScanButtonPress: () -> Unit, onIterateBu
             verticalAlignment = Alignment.CenterVertically
         ) {
             Button(
-                onClick = onScanButtonPress,
-                modifier = Modifier.padding(8.dp)
+                onClick = onScanButtonPress/*,
+                modifier = Modifier.padding(8.dp)*/
             ) {
                 Text(text = "Scan")
             }
             Button(
-                onClick = onIterateButtonPress,
-                modifier = Modifier.padding(8.dp)
+                onClick = onIterateButtonPress/*,
+                modifier = Modifier.padding(8.dp)*/
             ) {
                 Text(text = "Iterate")
             }
             Button(
-                onClick = onClearButtonPress,
-                modifier = Modifier.padding(8.dp)
+                onClick = { scaleFactor *= 1.1f }
             ) {
-                Text(text = "Clear")
+                Text(text = "+")
+            }
+            Button(
+                onClick = { scaleFactor *= 0.9f }
+            ) {
+                Text(text = "-")
+            }
+            Button(
+                onClick = onClearButtonPress,
+                modifier = Modifier.padding(2.dp)
+            ) {
+                Text(text = "Clr")
             }
         }
         Text(
@@ -83,7 +94,6 @@ fun MapScreen(forceGraph: ForceGraph, onScanButtonPress: () -> Unit, onIterateBu
             val canvasHeight = size.height
             val centerX = canvasWidth/2
             val centerY = canvasHeight/2
-            val scaleFactor = 3
 
             for (relation in forceGraph.relationList) {
                 if (relation.coordinateList.size == 2) {
