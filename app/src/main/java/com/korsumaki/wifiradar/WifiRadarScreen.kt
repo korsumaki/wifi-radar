@@ -156,6 +156,16 @@ fun MapScreen(forceGraph: ForceGraph, onScanButtonPress: () -> Unit, onIterateBu
                         strokeWidth = 10f
                     )
                     startNode = forceNode
+
+                    // Draw last route node with bigger circle
+                    if (index == routeList.size-1) {
+                        drawCircle(Color.Green,
+                            center = Offset(
+                                forceNode.coordinate.x*scaleFactor + centerX,
+                                forceNode.coordinate.y*scaleFactor + centerY),
+                            radius = 35f,
+                            alpha = 0.4f)
+                    }
                 }
             }
         }
