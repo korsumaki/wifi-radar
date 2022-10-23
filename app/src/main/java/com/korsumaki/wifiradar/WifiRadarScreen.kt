@@ -10,6 +10,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -46,7 +47,7 @@ fun WifiRadarScreen(wifiRadarViewModel: WifiRadarViewModel, onScanButtonPress: (
 
 @Composable
 fun MapScreen(forceGraph: ForceGraph, onScanButtonPress: () -> Unit, onIterateButtonPress: () -> Unit, onClearButtonPress: () -> Unit, nodeCount: Int, relationCount: Int) {
-    var scaleFactor: Float by remember { mutableStateOf(3.0f) }
+    var scaleFactor: Float by rememberSaveable { mutableStateOf(3.0f) }
     Column {
         Text(
             text = "WiFi Map",
