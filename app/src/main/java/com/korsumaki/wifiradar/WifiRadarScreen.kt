@@ -38,13 +38,14 @@ fun WifiRadarScreen(wifiRadarViewModel: WifiRadarViewModel, onScanButtonPress: (
         forceGraph = wifiRadarViewModel.forceGraph,
         onScanButtonPress = onScanButtonPress,
         onIterateButtonPress = { wifiRadarViewModel.forceGraph.iterateRelations() },
+        onClearButtonPress = { wifiRadarViewModel.clearMap() },
         nodeCount = wifiRadarViewModel.forceNodeCount,
         relationCount = wifiRadarViewModel.forceRelationCount
     )
 }
 
 @Composable
-fun MapScreen(forceGraph: ForceGraph, onScanButtonPress: () -> Unit, onIterateButtonPress: () -> Unit, nodeCount: Int, relationCount: Int) {
+fun MapScreen(forceGraph: ForceGraph, onScanButtonPress: () -> Unit, onIterateButtonPress: () -> Unit, onClearButtonPress: () -> Unit, nodeCount: Int, relationCount: Int) {
     Column {
         Text(
             text = "WiFi Map",
@@ -66,8 +67,17 @@ fun MapScreen(forceGraph: ForceGraph, onScanButtonPress: () -> Unit, onIterateBu
             ) {
                 Text(text = "Iterate")
             }
-            Text(text = "$nodeCount nodes, $relationCount relations")
+            Button(
+                onClick = onClearButtonPress,
+                modifier = Modifier.padding(8.dp)
+            ) {
+                Text(text = "Clear")
+            }
         }
+        Text(
+            text = "$nodeCount nodes, $relationCount relations",
+            modifier = Modifier.padding(8.dp)
+        )
         Canvas(modifier = Modifier.fillMaxSize()) {
             val canvasWidth = size.width
             val canvasHeight = size.height
@@ -180,6 +190,10 @@ fun MapScreenPreview() {
             onIterateButtonPress = {
                 println("onIterateButtonPress")
                 forceGraph.iterateRelations()
+            },
+            onClearButtonPress = {
+                forceGraph.nodeList.clear()
+                forceGraph.relationList.clear()
             },
             nodeCount = forceNodeCount,
             relationCount = forceRelationCount

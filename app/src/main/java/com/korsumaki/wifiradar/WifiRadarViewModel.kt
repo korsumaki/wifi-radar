@@ -37,4 +37,12 @@ class WifiRadarViewModel : ViewModel() {
         forceNodeCount = forceGraph.nodeList.size
         forceRelationCount = forceGraph.relationList.size
     }
+
+    fun clearMap() {
+        forceGraph.nodeList.clear()
+        forceGraph.relationList.clear()
+
+        forceNodeCount = forceGraph.nodeList.size
+        forceRelationCount = forceGraph.relationList.size
+    }
 }
