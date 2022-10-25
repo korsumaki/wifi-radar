@@ -95,23 +95,28 @@ class MainActivity : ComponentActivity() {
 
     override fun onStart() {
         super.onStart()
-        startIterationTimer()
+        startTimers()
     }
     override fun onStop() {
         super.onStop()
-        stopIterationTimer()
+        stopTimers()
     }
 
     private lateinit var iterationTimer: Timer
+    private lateinit var scanTimer: Timer
 
-    private fun startIterationTimer() {
+    private fun startTimers() {
         iterationTimer = timer(name = "IterationTimer", period = 100) {
             wifiRadarViewModel.forceGraph.iterateRelations()
             wifiRadarViewModel.onForceGraphUpdate()
         }
+        scanTimer = timer(name = "ScanTimer", period = 10*1000) {
+            onScanButtonPress()
+        }
     }
 
-    private fun stopIterationTimer() {
+    private fun stopTimers() {
         iterationTimer.cancel()
+        scanTimer.cancel()
     }
 }
