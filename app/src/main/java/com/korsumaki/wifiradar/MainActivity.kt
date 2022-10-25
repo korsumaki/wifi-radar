@@ -10,6 +10,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.korsumaki.wifiradar.ui.theme.WiFiRadarTheme
+import java.util.*
+import kotlin.concurrent.timer
 
 
 class MainActivity : ComponentActivity() {
@@ -89,5 +91,27 @@ class MainActivity : ComponentActivity() {
     override fun onDestroy() {
         super.onDestroy()
         scanner.close()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        startIterationTimer()
+    }
+    override fun onStop() {
+        super.onStop()
+        stopIterationTimer()
+    }
+
+    private lateinit var iterationTimer: Timer
+
+    private fun startIterationTimer() {
+        iterationTimer = timer(name = "IterationTimer", period = 100) {
+            wifiRadarViewModel.forceGraph.iterateRelations()
+            wifiRadarViewModel.onForceGraphUpdate()
+        }
+    }
+
+    private fun stopIterationTimer() {
+        iterationTimer.cancel()
     }
 }

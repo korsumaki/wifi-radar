@@ -18,31 +18,40 @@ class WifiRadarViewModel : ViewModel() {
         private set
     var forceRelationCount by mutableStateOf(0)
         private set
-    var currentLocationNodeNumber by mutableStateOf(0)
-        private set
+    private var currentLocationNodeNumber by mutableStateOf(0)
 
 
     fun onScanSuccess(scanList: MutableList<WifiAp>) {
         println("WifiRadarViewModel:onScanSuccess()")
 
         currentLocationNodeNumber++
-        addLocationAndScanList(
-            scanList,
-            forceGraph,
-            currentLocationNodeNumber
-        )
+        synchronized(forceGraph) {
+            addLocationAndScanList(
+                scanList,
+                forceGraph,
+                currentLocationNodeNumber
+            )
+        }
         scanList.clear()
 
         // TODO So far compose does not update with changes only to forceGraph. It need more simple variable to trigger recomposing.
-        forceNodeCount = forceGraph.nodeList.size
-        forceRelationCount = forceGraph.relationList.size
+        onForceGraphUpdate()
     }
 
     fun clearMap() {
         forceGraph.nodeList.clear()
         forceGraph.relationList.clear()
+        onForceGraphUpdate()
+    }
 
+    private var iterationCounter = 0
+
+    /**
+     * Trigger Recomposition as it does not detect changes in ForceGraph.
+     */
+    fun onForceGraphUpdate() {
         forceNodeCount = forceGraph.nodeList.size
-        forceRelationCount = forceGraph.relationList.size
+        forceRelationCount = forceGraph.relationList.size + iterationCounter
+        iterationCounter++
     }
 }

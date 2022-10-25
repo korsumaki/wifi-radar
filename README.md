@@ -42,7 +42,6 @@ Now when ForceGraph is continuously iterating new locations to each ForceNode, l
 Here is list of ideas what to do
 
 - Functionality
-  - use timer to update data in viewModel
   - calculation in coroutine?
   - Canvas
     - add automatic centering and scaling (pinch zoom?)

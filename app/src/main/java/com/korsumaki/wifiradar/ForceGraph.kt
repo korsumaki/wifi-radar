@@ -38,24 +38,27 @@ class ForceGraph {
      * Calculate forces and update node coordinates.
      */
     fun iterateRelations() {
-        // For all ForceRelations: Clear coordinates
-        clearRelationCoordinates()
+        synchronized(this) {
 
-        // For all ForceNodes: Update coordinate to all ForceRelations
-        updateNodeCoordinatesToRelations()
+            // For all ForceRelations: Clear coordinates
+            clearRelationCoordinates()
 
-        // For all ForceRelations: Calculate force
-        calculateRelationForces()
+            // For all ForceNodes: Update coordinate to all ForceRelations
+            updateNodeCoordinatesToRelations()
 
-        // For all ForceNodes: Calculate sum force vector, calculate new x,y
-        for (node in nodeList) {
-            // Sum force vector need to be calculated here in ForceGraph class
-            val sumForceVector = calculateSumForceVector(node)
-            node.calculateNewCoordinates(sumForceVector)
+            // For all ForceRelations: Calculate force
+            calculateRelationForces()
+
+            // For all ForceNodes: Calculate sum force vector, calculate new x,y
+            for (node in nodeList) {
+                // Sum force vector need to be calculated here in ForceGraph class
+                val sumForceVector = calculateSumForceVector(node)
+                node.calculateNewCoordinates(sumForceVector)
+            }
+
+            clearRelationCoordinates()
+            updateNodeCoordinatesToRelations()
         }
-
-        clearRelationCoordinates()
-        updateNodeCoordinatesToRelations()
     }
 
     fun clearRelationCoordinates() {

@@ -22,7 +22,6 @@ import com.korsumaki.wifiradar.ui.theme.WiFiRadarTheme
 
 /*
 * TODO
-*  - timer for iteration
 *  - scale to middle of the screen
 *       + get center coordinates
 *  - limit velocity
@@ -30,6 +29,7 @@ import com.korsumaki.wifiradar.ui.theme.WiFiRadarTheme
 *       - or is it better to define coordinates
 *  - better initial coordinates (less random)
 *  - better initial location coordinate (could be related to latest&updated location)
+*  - compose bom: https://android-developers.googleblog.com/2022/10/whats-new-in-jetpack-compose.html
 *
 * */
 
@@ -96,76 +96,79 @@ fun MapScreen(forceGraph: ForceGraph, onScanButtonPress: () -> Unit, onIterateBu
             val centerX = canvasWidth/2
             val centerY = canvasHeight/2
 
-            for (relation in forceGraph.relationList) {
-                if (relation.coordinateList.size == 2) {
-                    drawLine(
-                        color = Color.DarkGray,
-                        start = Offset(
-                            relation.coordinateList[0].x*scaleFactor + centerX,
-                            relation.coordinateList[0].y*scaleFactor + centerY),
-                        end = Offset(
-                            relation.coordinateList[1].x*scaleFactor + centerX,
-                            relation.coordinateList[1].y*scaleFactor + centerY),
-                        strokeWidth = 5f
-                    )
+            synchronized(forceGraph) {
+                // Prevent modification of ForceGraph during drawing (due iteration or new scan results)
+                for (relation in forceGraph.relationList) {
+                    if (relation.coordinateList.size == 2) {
+                        drawLine(
+                            color = Color.DarkGray,
+                            start = Offset(
+                                relation.coordinateList[0].x*scaleFactor + centerX,
+                                relation.coordinateList[0].y*scaleFactor + centerY),
+                            end = Offset(
+                                relation.coordinateList[1].x*scaleFactor + centerX,
+                                relation.coordinateList[1].y*scaleFactor + centerY),
+                            strokeWidth = 5f
+                        )
+                    }
                 }
-            }
 
-            for (node in forceGraph.nodeList) {
-                when (node.type) {
-                    ForceNode.Type.ROUTE ->
-                        drawCircle(Color.Green,
-                            center = Offset(
-                                node.coordinate.x*scaleFactor + centerX,
-                                node.coordinate.y*scaleFactor + centerY),
-                            radius = 15f)
+                for (node in forceGraph.nodeList) {
+                    when (node.type) {
+                        ForceNode.Type.ROUTE ->
+                            drawCircle(Color.Green,
+                                center = Offset(
+                                    node.coordinate.x*scaleFactor + centerX,
+                                    node.coordinate.y*scaleFactor + centerY),
+                                radius = 15f)
 
-                    ForceNode.Type.WIFI ->
-                        drawCircle(Color.Red,
-                            center = Offset(
-                                node.coordinate.x*scaleFactor + centerX,
-                                node.coordinate.y*scaleFactor + centerY),
-                            radius = 20f,
-                            alpha = 0.5f)
+                        ForceNode.Type.WIFI ->
+                            drawCircle(Color.Red,
+                                center = Offset(
+                                    node.coordinate.x*scaleFactor + centerX,
+                                    node.coordinate.y*scaleFactor + centerY),
+                                radius = 20f,
+                                alpha = 0.5f)
 
-                    ForceNode.Type.BT ->
-                        drawCircle(Color.Blue,
-                            center = Offset(
-                                node.coordinate.x*scaleFactor + centerX,
-                                node.coordinate.y*scaleFactor + centerY),
-                            radius = 20f,
-                            alpha = 0.5f)
+                        ForceNode.Type.BT ->
+                            drawCircle(Color.Blue,
+                                center = Offset(
+                                    node.coordinate.x*scaleFactor + centerX,
+                                    node.coordinate.y*scaleFactor + centerY),
+                                radius = 20f,
+                                alpha = 0.5f)
+                    }
                 }
-            }
 
-            // Draw lines between route points
-            val routeList = forceGraph.nodeList.filter { it.type == ForceNode.Type.ROUTE }
-            lateinit var startNode: ForceNode
-            routeList.forEachIndexed { index, forceNode ->
-                if (index == 0) {
-                    startNode = forceNode
-                }
-                else {
-                    drawLine(
-                        color = Color.Green,
-                        start = Offset(
-                            startNode.coordinate.x*scaleFactor + centerX,
-                            startNode.coordinate.y*scaleFactor + centerY),
-                        end = Offset(
-                            forceNode.coordinate.x*scaleFactor + centerX,
-                            forceNode.coordinate.y*scaleFactor + centerY),
-                        strokeWidth = 10f
-                    )
-                    startNode = forceNode
-
-                    // Draw last route node with bigger circle
-                    if (index == routeList.size-1) {
-                        drawCircle(Color.Green,
-                            center = Offset(
+                // Draw lines between route points
+                val routeList = forceGraph.nodeList.filter { it.type == ForceNode.Type.ROUTE }
+                lateinit var startNode: ForceNode
+                routeList.forEachIndexed { index, forceNode ->
+                    if (index == 0) {
+                        startNode = forceNode
+                    }
+                    else {
+                        drawLine(
+                            color = Color.Green,
+                            start = Offset(
+                                startNode.coordinate.x*scaleFactor + centerX,
+                                startNode.coordinate.y*scaleFactor + centerY),
+                            end = Offset(
                                 forceNode.coordinate.x*scaleFactor + centerX,
                                 forceNode.coordinate.y*scaleFactor + centerY),
-                            radius = 35f,
-                            alpha = 0.4f)
+                            strokeWidth = 10f
+                        )
+                        startNode = forceNode
+
+                        // Draw last route node with bigger circle
+                        if (index == routeList.size-1) {
+                            drawCircle(Color.Green,
+                                center = Offset(
+                                    forceNode.coordinate.x*scaleFactor + centerX,
+                                    forceNode.coordinate.y*scaleFactor + centerY),
+                                radius = 35f,
+                                alpha = 0.4f)
+                        }
                     }
                 }
             }
