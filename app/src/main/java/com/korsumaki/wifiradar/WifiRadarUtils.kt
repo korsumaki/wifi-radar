@@ -10,6 +10,13 @@ fun addLocationAndScanList(scanList: List<WifiAp>, forceGraph: ForceGraph, curre
         val currentLocationNode = ForceNode(id = "Loc-$currentLocationNodeNumber")
         currentLocationNode.type = ForceNode.Type.ROUTE
         currentLocationNode.coordinate = Coordinate(0f, 0f)
+
+        // Get coordinates from previous location node (if exists)
+        val previousLocationNode = ForceNode(id = "Loc-${currentLocationNodeNumber-1}")
+        val index = forceGraph.nodeList.indexOf(previousLocationNode)
+        if (index != -1) {
+            currentLocationNode.coordinate = forceGraph.nodeList[index].coordinate
+        }
         forceGraph.nodeList.add(currentLocationNode)
 
         addNodesFromScanList(forceGraph, currentLocationNode, scanList)
