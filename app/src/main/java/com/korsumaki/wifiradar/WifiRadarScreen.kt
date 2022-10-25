@@ -38,7 +38,6 @@ fun WifiRadarScreen(wifiRadarViewModel: WifiRadarViewModel, onScanButtonPress: (
     MapScreen(
         forceGraph = wifiRadarViewModel.forceGraph,
         onScanButtonPress = onScanButtonPress,
-        onIterateButtonPress = { wifiRadarViewModel.forceGraph.iterateRelations() },
         onClearButtonPress = { wifiRadarViewModel.clearMap() },
         nodeCount = wifiRadarViewModel.forceNodeCount,
         relationCount = wifiRadarViewModel.forceRelationCount
@@ -46,7 +45,7 @@ fun WifiRadarScreen(wifiRadarViewModel: WifiRadarViewModel, onScanButtonPress: (
 }
 
 @Composable
-fun MapScreen(forceGraph: ForceGraph, onScanButtonPress: () -> Unit, onIterateButtonPress: () -> Unit, onClearButtonPress: () -> Unit, nodeCount: Int, relationCount: Int) {
+fun MapScreen(forceGraph: ForceGraph, onScanButtonPress: () -> Unit, onClearButtonPress: () -> Unit, nodeCount: Int, relationCount: Int) {
     var scaleFactor: Float by rememberSaveable { mutableStateOf(3.0f) }
     Column {
         Text(
@@ -58,37 +57,33 @@ fun MapScreen(forceGraph: ForceGraph, onScanButtonPress: () -> Unit, onIterateBu
             verticalAlignment = Alignment.CenterVertically
         ) {
             Button(
-                onClick = onScanButtonPress/*,
-                modifier = Modifier.padding(8.dp)*/
+                onClick = onScanButtonPress,
+                modifier = Modifier.padding(4.dp)
             ) {
                 Text(text = "Scan")
             }
             Button(
-                onClick = onIterateButtonPress/*,
-                modifier = Modifier.padding(8.dp)*/
-            ) {
-                Text(text = "Iterate")
-            }
-            Button(
-                onClick = { scaleFactor *= 1.1f }
+                onClick = { scaleFactor *= 1.1f },
+                modifier = Modifier.padding(4.dp)
             ) {
                 Text(text = "+")
             }
             Button(
-                onClick = { scaleFactor *= 0.9f }
+                onClick = { scaleFactor *= 0.9f },
+                modifier = Modifier.padding(4.dp)
             ) {
                 Text(text = "-")
             }
             Button(
                 onClick = onClearButtonPress,
-                modifier = Modifier.padding(2.dp)
+                modifier = Modifier.padding(4.dp)
             ) {
                 Text(text = "Clr")
             }
         }
         Text(
             text = "$nodeCount nodes, $relationCount relations",
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier.padding(4.dp)
         )
         Canvas(modifier = Modifier.fillMaxSize()) {
             val canvasWidth = size.width
@@ -210,9 +205,6 @@ fun MapScreenPreview() {
                 }
                 forceNodeCount = forceGraph.nodeList.size
                 forceRelationCount = forceGraph.relationList.size
-            },
-            onIterateButtonPress = {
-                println("onIterateButtonPress")
                 forceGraph.iterateRelations()
             },
             onClearButtonPress = {

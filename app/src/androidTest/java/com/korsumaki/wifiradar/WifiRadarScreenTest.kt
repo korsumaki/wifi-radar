@@ -30,10 +30,8 @@ class WifiRadarScreenTest {
             }
         }
         composeTestRule.onNodeWithText("Scan").assertIsDisplayed()
-        composeTestRule.onNodeWithText("Iterate").assertIsDisplayed()
         composeTestRule.onNodeWithText("0 nodes, 0 relations").assertIsDisplayed()
         composeTestRule.onNodeWithText("Scan").performClick()
-        composeTestRule.onNodeWithText("Iterate").performClick()
         composeTestRule.onNodeWithText("2 nodes, 1 relations").assertIsDisplayed()
     }
 }
