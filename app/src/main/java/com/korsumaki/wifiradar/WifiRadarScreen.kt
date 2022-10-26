@@ -24,9 +24,6 @@ import com.korsumaki.wifiradar.ui.theme.WiFiRadarTheme
 * TODO
 *  - scale to middle of the screen
 *       + get center coordinates
-*  - limit velocity
-*       - to what value?
-*       - or is it better to define coordinates
 *  - better initial coordinates (less random)
 *  - better initial location coordinate (could be related to latest&updated location)
 *  - compose bom: https://android-developers.googleblog.com/2022/10/whats-new-in-jetpack-compose.html

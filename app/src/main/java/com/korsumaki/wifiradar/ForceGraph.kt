@@ -1,6 +1,5 @@
 package com.korsumaki.wifiradar
 
-import kotlin.math.abs
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -120,20 +119,33 @@ data class ForceNode(val id: String) {
     var coordinate: Coordinate = Coordinate(0f, 0f)
     var relationIndexList = ArrayList<Int>(0)
 
-    var vX = 0f // Velocity in m/s
-    var vY = 0f // Velocity in m/s
+    private var vX = 0f // Velocity in m/s
+    private var vY = 0f // Velocity in m/s
 
     fun calculateNewCoordinates(sumForceVector: Coordinate) {
         val m = 1f // Mass in kg
         val t = 0.1f // time in seconds
+
+        // Drag, air resistance
+        // F_drag = 1/2*density*velocity^2*Area*Coefficient_v
+        // Simplified version: this dragFactor combines all of these, 1/2, fluid density, area, drag coefficient
+        val dragFactor = 0.02f
+        var dragForceX = vX.pow(2) * dragFactor
+        var dragForceY = vY.pow(2) * dragFactor
+        // Make sure negative direction speed makes negative direction force
+        if (vX < 0) { dragForceX *= -1 }
+        if (vY < 0) { dragForceY *= -1 }
+        val dragForceVector = Coordinate(x = dragForceX, y = dragForceY)
+
+        val sumForceVectorWithDrag = sumForceVector - dragForceVector
 
         // Acceleration -> velocity -> position
         // a = F/m  <- F=m*a
         // v = v0 + a*t
         // s = v*t
 
-        val aX = sumForceVector.x / m
-        val aY = sumForceVector.y / m
+        val aX = sumForceVectorWithDrag.x / m
+        val aY = sumForceVectorWithDrag.y / m
 
         vX += aX * t
         vY += aY * t
@@ -141,13 +153,6 @@ data class ForceNode(val id: String) {
         // Slow down movement
         vX *= 0.9f
         vY *= 0.9f
-
-        // If speed is too high, stop it
-        if (abs(vX) > 300 || abs(vY) > 300) {
-            println("$name: velocity too high ($vX, $vY) -> braking")
-            vX = 0f
-            vY = 0f
-        }
 
         val sX = vX * t
         val sY = vY * t
@@ -185,10 +190,10 @@ data class Coordinate(val x: Float, val y: Float) {
 
 data class ForceRelation(val targetLength: Float) {
     var coordinateList = ArrayList<Coordinate>()
-    val springConstant = 10f // spring constant, N/m
+    private val springConstant = 10f // spring constant, N/m
 
     /**
-     * Force vector, direction is for first coordinate.
+     * Force vector, direction is for first coordinate and opposite direction is second coordinate.
      */
     var force = Coordinate(0f, 0f)
 
