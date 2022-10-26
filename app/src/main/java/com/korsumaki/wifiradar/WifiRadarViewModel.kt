@@ -39,9 +39,11 @@ class WifiRadarViewModel : ViewModel() {
     }
 
     fun clearMap() {
-        forceGraph.nodeList.clear()
-        forceGraph.relationList.clear()
-        onForceGraphUpdate()
+        synchronized(forceGraph) {
+            forceGraph.nodeList.clear()
+            forceGraph.relationList.clear()
+            onForceGraphUpdate()
+        }
     }
 
     private var iterationCounter = 0
