@@ -1,7 +1,6 @@
 package com.korsumaki.wifiradar
 
-import kotlin.math.pow
-import kotlin.math.sqrt
+import kotlin.math.*
 
 class ForceGraph {
 
@@ -153,6 +152,18 @@ data class ForceNode(val id: String) {
         // Slow down movement
         vX *= 0.9f
         vY *= 0.9f
+
+        // If speed is too high, limit it
+        val speedLimit = 500f
+        if (abs(vX) > speedLimit || abs(vY) > speedLimit) {
+            println("$name: velocity too high ($vX, $vY) -> limiting")
+            vX = min(vX, speedLimit)
+            vX = max(vX, -speedLimit)
+            vY = min(vY, speedLimit)
+            vY = max(vY, -speedLimit)
+        }
+        assert(!vX.isNaN()) { "Error: vX is $vX, sumForceVector=$sumForceVector, dragForceVector=$dragForceVector" }
+        assert(!vY.isNaN()) { "Error: vY is $vY, sumForceVector=$sumForceVector, dragForceVector=$dragForceVector" }
 
         val sX = vX * t
         val sY = vY * t
