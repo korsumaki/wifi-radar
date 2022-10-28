@@ -58,10 +58,25 @@ class MainActivity : ComponentActivity() {
             }
         }
 
+    //"ScanList-test2.txt"
+    //"ScanList55.txt"
+    private var scanListFileName = "ScanList0.txt"
+    private var writeScanListToFile = false
+    private val readScanListFromFile = false
+
     private fun onScanButtonPress() {
         println("MainActivity: onScanButtonPress()")
+        if (readScanListFromFile && !writeScanListToFile) {
+            val scanListFromFile = readScanListFromFile(this.filesDir, scanListFileName).toMutableList()
+            wifiRadarViewModel.onScanSuccess(scanListFromFile)
+            return // Just return, no need to scan when data is read from file
+        }
+
         scanner.scan { isSuccess ->
             if (isSuccess) {
+                if (writeScanListToFile) {
+                    writeScanListToFile(this.filesDir, scanListFileName, scanList)
+                }
                 wifiRadarViewModel.onScanSuccess(scanList)
             }
         }
@@ -78,7 +93,11 @@ class MainActivity : ComponentActivity() {
                 ) {
                     WifiRadarScreen(
                         wifiRadarViewModel = wifiRadarViewModel,
-                        onScanButtonPress =  { onScanButtonPress() }
+                        onScanButtonPress =  { onScanButtonPress() },
+                        onSaveButtonPress = {
+                            scanListFileName = it
+                            writeScanListToFile = true
+                        }
                     )
                 }
             }

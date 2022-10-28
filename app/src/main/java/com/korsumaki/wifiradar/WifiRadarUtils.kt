@@ -1,5 +1,9 @@
 package com.korsumaki.wifiradar
 
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+import java.io.File
 import kotlin.math.abs
 
 
@@ -51,4 +55,47 @@ fun addNodesFromScanList(forceGraph: ForceGraph, currentLocationNode: ForceNode,
         println(node)
     }
     println("with ${forceGraph.relationList.size} relations")
+}
+
+// File handling functions
+
+lateinit var serializationFile: File
+
+fun writeScanListToFile(path: File, filename: String, scanList: ArrayList<WifiAp>) {
+    val encodedData = Json.encodeToString(scanList)
+    println("writeScanListToFile: $encodedData")
+
+    if (!::serializationFile.isInitialized) {
+        serializationFile = File(path, filename)
+        println("File path= ${serializationFile.absolutePath}")
+    }
+    serializationFile.appendText(encodedData + "\n")
+}
+
+
+var scanResultCount = 0
+var scanListStringList = emptyList<String>()
+
+fun readScanListFromFile(path: File, filename: String): List<WifiAp> {
+    if (scanResultCount == 0) {
+        if (!::serializationFile.isInitialized) {
+            serializationFile = File(path, filename)
+        }
+        scanListStringList = serializationFile.readLines()
+        println("readScanListFromFile(): size=${scanListStringList.size}")
+    }
+
+    if (scanListStringList.isEmpty()) {
+        println("readScanListFromFile(): Empty list")
+        return emptyList()
+    }
+
+    if (scanResultCount >= scanListStringList.size) {
+        scanResultCount = 0
+    }
+    println("readScanListFromFile() scan ${scanResultCount+1} / ${scanListStringList.size}")
+    val oneScanList = scanListStringList[scanResultCount]
+    val scanList = Json.decodeFromString<ArrayList<WifiAp>>(oneScanList)
+    scanResultCount++
+    return scanList
 }

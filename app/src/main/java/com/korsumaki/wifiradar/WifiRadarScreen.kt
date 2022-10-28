@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -30,10 +31,11 @@ import com.korsumaki.wifiradar.ui.theme.WiFiRadarTheme
 * */
 
 @Composable
-fun WifiRadarScreen(wifiRadarViewModel: WifiRadarViewModel, onScanButtonPress: () -> Unit) {
+fun WifiRadarScreen(wifiRadarViewModel: WifiRadarViewModel, onScanButtonPress: () -> Unit, onSaveButtonPress: (String) -> Unit) {
     MapScreen(
         forceGraph = wifiRadarViewModel.forceGraph,
         onScanButtonPress = onScanButtonPress,
+        onSaveButtonPress = { onSaveButtonPress(it) },
         onClearButtonPress = { wifiRadarViewModel.clearMap() },
         nodeCount = wifiRadarViewModel.forceNodeCount,
         relationCount = wifiRadarViewModel.forceRelationCount
@@ -41,8 +43,10 @@ fun WifiRadarScreen(wifiRadarViewModel: WifiRadarViewModel, onScanButtonPress: (
 }
 
 @Composable
-fun MapScreen(forceGraph: ForceGraph, onScanButtonPress: () -> Unit, onClearButtonPress: () -> Unit, nodeCount: Int, relationCount: Int) {
+fun MapScreen(forceGraph: ForceGraph, onScanButtonPress: () -> Unit, onSaveButtonPress: (String) -> Unit, onClearButtonPress: () -> Unit, nodeCount: Int, relationCount: Int) {
     var scaleFactor: Float by rememberSaveable { mutableStateOf(3.0f) }
+    var filenamePostFix by remember { mutableStateOf("ScanList1.txt") }
+    var fileStoreButtonText by remember { mutableStateOf("File store") }
     Column {
         Text(
             text = "WiFi Map",
@@ -53,10 +57,13 @@ fun MapScreen(forceGraph: ForceGraph, onScanButtonPress: () -> Unit, onClearButt
             verticalAlignment = Alignment.CenterVertically
         ) {
             Button(
-                onClick = onScanButtonPress,
+                onClick = {
+                    onSaveButtonPress( filenamePostFix )
+                    fileStoreButtonText = filenamePostFix
+                          },
                 modifier = Modifier.padding(4.dp)
             ) {
-                Text(text = "Scan")
+                Text(text = fileStoreButtonText)
             }
             Button(
                 onClick = { scaleFactor *= 1.1f },
@@ -77,6 +84,12 @@ fun MapScreen(forceGraph: ForceGraph, onScanButtonPress: () -> Unit, onClearButt
                 Text(text = "Clr")
             }
         }
+        BasicTextField(
+            value = filenamePostFix,
+            onValueChange = { filenamePostFix = it },
+            modifier = Modifier.padding(4.dp),
+            textStyle = MaterialTheme.typography.bodyLarge
+        )
         Text(
             text = "$nodeCount nodes, $relationCount relations",
             modifier = Modifier.padding(4.dp)
@@ -203,6 +216,7 @@ fun MapScreenPreview() {
                 forceRelationCount = forceGraph.relationList.size
                 forceGraph.iterateRelations()
             },
+            onSaveButtonPress = { },
             onClearButtonPress = {
                 forceGraph.nodeList.clear()
                 forceGraph.relationList.clear()
