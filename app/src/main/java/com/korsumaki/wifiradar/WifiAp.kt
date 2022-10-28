@@ -3,7 +3,9 @@ package com.korsumaki.wifiradar
 import kotlin.math.abs
 import kotlin.math.log10
 import kotlin.math.pow
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class WifiAp(val mac: String = "") {
     var name = ""
     var strength: Int = -100
