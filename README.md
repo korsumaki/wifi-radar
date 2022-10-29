@@ -47,15 +47,12 @@ Here is list of ideas what to do
     - add automatic centering and scaling (pinch zoom?)
     - add wifi ap names to screen
   - BT scanning
-  - gather real scan data to be used in simulations
   - more advanced methods for getting distance
     - https://developer.android.com/guide/topics/connectivity/wifi-rtt
     - https://github.com/Plinzen/android-rttmanager-sample
-  - get step count for estimating distance between scans
 
 - Application
   - check app version number, change to use git tag version?
-  - Bump dependency versions
   - App layout (Scaffold)
   - icon
   - support for different languages (en, fi)
