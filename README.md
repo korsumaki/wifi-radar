@@ -57,7 +57,6 @@ Here is list of ideas what to do
   - icon
   - support for different languages (en, fi)
   - enable crashlytics
-  - enable leakcanary
   - publish to play store
   - compose testing?
     - https://developer.android.com/jetpack/compose/testing
