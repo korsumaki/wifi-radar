@@ -30,7 +30,6 @@ fun addLocationAndScanList(scanList: List<WifiAp>, forceGraph: ForceGraph, curre
 fun addNodesFromScanList(forceGraph: ForceGraph, currentLocationNode: ForceNode, scanList: List<WifiAp>) {
     for (scanResult in scanList) {
         val node = ForceNode(id = scanResult.mac)
-        println("Adding: $scanResult with distance ${scanResult.getDistance()}")
 
         // Moving node sideways with random makes distance longer that it should be.
         // With many WifiAps it create too high force and too high velocity...
@@ -50,11 +49,6 @@ fun addNodesFromScanList(forceGraph: ForceGraph, currentLocationNode: ForceNode,
             relation = ForceRelation(scanResult.getDistance())
         )
     }
-    println("Current nodes:")
-    for (node in forceGraph.nodeList) {
-        println(node)
-    }
-    println("with ${forceGraph.relationList.size} relations")
 }
 
 // File handling functions
