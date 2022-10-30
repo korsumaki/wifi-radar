@@ -1,5 +1,6 @@
 package com.korsumaki.wifiradar
 
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
@@ -21,6 +22,7 @@ class WifiRadarScreenTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
+    @ExperimentalMaterial3Api
     @Test
     fun test_MapScreen() {
         // TODO change testcase to test MapScreen instead of MapScreenPreview
