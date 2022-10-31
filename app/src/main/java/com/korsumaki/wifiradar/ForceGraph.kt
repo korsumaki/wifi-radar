@@ -199,9 +199,8 @@ data class Coordinate(val x: Float, val y: Float) {
 }
 
 
-data class ForceRelation(val targetLength: Float) {
+data class ForceRelation(val targetLength: Float, val springConstant: Float = 3f) {
     var coordinateList = ArrayList<Coordinate>()
-    private val springConstant = 10f // spring constant, N/m
 
     /**
      * Force vector, direction is for first coordinate and opposite direction is second coordinate.

@@ -122,21 +122,21 @@ class ForceGraphTest {
     @Test
     fun test_ForceRelation_calculateForce_simple() {
         // x direction
-        val relation = ForceRelation(10f)
+        val relation = ForceRelation(10f, springConstant = 10f)
         relation.coordinateList.add(Coordinate(0f,0f))
         relation.coordinateList.add(Coordinate(11f,0f))
         relation.calculateForce()
         assertThat(relation.force).isEqualTo(Coordinate(10f, -0f))
 
         // y direction
-        val relationY = ForceRelation(20f)
+        val relationY = ForceRelation(20f, springConstant = 10f)
         relationY.coordinateList.add(Coordinate(100f,100f))
         relationY.coordinateList.add(Coordinate(100f,122f))
         relationY.calculateForce()
         assertThat(relationY.force).isEqualTo(Coordinate(-0f, 20f))
 
         // y direction (other way)
-        val relationY2 = ForceRelation(20f)
+        val relationY2 = ForceRelation(20f, springConstant = 10f)
         relationY2.coordinateList.add(Coordinate(100f,122f))
         relationY2.coordinateList.add(Coordinate(100f,100f))
         relationY2.calculateForce()
@@ -152,7 +152,7 @@ class ForceGraphTest {
 
     @Test
     fun test_ForceRelation_calculateForce_skewedForce() {
-        val relation = ForceRelation(50f)
+        val relation = ForceRelation(50f, springConstant = 10f)
         relation.coordinateList.add(Coordinate(100f,100f))
         relation.coordinateList.add(Coordinate(160f,180f))
         relation.calculateForce()
@@ -206,8 +206,8 @@ class ForceGraphTest {
         rightNode.coordinate = Coordinate(10f,100f)
         val leftNode = ForceNode("Left")
         leftNode.coordinate = Coordinate(-11f,100f)
-        forceGraph.connectNodesWithRelation(centerNode, rightNode, ForceRelation(10f))
-        forceGraph.connectNodesWithRelation(centerNode, leftNode, ForceRelation(10f))
+        forceGraph.connectNodesWithRelation(centerNode, rightNode, ForceRelation(10f, springConstant = 10f))
+        forceGraph.connectNodesWithRelation(centerNode, leftNode, ForceRelation(10f, springConstant = 10f))
 
         // Calculations (forces for each relation)
         forceGraph.clearRelationCoordinates()
@@ -236,8 +236,8 @@ class ForceGraphTest {
         rightNode.coordinate = Coordinate(11f,100f)
         val upNode = ForceNode("Up")
         upNode.coordinate = Coordinate(0f,109f)
-        forceGraph.connectNodesWithRelation(centerNode, rightNode, ForceRelation(10f))
-        forceGraph.connectNodesWithRelation(centerNode, upNode, ForceRelation(10f))
+        forceGraph.connectNodesWithRelation(centerNode, rightNode, ForceRelation(10f, springConstant = 10f))
+        forceGraph.connectNodesWithRelation(centerNode, upNode, ForceRelation(10f, springConstant = 10f))
 
         // Calculations (forces for each relation)
         forceGraph.clearRelationCoordinates()
