@@ -25,7 +25,6 @@ import com.korsumaki.wifiradar.ui.theme.WiFiRadarTheme
 * TODO
 *  - scale to middle of the screen
 *       + get center coordinates
-*  - better initial coordinates (less random)
 *
 * */
 
