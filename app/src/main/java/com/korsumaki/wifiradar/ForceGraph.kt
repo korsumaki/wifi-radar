@@ -123,7 +123,7 @@ data class ForceNode(val id: String) {
 
     fun calculateNewCoordinates(sumForceVector: Coordinate) {
         val m = 1f // Mass in kg
-        val t = 0.1f // time in seconds
+        val t = 0.07f // time in seconds
 
         // Drag, air resistance
         // F_drag = 1/2*density*velocity^2*Area*Coefficient_v
@@ -150,11 +150,11 @@ data class ForceNode(val id: String) {
         vY += aY * t
 
         // Slow down movement
-        vX *= 0.9f
-        vY *= 0.9f
+        vX *= 0.8f
+        vY *= 0.8f
 
         // If speed is too high, limit it
-        val speedLimit = 500f
+        val speedLimit = 300f
         if (abs(vX) > speedLimit || abs(vY) > speedLimit) {
             println("$name: velocity too high ($vX, $vY) -> limiting")
             vX = min(vX, speedLimit)
