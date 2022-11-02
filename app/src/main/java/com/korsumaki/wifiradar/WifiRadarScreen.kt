@@ -92,7 +92,7 @@ fun MapScreen(forceGraph: ForceGraph, onScanButtonPress: () -> Unit, onSaveButto
             text = "$nodeCount nodes, $relationCount relations",
             modifier = Modifier.padding(4.dp)
         )
-        val wifiColor = Color.Cyan
+        val wifiColor = Color.Red
         val bluetoothColor = Color.Cyan
         val routeColor = Color.Green
         val relationColor = Color.Gray
