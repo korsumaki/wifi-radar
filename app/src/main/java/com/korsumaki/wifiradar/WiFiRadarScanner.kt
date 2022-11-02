@@ -6,21 +6,23 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.net.wifi.ScanResult
 import android.net.wifi.WifiManager
+import android.os.Build
 
-class WiFiRadarScanner(val activity: Activity, var scanList: MutableList<WifiAp>) {
-    val wifiManager = activity.getSystemService(Context.WIFI_SERVICE) as WifiManager
+class WiFiRadarScanner(val activity: Activity, private var scanList: MutableList<WifiAp>) {
+    private val wifiManager = activity.getSystemService(Context.WIFI_SERVICE) as WifiManager
 
-    var rationaleTitleForPermission = "Location service is required"
-    var rationaleForPermission = "Location service is required to listen Wifi access points. " +
+    private val rationaleTitleForPermission = "Location service is required"
+    private val rationaleForPermission = "Location service is required to listen Wifi access points. " +
             "This App is constructing map based on Wifi Access Points."
 
-    val locationPermissionController = PermissionController(activity = activity,
+    private val locationPermissionController = PermissionController(activity = activity,
         permissionList = listOf(Manifest.permission.ACCESS_FINE_LOCATION),
         rationaleTitle = rationaleTitleForPermission,
         rationale = rationaleForPermission)
 
-    val wifiScanReceiver = object : BroadcastReceiver() {
+    private val wifiScanReceiver = object : BroadcastReceiver() {
 
         override fun onReceive(context: Context, intent: Intent) {
             val success = intent.getBooleanExtra(WifiManager.EXTRA_RESULTS_UPDATED, false)
@@ -46,8 +48,9 @@ class WiFiRadarScanner(val activity: Activity, var scanList: MutableList<WifiAp>
     }
 
     /*
-    * TODO BUG: When orientation is changed and close() is called from Activity, next scanResults
+    * BUG: When orientation is changed and close() is called from Activity, next scanResults
     *  does not call scanDoneCallback() before scan() is called next time.
+    *   - This is not so big problem, when next scan is triggered with timer
     *  Possible solution:
     *   - scanDoneCallback is got when WiFiRadarScanner instance is created
     */
@@ -60,6 +63,8 @@ class WiFiRadarScanner(val activity: Activity, var scanList: MutableList<WifiAp>
         scanDoneCallback = _scanDoneCallback
 
         scanList.clear() // Clear old entries from list
+
+        @Suppress("Deprecation") // NOTE: Using deprecated startScan() as this app depends on scan results!
         val success = wifiManager.startScan()
         if (!success) {
             println("wifiManager.startScan() failed")
@@ -69,12 +74,16 @@ class WiFiRadarScanner(val activity: Activity, var scanList: MutableList<WifiAp>
     }
 
     private fun scanSuccess() {
+        if (!locationPermissionController.checkPermission()) {
+            return
+        }
         val results = wifiManager.scanResults
         println("scanSuccess")
         for (result in results) {
-            println("SSID: ${result.SSID}, BSSID: ${result.BSSID}, level: ${result.level}, frequency: ${result.frequency}")
+            val ssid = getSSID(result)
+            println("SSID: $ssid, BSSID: ${result.BSSID}, level: ${result.level}, frequency: ${result.frequency}")
             val ap = WifiAp(mac = result.BSSID)
-            ap.name=result.SSID
+            ap.name = ssid
             ap.strength = result.level
             ap.frequency = result.frequency
             scanList.add(ap)
@@ -83,6 +92,23 @@ class WiFiRadarScanner(val activity: Activity, var scanList: MutableList<WifiAp>
         // Check lateinit scanDoneCallback before use.
         if (this::scanDoneCallback.isInitialized) {
             scanDoneCallback(true)
+        }
+    }
+
+    /**
+     * Get SSID from scanResult
+     *
+     * Using new getWifiSsid() method on Android 13 (TIRAMISU).
+     *
+     * @param scanResult    Scan result
+     * @return              String containing SSID, empty if WifiSsid does not exist
+     */
+    private fun getSSID(scanResult: ScanResult): String {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            scanResult.wifiSsid?.toString() ?: ""
+        } else {
+            @Suppress("Deprecation")
+            scanResult.SSID
         }
     }
 
