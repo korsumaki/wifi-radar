@@ -21,12 +21,6 @@ import androidx.compose.ui.unit.dp
 import com.google.android.material.color.MaterialColors
 import com.korsumaki.wifiradar.ui.theme.WiFiRadarTheme
 
-/*
-* TODO
-*  - scale to middle of the screen
-*       + get center coordinates
-*
-* */
 
 @ExperimentalMaterial3Api
 @Composable

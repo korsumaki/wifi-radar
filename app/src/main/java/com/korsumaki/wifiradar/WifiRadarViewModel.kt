@@ -27,8 +27,8 @@ class WifiRadarViewModel : ViewModel() {
         currentLocationNodeNumber++
         synchronized(forceGraph) {
             addLocationAndScanList(
-                scanList,
                 forceGraph,
+                scanList,
                 currentLocationNodeNumber
             )
         }

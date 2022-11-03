@@ -8,8 +8,16 @@ import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
 
-
-fun addLocationAndScanList(scanList: List<WifiAp>, forceGraph: ForceGraph, currentLocationNodeNumber: Int) {
+/**
+ * Add new location with new scanList
+ *
+ * Create new location node and nodes for each AP in scanList.
+ *
+ * @param forceGraph                ForceGraph data structure
+ * @param scanList                  Scan list
+ * @param currentLocationNodeNumber Number of current location node
+ */
+fun addLocationAndScanList(forceGraph: ForceGraph, scanList: List<WifiAp>, currentLocationNodeNumber: Int) {
     println("addLocationAndScanList")
     if (scanList.isNotEmpty()) {
         // Add new node for current location
@@ -25,11 +33,20 @@ fun addLocationAndScanList(scanList: List<WifiAp>, forceGraph: ForceGraph, curre
         }
         forceGraph.nodeList.add(currentLocationNode)
 
-        addNodesFromScanList(forceGraph, currentLocationNode, scanList)
+        addNodesFromScanList(forceGraph, scanList, currentLocationNode)
     }
 }
 
-fun addNodesFromScanList(forceGraph: ForceGraph, currentLocationNode: ForceNode, scanList: List<WifiAp>) {
+/**
+ * Create nodes for scanList items.
+ *
+ * Connect them with relation to currentLocationNode.
+ *
+ * @param forceGraph            ForceGraph data structure
+ * @param scanList              Scan list
+ * @param currentLocationNode   Current location
+ */
+fun addNodesFromScanList(forceGraph: ForceGraph, scanList: List<WifiAp>, currentLocationNode: ForceNode) {
     for (scanResult in scanList) {
         val node = ForceNode(id = scanResult.mac)
 

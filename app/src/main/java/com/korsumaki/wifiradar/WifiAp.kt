@@ -13,6 +13,8 @@ data class WifiAp(val mac: String = "") {
 
     /**
      * Get estimated distance from Wifi AP
+     *
+     * @return  Distance in meters
      */
     fun getDistance(): Float {
         // Limit minimum frequency
@@ -30,6 +32,7 @@ data class WifiAp(val mac: String = "") {
      *
      * @param signalLevelInDb   Signal level in dBm
      * @param freqInMHz         Frequency in MHz
+     * @return                  Distance in meters
      */
     fun calculateDistance(signalLevelInDb: Int, freqInMHz: Int): Float {
         check(freqInMHz > 0) { "Frequency must be bigger than zero (was now $freqInMHz)"}
@@ -38,6 +41,11 @@ data class WifiAp(val mac: String = "") {
     }
 }
 
+/**
+ * Get random WifiAp for testing
+ *
+ * @return  Random generated WifiAp
+ */
 fun getRandomWifiAp(): WifiAp {
     val nameNumberRange = 1..10
     val strengthRange = 30..100
