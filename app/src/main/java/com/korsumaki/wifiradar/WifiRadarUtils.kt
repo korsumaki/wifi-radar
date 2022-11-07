@@ -33,7 +33,29 @@ fun addLocationAndScanList(forceGraph: ForceGraph, scanList: List<WifiAp>, curre
         }
         forceGraph.nodeList.add(currentLocationNode)
 
-        addNodesFromScanList(forceGraph, scanList, currentLocationNode)
+        // Calculate direction and decide angle
+        var direction = 0
+        var angle = 180
+
+        val routeStepsToCheck = 2
+        if (currentLocationNodeNumber > routeStepsToCheck) {
+            val olderLocationNode = ForceNode(id = "Loc-${currentLocationNodeNumber-routeStepsToCheck}")
+            val olderIndex = forceGraph.nodeList.indexOf(olderLocationNode)
+            if (olderIndex != -1) {
+                val olderCoordinate = forceGraph.nodeList[olderIndex].coordinate
+                val latestCoordinate = currentLocationNode.coordinate
+
+                // Get direction if distance is enough
+                val vector = latestCoordinate-olderCoordinate
+                val distance = vector.distance()
+                println("distance=$distance")
+                if (distance > 5) {
+                    direction = vector.direction().toInt()
+                    angle = 80
+                }
+            }
+        }
+        addNodesFromScanList(forceGraph, scanList, currentLocationNode, direction, angle)
     }
 }
 
@@ -45,15 +67,17 @@ fun addLocationAndScanList(forceGraph: ForceGraph, scanList: List<WifiAp>, curre
  * @param forceGraph            ForceGraph data structure
  * @param scanList              Scan list
  * @param currentLocationNode   Current location
+ * @param direction             Direction where new nodes should be created, in degrees
+ * @param angle                 Angle how much direction can differ from [direction], in degrees
  */
-fun addNodesFromScanList(forceGraph: ForceGraph, scanList: List<WifiAp>, currentLocationNode: ForceNode) {
+fun addNodesFromScanList(forceGraph: ForceGraph, scanList: List<WifiAp>, currentLocationNode: ForceNode, direction: Int, angle: Int) {
     for (scanResult in scanList) {
         val node = ForceNode(id = scanResult.mac)
 
         // Get initial coordinates for node.
         // Only known value is distance from scanning location.
-        // Randomize in which direction node is, then calculate it's coordinates.
-        val degreesRange = 0..359
+        // Randomize direction for direction +- angle, then calculate it's coordinates.
+        val degreesRange = (direction-angle)..(direction+angle)
         val randomRadians = degreesRange.random() / 180f * PI
 
         val distance = scanResult.getDistance()
