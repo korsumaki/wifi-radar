@@ -139,13 +139,20 @@ fun MapScreen(forceGraph: ForceGraph, onScanButtonPress: () -> Unit, onSaveButto
                                     node.coordinate.y*scaleFactor + centerY),
                                 radius = 15f)
 
-                        ForceNode.Type.WIFI ->
-                            drawCircle(wifiColorHarmonized,
+                        ForceNode.Type.WIFI -> {
+                            var wifiColorNew = wifiColorHarmonized
+                            if (node.relationIndexList.size == 1) {
+                                wifiColorNew = Color.White
+                            }
+
+                            drawCircle(
+                                wifiColorNew, //wifiColorHarmonized
                                 center = Offset(
-                                    node.coordinate.x*scaleFactor + centerX,
-                                    node.coordinate.y*scaleFactor + centerY),
+                                    node.coordinate.x * scaleFactor + centerX,
+                                    node.coordinate.y * scaleFactor + centerY),
                                 radius = 20f,
                                 alpha = 0.3f)
+                        }
 
                         ForceNode.Type.BT ->
                             drawCircle(bluetoothColor,
