@@ -196,6 +196,25 @@ data class Coordinate(val x: Float, val y: Float) {
     fun distance(): Float {
         return sqrt(x.pow(2) + y.pow(2))
     }
+
+    fun direction(): Float {
+        if (distance() == 0f) {
+            return 0f
+        }
+
+        val directionRad = asin(y/distance())
+        var direction = (directionRad / PI * 180f).toFloat()
+
+        if (x < 0) {
+            direction = 180-direction
+        }
+
+        if (direction < 0f) {
+            direction += 360
+        }
+        println("$this -> direction=$direction")
+        return direction
+    }
 }
 
 

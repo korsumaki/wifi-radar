@@ -54,6 +54,22 @@ class ForceGraphTest {
         assertThat(Coordinate(-30f, -40f).distance()).isEqualTo(50)
     }
 
+    @Test
+    fun test_Coordinate_direction() {
+        val tolerance = 0.001f
+
+        assertThat(Coordinate(10f, 0f).direction()).isWithin(tolerance).of(0f)
+        assertThat(Coordinate(10f, 10f).direction()).isWithin(tolerance).of(45f)
+        assertThat(Coordinate(0f, 10f).direction()).isWithin(tolerance).of(90f)
+
+        assertThat(Coordinate(-10f, 10f).direction()).isWithin(tolerance).of(135f)
+        assertThat(Coordinate(-10f, 0f).direction()).isWithin(tolerance).of(180f)
+        assertThat(Coordinate(-10f, -10f).direction()).isWithin(tolerance).of(225f)
+
+        assertThat(Coordinate(0f, -10f).direction()).isWithin(tolerance).of(270f)
+        assertThat(Coordinate(10f, -10f).direction()).isWithin(tolerance).of(315f)
+    }
+
     // ====================
     // ForceNode
     // ====================
