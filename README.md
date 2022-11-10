@@ -52,7 +52,6 @@ Here is list of ideas what to do
     - https://github.com/Plinzen/android-rttmanager-sample
 
 - Application
-  - check app version number, change to use git tag version?
   - App layout (Scaffold)
   - icon
   - support for different languages (en, fi)
