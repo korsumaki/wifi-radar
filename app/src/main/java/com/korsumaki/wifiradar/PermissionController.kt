@@ -84,12 +84,12 @@ class PermissionController(val activity: Activity, val permissionList: List<Stri
                     .setTitle(rationaleTitle)
                     .setMessage(rationale)
                     .setPositiveButton("OK"
-                    ) { dialog, id ->
+                    ) { _, _ ->
                         // Continue with requesting permissions
                         triggerPermissionRequest()
                     }
                     .setNegativeButton("Cancel"
-                    ) { dialog, id ->
+                    ) { _, _ ->
                         // User cancelled the dialog
                     }
                     .create()
