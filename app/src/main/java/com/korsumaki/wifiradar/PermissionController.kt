@@ -79,20 +79,22 @@ class PermissionController(val activity: Activity, val permissionList: List<Stri
         }
 
         if (shouldShowRationaleToUser) {
-            AlertDialog.Builder(activity)
-                .setTitle(rationaleTitle)
-                .setMessage(rationale)
-                .setPositiveButton("OK"
-                ) { dialog, id ->
-                    // Continue with requesting permissions
-                    triggerPermissionRequest()
-                }
-                .setNegativeButton("Cancel"
-                ) { dialog, id ->
-                    // User cancelled the dialog
-                }
-                .create()
-                .show()
+            activity.runOnUiThread {
+                AlertDialog.Builder(activity)
+                    .setTitle(rationaleTitle)
+                    .setMessage(rationale)
+                    .setPositiveButton("OK"
+                    ) { dialog, id ->
+                        // Continue with requesting permissions
+                        triggerPermissionRequest()
+                    }
+                    .setNegativeButton("Cancel"
+                    ) { dialog, id ->
+                        // User cancelled the dialog
+                    }
+                    .create()
+                    .show()
+            }
             return false
         }
         // No need to show rationale
