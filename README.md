@@ -37,6 +37,22 @@ When application is scanning more Wifi access points, ForceGraph build up so tha
 
 Now when ForceGraph is continuously iterating new locations to each ForceNode, locations of Wifi access points and routes are finding their actual locations.
 
+## Compile and install
+
+Create `keystore.properties` file to project root to contain keystore parameters.
+
+    storePassword=MyKeyStorePassword
+    keyPassword=MyKeyPassword
+    keyAlias=upload
+    storeFile=MyKeyStoreFile
+
+
+Build release apk file
+
+    ./gradlew clean test assembleRelease
+
+
+
 ## TODO list
 
 Here is list of ideas what to do
@@ -50,12 +66,18 @@ Here is list of ideas what to do
   - more advanced methods for getting distance
     - https://developer.android.com/guide/topics/connectivity/wifi-rtt
     - https://github.com/Plinzen/android-rttmanager-sample
+  - simulation mode (if no permissions or if user want to just learn possibilities)
+  - pinch zoom
+  - better file write and read, feasible for end user use
+  - update WifiRadarScreen, remove unused functions
+  - smart scanning when OS prevent to scan too often (notice OS initiated scans)
 
 - Application
   - App layout (Scaffold)
   - icon
   - support for different languages (en, fi)
   - enable crashlytics
+    - how to configure so that build is possible without google-services.json
   - publish to play store
   - compose testing?
     - https://developer.android.com/jetpack/compose/testing
