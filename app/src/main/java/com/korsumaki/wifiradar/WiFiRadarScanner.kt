@@ -56,8 +56,23 @@ class WiFiRadarScanner(val activity: Activity, private var scanList: MutableList
     */
     lateinit var scanDoneCallback: (Boolean) -> Unit
 
+    /**
+     * Permission request is triggered, and we should not trigger it again (and thus not trigger Wifi scan)
+     */
+    var permissionRequestOngoing = false
+
     fun scan(_scanDoneCallback: (isSuccess: Boolean) -> Unit) {
-        if (!locationPermissionController.checkPermission()) {
+
+        // If permission request is already ongoing, check permissions, but do not initiate new permission dialog.
+        if (permissionRequestOngoing) {
+            if (!locationPermissionController.checkPermission()) {
+                return // We still did not have permission, should not scan
+            }
+            permissionRequestOngoing = false
+        }
+
+        if (!locationPermissionController.checkPermissionWithRequest()) {
+            permissionRequestOngoing = true
             return
         }
         scanDoneCallback = _scanDoneCallback

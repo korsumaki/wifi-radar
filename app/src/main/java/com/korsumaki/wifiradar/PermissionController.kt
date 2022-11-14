@@ -24,7 +24,7 @@ import androidx.core.content.ContextCompat
  * 8. If the user granted the permission to your app, you can access the private user data. If the user denied the permission instead, gracefully degrade your app experience so that it provides functionality to the user, even without the information that's protected by that permission.
  *
  *
- * TODO Deviations/Missing things from PermissionController
+ * NOTE: Deviations/Missing things from PermissionController
  *  - Step 7. is done in MainActivity. Would be nice to have it in this class.
  *  - Step 7. is not explaining to user that feature is not available when permission is denied.
  *  - Step 8. is not continuing to task which was requiring permission, but user have to trigger it again.
@@ -48,8 +48,16 @@ import androidx.core.content.ContextCompat
  */
 class PermissionController(val activity: Activity, val permissionList: List<String>, val rationaleTitle: String, val rationale: String) {
 
+    /**
+     * Check permission
+     *
+     * Do not trigger permission request.
+     * This can be used when permission request dialog might be open, and it is not suitable
+     * to request it again.
+     *
+     * @return true if permission is granted, false otherwise
+     */
     fun checkPermission(): Boolean {
-        //println("PermissionController.checkPermission($permissionList)")
 
         // Step 4. Check whether user has already granted permission
         var userAlreadyGrantedAllRequiredPermissions = true
@@ -62,9 +70,17 @@ class PermissionController(val activity: Activity, val permissionList: List<Stri
                 }
             }
         }
-        if (userAlreadyGrantedAllRequiredPermissions) {
-            // Everything fine, we already have required permissions
-            return true
+        return userAlreadyGrantedAllRequiredPermissions
+    }
+
+    /**
+     * Check permission, trigger permission request dialog when needed
+     *
+     * @return true if permission is granted, false otherwise
+     */
+    fun checkPermissionWithRequest(): Boolean {
+        if (checkPermission()) {
+            return true // Permission is already granted
         }
 
         // Step 5. Check whether app should show rationale to the user
