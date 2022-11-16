@@ -65,8 +65,8 @@ class MainActivity : ComponentActivity() {
     private var writeScanListToFile = false
     private val readScanListFromFile = false
 
-    private fun onScanButtonPress() {
-        println("MainActivity: onScanButtonPress()")
+    private fun onScanTimer() {
+        println("MainActivity: onScanTimer()")
         if (readScanListFromFile && !writeScanListToFile) {
             val scanListFromFile = readScanListFromFile(this.filesDir, scanListFileName).toMutableList()
             wifiRadarViewModel.onScanSuccess(scanListFromFile)
@@ -95,7 +95,6 @@ class MainActivity : ComponentActivity() {
                 ) {
                     WifiRadarScreen(
                         wifiRadarViewModel = wifiRadarViewModel,
-                        onScanButtonPress =  { onScanButtonPress() },
                         onSaveButtonPress = {
                             scanListFileName = it
                             writeScanListToFile = true
@@ -132,7 +131,7 @@ class MainActivity : ComponentActivity() {
             wifiRadarViewModel.onForceGraphUpdate()
         }
         scanTimer = timer(name = "ScanTimer", period = 10*1000) {
-            onScanButtonPress()
+            onScanTimer()
         }
     }
 

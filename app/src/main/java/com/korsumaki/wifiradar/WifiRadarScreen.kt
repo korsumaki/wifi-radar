@@ -24,10 +24,9 @@ import com.korsumaki.wifiradar.ui.theme.WiFiRadarTheme
 
 @ExperimentalMaterial3Api
 @Composable
-fun WifiRadarScreen(wifiRadarViewModel: WifiRadarViewModel, onScanButtonPress: () -> Unit, onSaveButtonPress: (String) -> Unit) {
+fun WifiRadarScreen(wifiRadarViewModel: WifiRadarViewModel, onSaveButtonPress: (String) -> Unit) {
     MapScreen(
         forceGraph = wifiRadarViewModel.forceGraph,
-        onScanButtonPress = onScanButtonPress,
         onSaveButtonPress = { onSaveButtonPress(it) },
         onClearButtonPress = { wifiRadarViewModel.clearMap() },
         nodeCount = wifiRadarViewModel.forceNodeCount,
@@ -37,7 +36,7 @@ fun WifiRadarScreen(wifiRadarViewModel: WifiRadarViewModel, onScanButtonPress: (
 
 @ExperimentalMaterial3Api
 @Composable
-fun MapScreen(forceGraph: ForceGraph, onScanButtonPress: () -> Unit, onSaveButtonPress: (String) -> Unit, onClearButtonPress: () -> Unit, nodeCount: Int, relationCount: Int) {
+fun MapScreen(forceGraph: ForceGraph, onSaveButtonPress: (String) -> Unit, onClearButtonPress: () -> Unit, nodeCount: Int, relationCount: Int) {
     var scaleFactor: Float by rememberSaveable { mutableStateOf(3.0f) }
     var filenamePostFix by remember { mutableStateOf("ScanList1.txt") }
     var fileStoreButtonText by remember { mutableStateOf("File store") }
@@ -231,7 +230,6 @@ fun MapScreenPreview() {
                 forceRelationCount = forceGraph.relationList.size
                 forceGraph.iterateRelations()
             },
-            onScanButtonPress = { },
             onClearButtonPress = {
                 forceGraph.nodeList.clear()
                 forceGraph.relationList.clear()
