@@ -73,7 +73,6 @@ Here is list of ideas what to do
   - smart scanning when OS prevent to scan too often (notice OS initiated scans)
 
 - Application
-  - App layout (Scaffold)
   - icon
   - support for different languages (en, fi)
   - enable crashlytics

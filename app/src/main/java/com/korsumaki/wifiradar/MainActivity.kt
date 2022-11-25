@@ -93,13 +93,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.primaryContainer
                 ) {
-                    WifiRadarScreen(
-                        wifiRadarViewModel = wifiRadarViewModel,
-                        onSaveButtonPress = {
-                            scanListFileName = it
-                            writeScanListToFile = true
-                        }
-                    )
+                    WifiRadarScaffold(wifiRadarViewModel = wifiRadarViewModel)
                 }
             }
         }
