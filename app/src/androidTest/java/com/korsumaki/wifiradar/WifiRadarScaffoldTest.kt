@@ -3,7 +3,8 @@ package com.korsumaki.wifiradar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.onNodeWithContentDescription
+import androidx.compose.ui.test.performClick
 import com.korsumaki.wifiradar.ui.theme.WifiRadarTheme
 
 import org.junit.Test
@@ -16,22 +17,21 @@ import org.junit.Rule
  * See [testing documentation](https://developer.android.com/jetpack/compose/testing).
  *
  */
-class WifiRadarScreenTest {
+class WifiRadarScaffoldTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
 
     @ExperimentalMaterial3Api
     @Test
-    fun test_MapScreen() {
+    fun test_WifiRadarScaffold() {
         composeTestRule.setContent {
             WifiRadarTheme {
                 WifiRadarScaffold(wifiRadarViewModel = WifiRadarViewModel())
             }
         }
-        //composeTestRule.onNodeWithText("Scan").assertIsDisplayed()
-        composeTestRule.onNodeWithText("0 nodes, 0 relations").assertIsDisplayed()
-        //composeTestRule.onNodeWithText("Scan").performClick()
-        //composeTestRule.onNodeWithText("2 nodes, 1 relations").assertIsDisplayed()
+        composeTestRule.onNodeWithContentDescription("Zoom in").assertIsDisplayed().performClick()
+        composeTestRule.onNodeWithContentDescription("Zoom out").assertIsDisplayed().performClick()
+        composeTestRule.onNodeWithContentDescription("Clear screen").assertIsDisplayed().performClick()
     }
 }

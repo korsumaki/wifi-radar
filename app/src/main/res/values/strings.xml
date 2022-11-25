@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Wifi Radar</string>
+
+    <string name="zoom_in_content_description">Zoom in</string>
+    <string name="zoom_out_content_description">Zoom out</string>
+    <string name="clear_screen_content_description">Clear screen</string>
 </resources>

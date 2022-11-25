@@ -19,9 +19,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.google.android.material.color.MaterialColors
 
 
-// TODO localize contentDescriptions for IconButtons
-//   androidx.compose.ui.res.stringResource
-
 /**
  * TopBar for application
  */
@@ -38,13 +35,19 @@ fun WifiRadarTopBar(zoomIn: () -> Unit, zoomOut: () -> Unit, clearMap: () -> Uni
         },*/
         actions = {
             IconButton(onClick = zoomIn) {
-                Icon(painterResource(id = R.drawable.outline_zoom_in_24), null)
+                Icon(
+                    painterResource(id = R.drawable.outline_zoom_in_24),
+                    stringResource(id = R.string.zoom_in_content_description))
             }
             IconButton(onClick = zoomOut) {
-                Icon(painterResource(id = R.drawable.outline_zoom_out_24), null)
+                Icon(
+                    painterResource(id = R.drawable.outline_zoom_out_24),
+                    stringResource(id = R.string.zoom_out_content_description))
             }
             IconButton(onClick = clearMap) {
-                Icon(Icons.Outlined.Delete, null)
+                Icon(
+                    Icons.Outlined.Delete,
+                    stringResource(id = R.string.clear_screen_content_description))
             }
         }
     )
