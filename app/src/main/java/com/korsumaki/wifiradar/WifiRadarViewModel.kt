@@ -14,9 +14,7 @@ import androidx.lifecycle.ViewModel
 
 class WifiRadarViewModel : ViewModel() {
     val forceGraph by mutableStateOf(ForceGraph())
-    var forceNodeCount by mutableStateOf(0)
-        private set
-    var forceRelationCount by mutableStateOf(0)
+    var iterationCounter by mutableStateOf(0)
         private set
     private var currentLocationNodeNumber by mutableStateOf(0)
 
@@ -46,14 +44,10 @@ class WifiRadarViewModel : ViewModel() {
         }
     }
 
-    private var iterationCounter = 0
-
     /**
      * Trigger Recomposition as it does not detect changes in ForceGraph.
      */
     fun onForceGraphUpdate() {
-        forceNodeCount = forceGraph.nodeList.size
-        forceRelationCount = forceGraph.relationList.size + iterationCounter
         iterationCounter++
     }
 }

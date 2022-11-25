@@ -53,7 +53,7 @@ fun WifiRadarTopBar(zoomIn: () -> Unit, zoomOut: () -> Unit, clearMap: () -> Uni
     )
 }
 
-
+@Suppress("UNUSED_PARAMETER") // iterationCount
 @ExperimentalMaterial3Api
 @Composable
 fun WifiRadarContent(forceGraph: ForceGraph, scaleFactor: Float, iterationCount: Int) {
@@ -183,7 +183,7 @@ fun WifiRadarScaffold(wifiRadarViewModel: WifiRadarViewModel) {
             WifiRadarContent(
                 forceGraph = wifiRadarViewModel.forceGraph,
                 scaleFactor = scaleFactor,
-                iterationCount = wifiRadarViewModel.forceRelationCount)
+                iterationCount = wifiRadarViewModel.iterationCounter)
         }
     }
 }
