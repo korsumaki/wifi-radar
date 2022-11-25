@@ -4,8 +4,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.performClick
-import com.korsumaki.wifiradar.ui.theme.WiFiRadarTheme
+import com.korsumaki.wifiradar.ui.theme.WifiRadarTheme
 
 import org.junit.Test
 
@@ -25,10 +24,9 @@ class WifiRadarScreenTest {
     @ExperimentalMaterial3Api
     @Test
     fun test_MapScreen() {
-        // TODO change testcase to test MapScreen instead of MapScreenPreview
         composeTestRule.setContent {
-            WiFiRadarTheme {
-                MapScreenPreview()
+            WifiRadarTheme {
+                WifiRadarScaffold(wifiRadarViewModel = WifiRadarViewModel())
             }
         }
         //composeTestRule.onNodeWithText("Scan").assertIsDisplayed()

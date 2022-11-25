@@ -10,7 +10,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.korsumaki.wifiradar.ui.theme.WiFiRadarTheme
+import com.korsumaki.wifiradar.ui.theme.WifiRadarTheme
 import java.util.*
 import kotlin.concurrent.timer
 
@@ -87,7 +87,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            WiFiRadarTheme {
+            WifiRadarTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
