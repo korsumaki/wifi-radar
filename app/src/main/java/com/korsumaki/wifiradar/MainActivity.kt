@@ -1,5 +1,6 @@
 package com.korsumaki.wifiradar
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -10,6 +11,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.korsumaki.wifiradar.ui.theme.WifiRadarTheme
 import java.util.*
 import kotlin.concurrent.timer
@@ -102,6 +104,9 @@ class MainActivity : ComponentActivity() {
         scanner = WiFiRadarScanner(activity = this, scanList)
     }
 
+    private fun onLicenseTextView() {
+        startActivity(Intent(this, OssLicensesMenuActivity::class.java))
+    }
     override fun onDestroy() {
         super.onDestroy()
         scanner.close()

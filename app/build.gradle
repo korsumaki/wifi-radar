@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'org.jetbrains.kotlin.plugin.serialization'
+    id 'com.google.android.gms.oss-licenses-plugin'
 }
 
 def getVersionCode = { ->
@@ -120,6 +121,7 @@ dependencies {
     implementation 'androidx.activity:activity-compose:1.6.1'
 
     implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1'
+    implementation 'com.google.android.gms:play-services-oss-licenses:17.0.0'
 
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.10'
 }

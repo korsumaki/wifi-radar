@@ -4,6 +4,14 @@ pluginManagement {
         google()
         mavenCentral()
     }
+    // This "resolutionStrategy" block is as workaround for bug https://github.com/google/play-services-plugins/issues/223
+    resolutionStrategy {
+        eachPlugin {
+            if (requested.id.id == "com.google.android.gms.oss-licenses-plugin") {
+                useModule("com.google.android.gms:oss-licenses-plugin:0.10.5")
+            }
+        }
+    }
 }
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
