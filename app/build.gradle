@@ -55,6 +55,7 @@ android {
         targetSdk 33
         versionCode getVersionCode()
         versionName getVersionName()
+        setProperty("archivesBaseName", "WifiRadar-" + getVersionName() ) // Add version tag to apk name
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
