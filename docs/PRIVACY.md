@@ -1,7 +1,3 @@
-### Privacy Policy for Wifi Radar
-
-----
-
 # Privacy Policy
 Last updated: January 7, 2023
 
