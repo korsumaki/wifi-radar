@@ -85,7 +85,7 @@ You are advised to review this Privacy Policy periodically for any changes. Chan
 # Contact Us
 If you have any questions about this Privacy Policy, You can contact us:
 
-- By email: 
+- By email: wifi.radar.app@gmail.com
 
 ----
 
