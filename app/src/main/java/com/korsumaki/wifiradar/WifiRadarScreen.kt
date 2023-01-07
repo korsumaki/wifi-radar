@@ -5,6 +5,7 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material.icons.outlined.Menu
 import androidx.compose.material3.*
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.runtime.*
@@ -16,7 +17,9 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.google.android.material.color.MaterialColors
+import kotlinx.coroutines.launch
 
 
 /**
@@ -24,15 +27,14 @@ import com.google.android.material.color.MaterialColors
  */
 @ExperimentalMaterial3Api
 @Composable
-fun WifiRadarTopBar(zoomIn: () -> Unit, zoomOut: () -> Unit, clearMap: () -> Unit) {
+fun WifiRadarTopBar(zoomIn: () -> Unit, zoomOut: () -> Unit, clearMap: () -> Unit, onMenuClick: () -> Unit) {
     TopAppBar(
         title = { Text(text = stringResource(R.string.app_name)) },
-        /*
         navigationIcon = {
-            IconButton(onClick = { } ) {
+            IconButton(onClick = { onMenuClick() } ) {
                 Icon(Icons.Outlined.Menu, null)
             }
-        },*/
+        },
         actions = {
             IconButton(onClick = zoomIn) {
                 Icon(
@@ -167,15 +169,16 @@ fun WifiRadarContent(forceGraph: ForceGraph, scaleFactor: Float, iterationCount:
 
 @ExperimentalMaterial3Api
 @Composable
-fun WifiRadarScaffold(wifiRadarViewModel: WifiRadarViewModel) {
+fun WifiRadarScaffold(wifiRadarViewModel: WifiRadarViewModel, onMenuClick: () -> Unit) {
     var scaleFactor: Float by rememberSaveable { mutableStateOf(3.0f) }
 
     Scaffold(
         topBar =  { WifiRadarTopBar(
             zoomIn = { scaleFactor *= 1.1f },
             zoomOut = { scaleFactor *= 0.9f },
-            clearMap = { wifiRadarViewModel.clearMap() }
-        )
+            clearMap = { wifiRadarViewModel.clearMap() },
+            onMenuClick = { onMenuClick() }
+            )
         },
         containerColor = Color.Transparent //colorScheme.primaryContainer
     ) { contentPadding ->
@@ -188,6 +191,50 @@ fun WifiRadarScaffold(wifiRadarViewModel: WifiRadarViewModel) {
     }
 }
 
+@ExperimentalMaterial3Api
+@Composable
+fun DrawerContent() {
+    // TODO Dummy items so far
+    Text("Clear")
+    Text("Open Source Licenses")
+    Text("Version: 0.0.0")
+    IconButton(onClick = { } ) {
+        Icon(
+            Icons.Outlined.Delete,
+            stringResource(id = R.string.clear_screen_content_description))
+    }
+}
+
+
+@ExperimentalMaterial3Api
+@Composable
+fun WifiRadarModalNavigationDrawer(wifiRadarViewModel: WifiRadarViewModel = WifiRadarViewModel(), drawerContent: @Composable ColumnScope.() -> Unit) {
+    val drawerState = rememberDrawerState(DrawerValue.Closed)
+    val scope = rememberCoroutineScope()
+
+    ModalNavigationDrawer(
+        drawerState = drawerState,
+        drawerContent = {
+            ModalDrawerSheet(
+                content = {
+                    Text("Header line", modifier = Modifier
+                        .padding(16.dp)
+                    ) // TODO Add icon and app name?
+                    //Divider()
+                    drawerContent()
+                }
+            )
+        },
+        content = {
+            WifiRadarScaffold(
+                wifiRadarViewModel = wifiRadarViewModel,
+                onMenuClick = { scope.launch { drawerState.open() }  }
+            )
+        }
+    )
+}
+
+
 
 @Preview(showBackground = true, uiMode = UI_MODE_NIGHT_NO)
 @ExperimentalMaterial3Api
@@ -196,7 +243,8 @@ fun WifiRadarTopBarPreview() {
     WifiRadarTopBar(
         zoomIn = {},
         zoomOut = {},
-        clearMap = {}
+        clearMap = {},
+        onMenuClick = {}
     )
 }
 
@@ -217,5 +265,27 @@ fun WifiRadarContentPreview() {
 @ExperimentalMaterial3Api
 @Composable
 fun WifiRadarScaffoldPreview() {
-    WifiRadarScaffold(wifiRadarViewModel = WifiRadarViewModel())
+    WifiRadarScaffold(wifiRadarViewModel = WifiRadarViewModel(), onMenuClick = {})
+}
+
+
+@Preview(showBackground = true, uiMode = UI_MODE_NIGHT_NO)
+@ExperimentalMaterial3Api
+@Composable
+fun DrawerContentPreview() {
+    Column {
+        DrawerContent()
+    }
+}
+
+
+@Preview(showBackground = true, uiMode = UI_MODE_NIGHT_NO)
+@ExperimentalMaterial3Api
+@Composable
+fun WifiRadarModalNavigationDrawerPreview() {
+    WifiRadarModalNavigationDrawer(
+        drawerContent = {
+            DrawerContent()
+        }
+    )
 }

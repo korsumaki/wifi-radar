@@ -95,7 +95,10 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.primaryContainer
                 ) {
-                    WifiRadarScaffold(wifiRadarViewModel = wifiRadarViewModel)
+                    WifiRadarModalNavigationDrawer(
+                        wifiRadarViewModel = wifiRadarViewModel,
+                        drawerContent = { DrawerContent() }
+                    )
                 }
             }
         }
