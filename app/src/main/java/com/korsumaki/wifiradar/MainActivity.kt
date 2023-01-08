@@ -97,7 +97,12 @@ class MainActivity : ComponentActivity() {
                 ) {
                     WifiRadarModalNavigationDrawer(
                         wifiRadarViewModel = wifiRadarViewModel,
-                        drawerContent = { DrawerContent() }
+                        drawerContent = {
+                            DrawerContent(
+                                onOpenSourceLicences = { onLicenseTextView() },
+                                onPrivacyNotice = { /*TODO*/ }
+                            )
+                        }
                     )
                 }
             }

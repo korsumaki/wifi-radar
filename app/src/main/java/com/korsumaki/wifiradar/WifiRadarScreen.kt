@@ -4,6 +4,7 @@ import android.content.res.Configuration.UI_MODE_NIGHT_NO
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Menu
 import androidx.compose.material3.*
@@ -193,16 +194,26 @@ fun WifiRadarScaffold(wifiRadarViewModel: WifiRadarViewModel, onMenuClick: () ->
 
 @ExperimentalMaterial3Api
 @Composable
-fun DrawerContent() {
-    // TODO Dummy items so far
-    Text("Clear")
-    Text("Open Source Licenses")
-    Text("Version: 0.0.0")
-    IconButton(onClick = { } ) {
-        Icon(
-            Icons.Outlined.Delete,
-            stringResource(id = R.string.clear_screen_content_description))
-    }
+fun DrawerContent(onOpenSourceLicences: () -> Unit, onPrivacyNotice: () -> Unit) {
+    DropdownMenuItem(
+        text = { Text("Open Source Licenses") },
+        onClick = { onOpenSourceLicences() },
+        /*leadingIcon = {
+            Icon(
+                Icons.Outlined.Edit,
+                contentDescription = null
+            )
+        }*/)
+    DropdownMenuItem(
+        text = { Text("Privacy Notice") }, //icon: policy
+        onClick = { onPrivacyNotice() },
+        //leadingIcon = {}
+    )
+    DropdownMenuItem(
+        text = { Text("Version ${BuildConfig.VERSION_NAME}") },
+        onClick = {  },
+        enabled = false,
+    )
 }
 
 
@@ -217,9 +228,16 @@ fun WifiRadarModalNavigationDrawer(wifiRadarViewModel: WifiRadarViewModel = Wifi
         drawerContent = {
             ModalDrawerSheet(
                 content = {
-                    Text("Header line", modifier = Modifier
-                        .padding(16.dp)
-                    ) // TODO Add icon and app name?
+                    Row {
+                        IconButton(onClick = { scope.launch { drawerState.close() } } ) {
+                            Icon(Icons.Outlined.ArrowBack, null)
+                        }
+                        Text(
+                            stringResource(R.string.app_name),
+                            modifier = Modifier.padding(8.dp),
+                            style = MaterialTheme.typography.titleLarge
+                        )
+                    }
                     //Divider()
                     drawerContent()
                 }
@@ -274,7 +292,7 @@ fun WifiRadarScaffoldPreview() {
 @Composable
 fun DrawerContentPreview() {
     Column {
-        DrawerContent()
+        DrawerContent({}, {})
     }
 }
 
@@ -285,7 +303,7 @@ fun DrawerContentPreview() {
 fun WifiRadarModalNavigationDrawerPreview() {
     WifiRadarModalNavigationDrawer(
         drawerContent = {
-            DrawerContent()
+            DrawerContent({}, {})
         }
     )
 }
