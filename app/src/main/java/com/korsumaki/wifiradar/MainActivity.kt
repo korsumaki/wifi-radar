@@ -1,6 +1,7 @@
 package com.korsumaki.wifiradar
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -100,7 +101,7 @@ class MainActivity : ComponentActivity() {
                         drawerContent = {
                             DrawerContent(
                                 onOpenSourceLicences = { onLicenseTextView() },
-                                onPrivacyNotice = { /*TODO*/ }
+                                onPrivacyNotice = { onPrivacyNoticeView() }
                             )
                         }
                     )
@@ -115,6 +116,14 @@ class MainActivity : ComponentActivity() {
     private fun onLicenseTextView() {
         startActivity(Intent(this, OssLicensesMenuActivity::class.java))
     }
+
+    private fun onPrivacyNoticeView() {
+        val openURL = Intent(
+            Intent.ACTION_VIEW,
+            Uri.parse(getString(R.string.privacy_policy_web_link)))
+        startActivity(openURL)
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         scanner.close()

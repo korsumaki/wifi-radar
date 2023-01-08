@@ -4,4 +4,6 @@
     <string name="zoom_in_content_description">Zoom in</string>
     <string name="zoom_out_content_description">Zoom out</string>
     <string name="clear_screen_content_description">Clear screen</string>
+
+    <string name="privacy_policy_web_link">https://korsumaki.github.io/wifi-radar/PRIVACY.html</string>
 </resources>
