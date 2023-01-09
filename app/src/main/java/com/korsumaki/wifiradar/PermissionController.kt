@@ -99,13 +99,11 @@ class PermissionController(val activity: Activity, val permissionList: List<Stri
                 AlertDialog.Builder(activity)
                     .setTitle(rationaleTitle)
                     .setMessage(rationale)
-                    .setPositiveButton("OK"
-                    ) { _, _ ->
+                    .setPositiveButton(R.string.ok) { _, _ ->
                         // Continue with requesting permissions
                         triggerPermissionRequest()
                     }
-                    .setNegativeButton("Cancel"
-                    ) { _, _ ->
+                    .setNegativeButton(R.string.cancel) { _, _ ->
                         // User cancelled the dialog
                     }
                     .create()

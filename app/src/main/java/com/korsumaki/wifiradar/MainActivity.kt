@@ -15,6 +15,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
+import com.korsumaki.wifiradar.BuildConfig.APPLICATION_ID
 import com.korsumaki.wifiradar.ui.theme.WifiRadarTheme
 import java.util.*
 import kotlin.concurrent.timer
@@ -115,7 +116,7 @@ class MainActivity : ComponentActivity() {
         scanner = WiFiRadarScanner(activity = this, scanList)
     }
 
-    private val sharedPreferencesName = "${BuildConfig.APPLICATION_ID}-Prefs"
+    private val sharedPreferencesName = "$APPLICATION_ID-Prefs"
     private val isNoteAgreedKey = "isNoteAgreedKey"
 
     private fun isPermissionAndDataUsageNoteAgreed(): Boolean {
@@ -136,19 +137,14 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    private val permissionAndDataUsageTitle = "Wifi Radar permissions and Data usage"
-    private val permissionAndDataUsageText = "Wifi Radar requires Location permission for scanning WiFi networks.\n" +
-            "WiFi networks are scanned only when Application is in use, newer on background.\n" +
-            "WiFi scan results are used to create and show relative map about WiFi networks and User's movement around those.\n"
-
     private fun showPermissionAndDataUsageNote() {
         AlertDialog.Builder(this)
-            .setTitle(permissionAndDataUsageTitle)
-            .setMessage(permissionAndDataUsageText)
-            .setPositiveButton("OK") { _, _ ->
+            .setTitle(R.string.permission_and_data_usage_title)
+            .setMessage(R.string.permission_and_data_usage_text)
+            .setPositiveButton(R.string.ok) { _, _ ->
                 onPermissionAndDataUsageNoteAction(true)
             }
-            .setNegativeButton("Cancel") { _, _ ->
+            .setNegativeButton(R.string.cancel) { _, _ ->
                 // User cancelled the dialog
                 onPermissionAndDataUsageNoteAction(false)
             }
