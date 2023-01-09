@@ -1,5 +1,7 @@
 package com.korsumaki.wifiradar
 
+import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -113,6 +115,48 @@ class MainActivity : ComponentActivity() {
         scanner = WiFiRadarScanner(activity = this, scanList)
     }
 
+    private val sharedPreferencesName = "${BuildConfig.APPLICATION_ID}-Prefs"
+    private val isNoteAgreedKey = "isNoteAgreedKey"
+
+    private fun isPermissionAndDataUsageNoteAgreed(): Boolean {
+        val sharedPref = getSharedPreferences(sharedPreferencesName, Context.MODE_PRIVATE)
+        return sharedPref.getBoolean(isNoteAgreedKey, false)
+    }
+
+    private fun onPermissionAndDataUsageNoteAction(agreed: Boolean) {
+        when (agreed) {
+            true -> {
+                startTimers()
+                getSharedPreferences(sharedPreferencesName, Context.MODE_PRIVATE)
+                    .edit()
+                    .putBoolean(isNoteAgreedKey, true)
+                    .apply()
+            }
+            false -> { } // TODO add visible note to screen
+        }
+    }
+
+    private val permissionAndDataUsageTitle = "Wifi Radar permissions and Data usage"
+    private val permissionAndDataUsageText = "Wifi Radar requires Location permission for scanning WiFi networks.\n" +
+            "WiFi networks are scanned only when Application is in use, newer on background.\n" +
+            "WiFi scan results are used to create and show relative map about WiFi networks and User's movement around those.\n"
+
+    private fun showPermissionAndDataUsageNote() {
+        AlertDialog.Builder(this)
+            .setTitle(permissionAndDataUsageTitle)
+            .setMessage(permissionAndDataUsageText)
+            .setPositiveButton("OK") { _, _ ->
+                onPermissionAndDataUsageNoteAction(true)
+            }
+            .setNegativeButton("Cancel") { _, _ ->
+                // User cancelled the dialog
+                onPermissionAndDataUsageNoteAction(false)
+            }
+            .setCancelable(false) // No dismiss when tap outside of window
+            .create()
+            .show()
+    }
+
     private fun onLicenseTextView() {
         startActivity(Intent(this, OssLicensesMenuActivity::class.java))
     }
@@ -131,7 +175,13 @@ class MainActivity : ComponentActivity() {
 
     override fun onStart() {
         super.onStart()
-        startTimers()
+
+        if (isPermissionAndDataUsageNoteAgreed()) {
+            startTimers()
+        }
+        else {
+            showPermissionAndDataUsageNote()
+        }
     }
     override fun onStop() {
         super.onStop()
@@ -152,7 +202,11 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun stopTimers() {
-        iterationTimer.cancel()
-        scanTimer.cancel()
+        if (this::iterationTimer.isInitialized) {
+            iterationTimer.cancel()
+        }
+        if (this::scanTimer.isInitialized) {
+            scanTimer.cancel()
+        }
     }
 }
