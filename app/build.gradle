@@ -3,6 +3,8 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'org.jetbrains.kotlin.plugin.serialization'
     id 'com.google.android.gms.oss-licenses-plugin'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
 }
 
 def getVersionCode = { ->
@@ -124,6 +126,10 @@ dependencies {
 
     implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1'
     implementation 'com.google.android.gms:play-services-oss-licenses:17.0.0'
+
+    // Firebase Crashlytics
+    releaseImplementation platform('com.google.firebase:firebase-bom:31.1.1')
+    releaseImplementation 'com.google.firebase:firebase-crashlytics-ktx'
 
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.10'
 }

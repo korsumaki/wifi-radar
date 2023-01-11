@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1028236026404",
+    "project_id": "dummy-wifi-radar",
+    "storage_bucket": "dummy-wifi-radar.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1028236026404:android:2185f3f1301a6a8735eeb1",
+        "android_client_info": {
+          "package_name": "com.korsumaki.wifiradar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1028236026404-82omnluraorp6e51s6mh3dot871n43g5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAsvebVbFaDtNJefuQqaEc22LGlRV3QZs4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1028236026404-82omnluraorp6e51s6mh3dot871n43g5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
