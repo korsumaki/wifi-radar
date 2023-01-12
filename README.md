@@ -67,13 +67,12 @@ Here is list of ideas what to do
     - https://developer.android.com/guide/topics/connectivity/wifi-rtt
     - https://github.com/Plinzen/android-rttmanager-sample
   - simulation mode (if no permissions or if user want to just learn possibilities)
+  - storing should work also over configuration changes (orientation changes)
   - pinch zoom
   - better file write and read, feasible for end user use
-  - update WifiRadarScreen, remove unused functions
   - smart scanning when OS prevent to scan too often (notice OS initiated scans)
 
 - Application
-  - icon
   - support for different languages (en, fi)
   - enable crashlytics
     - how to configure so that build is possible without google-services.json
