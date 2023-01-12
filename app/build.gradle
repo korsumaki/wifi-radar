@@ -1,8 +1,23 @@
+/*
+ * Two options, with or without Crashlytics (https://firebase.google.com/products/crashlytics)
+ *
+ * Build with Crashlytics:
+ * - Create own Crashlytics project
+ * - get 'google-services.json' from Crashlytics and add it to 'app' directory
+ *
+ * Build without Crashlytics:
+ * - Comment out following two lines from 'plugin' section
+ *       id 'com.google.gms.google-services'
+ *       id 'com.google.firebase.crashlytics'
+ */
+
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'org.jetbrains.kotlin.plugin.serialization'
     id 'com.google.android.gms.oss-licenses-plugin'
+
+    // Comment out following two lines if building without Crashlytics
     id 'com.google.gms.google-services'
     id 'com.google.firebase.crashlytics'
 }

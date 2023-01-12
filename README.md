@@ -37,6 +37,22 @@ When application is scanning more Wifi access points, ForceGraph build up so tha
 
 Now when ForceGraph is continuously iterating new locations to each ForceNode, locations of Wifi access points and routes are finding their actual locations.
 
+## Crashlytics setup
+
+[Crashlytics](https://firebase.google.com/products/crashlytics) could help investigating possible crash bugs.
+
+There are two options, with or without Crashlytics. Both options require some preparations.
+
+Build with Crashlytics:
+- Create own Crashlytics project
+- get `google-services.json` from Crashlytics and add it to `app` directory
+
+Build without Crashlytics:
+- Comment out following two lines from `plugin` section from `app/build.gradle`
+
+      id 'com.google.gms.google-services'
+      id 'com.google.firebase.crashlytics'
+
 ## Compile and install
 
 Create `keystore.properties` file to project root to contain keystore parameters.
