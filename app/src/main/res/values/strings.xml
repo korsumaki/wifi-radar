@@ -1,14 +1,22 @@
 <resources>
     <string name="app_name">Wifi Radar</string>
 
+    // Content descriptions
     <string name="zoom_in_content_description">Zoom in</string>
     <string name="zoom_out_content_description">Zoom out</string>
     <string name="clear_screen_content_description">Clear screen</string>
+    <string name="menu_content_description">Menu</string>
+    <string name="back_content_description">Back</string>
 
+    //
     <string name="privacy_policy_web_link">https://korsumaki.github.io/wifi-radar/PRIVACY.html</string>
     <string name="permission_and_data_usage_title">Wifi Radar permissions and Data usage</string>
     <string name="permission_and_data_usage_text">Wifi Radar requires Location permission for scanning WiFi networks.\nWiFi networks are scanned only when Application is in use, newer on background.\nWiFi scan results are used to create and show relative map about WiFi networks and User\'s movement around those.</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
+
+    <string name="menu_open_source_licenses">Open Source Licenses</string>
+    <string name="menu_privacy_notice">Privacy Notice</string>
+    <string name="menu_version">Version %1$s</string>
 
 </resources>

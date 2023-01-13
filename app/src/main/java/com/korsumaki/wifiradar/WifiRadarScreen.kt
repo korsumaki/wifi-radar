@@ -33,7 +33,7 @@ fun WifiRadarTopBar(zoomIn: () -> Unit, zoomOut: () -> Unit, clearMap: () -> Uni
         title = { Text(text = stringResource(R.string.app_name)) },
         navigationIcon = {
             IconButton(onClick = { onMenuClick() } ) {
-                Icon(Icons.Outlined.Menu, null)
+                Icon(Icons.Outlined.Menu, stringResource(id = R.string.menu_content_description))
             }
         },
         actions = {
@@ -196,7 +196,7 @@ fun WifiRadarScaffold(wifiRadarViewModel: WifiRadarViewModel, onMenuClick: () ->
 @Composable
 fun DrawerContent(onOpenSourceLicences: () -> Unit, onPrivacyNotice: () -> Unit) {
     DropdownMenuItem(
-        text = { Text("Open Source Licenses") },
+        text = { Text(stringResource(id = R.string.menu_open_source_licenses)) },
         onClick = { onOpenSourceLicences() },
         /*leadingIcon = {
             Icon(
@@ -205,12 +205,12 @@ fun DrawerContent(onOpenSourceLicences: () -> Unit, onPrivacyNotice: () -> Unit)
             )
         }*/)
     DropdownMenuItem(
-        text = { Text("Privacy Notice") }, //icon: policy
+        text = { Text(stringResource(id = R.string.menu_privacy_notice)) }, //icon: policy
         onClick = { onPrivacyNotice() },
         //leadingIcon = {}
     )
     DropdownMenuItem(
-        text = { Text("Version ${BuildConfig.VERSION_NAME}") },
+        text = { Text(stringResource(id = R.string.menu_version, BuildConfig.VERSION_NAME)) },
         onClick = {  },
         enabled = false,
     )
@@ -230,7 +230,7 @@ fun WifiRadarModalNavigationDrawer(wifiRadarViewModel: WifiRadarViewModel = Wifi
                 content = {
                     Row {
                         IconButton(onClick = { scope.launch { drawerState.close() } } ) {
-                            Icon(Icons.Outlined.ArrowBack, null)
+                            Icon(Icons.Outlined.ArrowBack, stringResource(id = R.string.back_content_description))
                         }
                         Text(
                             stringResource(R.string.app_name),
