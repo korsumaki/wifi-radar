@@ -63,8 +63,7 @@ Here is list of ideas what to do
 
 - Application
   - support for different languages (en, fi)
-  - enable crashlytics
-    - how to configure so that build is possible without google-services.json
+    - https://developer.android.com/guide/topics/resources/localization
   - publish to play store
   - compose testing?
     - https://developer.android.com/jetpack/compose/testing

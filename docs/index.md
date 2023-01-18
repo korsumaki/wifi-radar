@@ -16,8 +16,8 @@ Scanned AP data is given to ForceGraph data structure, which create spring-like 
 and current scanning position. Then ForceGraph calculate spring forces for relations, and let APs to move around by pushing and pulling
 each others.
 
-After while, with enough scanned APs and enough different scanning positions, map start to get it's shape
-to show how APs relate to each other, and where user is withing those.
+After while, with enough scanned APs and enough different scanning positions, map start to get its shape
+to show how APs relate to each other, and where user is within those.
 
 Note that ForceGraph cannot separate left and right, or which direction is forward.
 When compared to real world, map can be mirrored and pointing to different direction on screen.
