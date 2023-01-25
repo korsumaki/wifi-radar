@@ -40,6 +40,10 @@ Build release apk file
 
     ./gradlew clean test assembleRelease
 
+Or Build bundle files
+
+    ./gradlew clean test bundle
+
 
 
 ## TODO list
