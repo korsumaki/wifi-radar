@@ -14,6 +14,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.ExperimentalTextApi
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.korsumaki.wifiradar.BuildConfig.APPLICATION_ID
 import com.korsumaki.wifiradar.ui.theme.WifiRadarTheme
@@ -90,6 +91,7 @@ class MainActivity : ComponentActivity() {
     }
 
     @ExperimentalMaterial3Api
+    @ExperimentalTextApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {

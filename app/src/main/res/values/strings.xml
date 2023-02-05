@@ -19,4 +19,6 @@
     <string name="menu_privacy_notice">Privacy Notice</string>
     <string name="menu_version">Version %1$s</string>
 
+    <string name="empty_screen_note">It is empty here… Graph will be drawn when we find some Wifi Access Points!</string>
+
 </resources>

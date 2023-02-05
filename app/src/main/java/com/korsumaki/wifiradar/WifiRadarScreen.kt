@@ -17,9 +17,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.ExperimentalTextApi
+import androidx.compose.ui.text.drawText
+import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.android.material.color.MaterialColors
+import com.korsumaki.wifiradar.ui.theme.Typography
 import kotlinx.coroutines.launch
 
 
@@ -58,9 +62,12 @@ fun WifiRadarTopBar(zoomIn: () -> Unit, zoomOut: () -> Unit, clearMap: () -> Uni
 
 @Suppress("UNUSED_PARAMETER") // iterationCount
 @ExperimentalMaterial3Api
+@ExperimentalTextApi
 @Composable
 fun WifiRadarContent(forceGraph: ForceGraph, scaleFactor: Float, iterationCount: Int) {
     // NOTE iterationCount is required in parameter to get Compose updated.
+    val textMeasurer = rememberTextMeasurer()
+    val emptyScreenNote = stringResource(id = R.string.empty_screen_note)
 
     val wifiColor = Color.Red
     val bluetoothColor = Color.Cyan
@@ -104,6 +111,16 @@ fun WifiRadarContent(forceGraph: ForceGraph, scaleFactor: Float, iterationCount:
                         strokeWidth = 5f
                     )
                 }
+            }
+
+            // If nodeList is empty, show note to describe why screen is empty.
+            if (forceGraph.nodeList.isEmpty()) {
+                drawText(
+                    textMeasurer = textMeasurer,
+                    text = emptyScreenNote,
+                    style = Typography.titleLarge,
+                    topLeft = Offset(centerX/5, centerY/2)
+                )
             }
 
             for (node in forceGraph.nodeList) {
@@ -169,6 +186,7 @@ fun WifiRadarContent(forceGraph: ForceGraph, scaleFactor: Float, iterationCount:
 }
 
 @ExperimentalMaterial3Api
+@ExperimentalTextApi
 @Composable
 fun WifiRadarScaffold(wifiRadarViewModel: WifiRadarViewModel, onMenuClick: () -> Unit) {
     var scaleFactor: Float by rememberSaveable { mutableStateOf(3.0f) }
@@ -218,6 +236,7 @@ fun DrawerContent(onOpenSourceLicences: () -> Unit, onPrivacyNotice: () -> Unit)
 
 
 @ExperimentalMaterial3Api
+@ExperimentalTextApi
 @Composable
 fun WifiRadarModalNavigationDrawer(wifiRadarViewModel: WifiRadarViewModel = WifiRadarViewModel(), drawerContent: @Composable ColumnScope.() -> Unit) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
@@ -281,6 +300,7 @@ fun WifiRadarContentPreview() {
 
 @Preview(showBackground = true, uiMode = UI_MODE_NIGHT_NO)
 @ExperimentalMaterial3Api
+@ExperimentalTextApi
 @Composable
 fun WifiRadarScaffoldPreview() {
     WifiRadarScaffold(wifiRadarViewModel = WifiRadarViewModel(), onMenuClick = {})
@@ -299,6 +319,7 @@ fun DrawerContentPreview() {
 
 @Preview(showBackground = true, uiMode = UI_MODE_NIGHT_NO)
 @ExperimentalMaterial3Api
+@ExperimentalTextApi
 @Composable
 fun WifiRadarModalNavigationDrawerPreview() {
     WifiRadarModalNavigationDrawer(
