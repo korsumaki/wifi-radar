@@ -5,6 +5,7 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.text.ExperimentalTextApi
 import com.korsumaki.wifiradar.ui.theme.WifiRadarTheme
 
 import org.junit.Test
@@ -23,15 +24,18 @@ class WifiRadarScaffoldTest {
     val composeTestRule = createComposeRule()
 
     @ExperimentalMaterial3Api
+    @ExperimentalTextApi
     @Test
     fun test_WifiRadarScaffold() {
         composeTestRule.setContent {
             WifiRadarTheme {
-                WifiRadarScaffold(wifiRadarViewModel = WifiRadarViewModel())
+                WifiRadarScaffold(wifiRadarViewModel = WifiRadarViewModel(), onMenuClick = {})
             }
         }
         composeTestRule.onNodeWithContentDescription("Zoom in").assertIsDisplayed().performClick()
         composeTestRule.onNodeWithContentDescription("Zoom out").assertIsDisplayed().performClick()
         composeTestRule.onNodeWithContentDescription("Clear screen").assertIsDisplayed().performClick()
+
+        composeTestRule.onNodeWithContentDescription("Menu").assertIsDisplayed().performClick()
     }
 }
