@@ -69,25 +69,36 @@ class MainActivity : ComponentActivity() {
     //"ScanList-test2.txt"
     //"ScanList55.txt"
     private var scanListFileName = "ScanList0.txt"
-    private var writeScanListToFile = false
+    private var enableWriteScanListToFile = false
     private val readScanListFromFile = false
 
     private fun onScanTimer() {
         println("MainActivity: onScanTimer()")
-        if (readScanListFromFile && !writeScanListToFile) {
-            val scanListFromFile = readScanListFromFile(this.filesDir, scanListFileName).toMutableList()
+        /*if (readScanListFromFile && !enableWriteScanListToFile) {
+            val inputStream = resources.openRawResource(R.raw.scanlist_demo_logo)
+            val scanListFromFile = readScanListFromInputStream(inputStream).toMutableList()
+            //val scanListFromFile = readScanListFromFile(this.filesDir, scanListFileName).toMutableList()
             wifiRadarViewModel.onScanSuccess(scanListFromFile)
             return // Just return, no need to scan when data is read from file
-        }
+        }*/
 
         scanner.scan { isSuccess ->
             if (isSuccess) {
-                if (writeScanListToFile) {
+                if (enableWriteScanListToFile) {
                     writeScanListToFile(this.filesDir, scanListFileName, scanList)
                 }
                 wifiRadarViewModel.onScanSuccess(scanList)
             }
         }
+    }
+
+    private fun onDemoModeScanTimer() {
+        println("MainActivity: onDemoModeScanTimer()")
+
+        // TODO separate open/read to own function
+        val inputStream = resources.openRawResource(R.raw.scanlist_demo_mode)
+        val scanListFromFile = readScanListFromInputStream(inputStream).toMutableList()
+        wifiRadarViewModel.onScanSuccess(scanListFromFile)
     }
 
     @ExperimentalMaterial3Api
@@ -106,7 +117,9 @@ class MainActivity : ComponentActivity() {
                         drawerContent = {
                             DrawerContent(
                                 onOpenSourceLicences = { onLicenseTextView() },
-                                onPrivacyNotice = { onPrivacyNoticeView() }
+                                onPrivacyNotice = { onPrivacyNoticeView() },
+                                isDemoModeEnabled = wifiRadarViewModel.isDemoModeEnabled,
+                                onDemoModeChanged = { onDemoModeChanged() }
                             )
                         }
                     )
@@ -166,6 +179,17 @@ class MainActivity : ComponentActivity() {
         startActivity(openURL)
     }
 
+    private fun onDemoModeChanged() {
+        wifiRadarViewModel.isDemoModeEnabled = !wifiRadarViewModel.isDemoModeEnabled
+
+        // Clear screen
+        wifiRadarViewModel.clearMap()
+
+        // Stop and start timer again, with new period
+        stopScanTimer()
+        startScanTimer()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         scanner.close()
@@ -194,15 +218,36 @@ class MainActivity : ComponentActivity() {
             wifiRadarViewModel.forceGraph.iterateRelations()
             wifiRadarViewModel.onForceGraphUpdate()
         }
-        scanTimer = timer(name = "ScanTimer", period = 10*1000) {
-            onScanTimer()
-        }
+        startScanTimer()
     }
 
     private fun stopTimers() {
         if (this::iterationTimer.isInitialized) {
             iterationTimer.cancel()
         }
+        stopScanTimer()
+    }
+
+    /**
+     * Start Scan timer
+     *
+     * This function takes care of checking whether we are in demo mode.
+     * In demo mode timer period is shorter and timer callback is different.
+     */
+    private fun startScanTimer() {
+        if (wifiRadarViewModel.isDemoModeEnabled) {
+            scanTimer = timer(name = "DemoScanTimer", period = 2 * 1000) {
+                onDemoModeScanTimer()
+            }
+        }
+        else {
+            scanTimer = timer(name = "ScanTimer", period = 10 * 1000) {
+                onScanTimer()
+            }
+        }
+    }
+
+    private fun stopScanTimer() {
         if (this::scanTimer.isInitialized) {
             scanTimer.cancel()
         }

@@ -4,9 +4,7 @@ import android.content.res.Configuration.UI_MODE_NIGHT_NO
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ArrowBack
-import androidx.compose.material.icons.outlined.Delete
-import androidx.compose.material.icons.outlined.Menu
+import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.runtime.*
@@ -212,20 +210,26 @@ fun WifiRadarScaffold(wifiRadarViewModel: WifiRadarViewModel, onMenuClick: () ->
 
 @ExperimentalMaterial3Api
 @Composable
-fun DrawerContent(onOpenSourceLicences: () -> Unit, onPrivacyNotice: () -> Unit) {
+fun DrawerContent(onOpenSourceLicences: () -> Unit, onPrivacyNotice: () -> Unit, isDemoModeEnabled: Boolean, onDemoModeChanged: () -> Unit) {
+    DropdownMenuItem(
+        text = { Text(stringResource(id = R.string.menu_demo_mode)) },
+        onClick = { onDemoModeChanged() },
+        trailingIcon = {
+            if (isDemoModeEnabled) {
+                Icon(
+                    Icons.Outlined.Check,
+                    stringResource(id = R.string.demo_mode_enabled_content_description)
+                )
+            }
+        }
+    )
     DropdownMenuItem(
         text = { Text(stringResource(id = R.string.menu_open_source_licenses)) },
         onClick = { onOpenSourceLicences() },
-        /*leadingIcon = {
-            Icon(
-                Icons.Outlined.Edit,
-                contentDescription = null
-            )
-        }*/)
+    )
     DropdownMenuItem(
-        text = { Text(stringResource(id = R.string.menu_privacy_notice)) }, //icon: policy
+        text = { Text(stringResource(id = R.string.menu_privacy_notice)) },
         onClick = { onPrivacyNotice() },
-        //leadingIcon = {}
     )
     DropdownMenuItem(
         text = { Text(stringResource(id = R.string.menu_version, BuildConfig.VERSION_NAME)) },
@@ -311,8 +315,10 @@ fun WifiRadarScaffoldPreview() {
 @ExperimentalMaterial3Api
 @Composable
 fun DrawerContentPreview() {
+    var demoMode: Boolean by rememberSaveable { mutableStateOf(false) }
+
     Column {
-        DrawerContent({}, {})
+        DrawerContent({}, {}, isDemoModeEnabled = demoMode, onDemoModeChanged = { demoMode = !demoMode })
     }
 }
 
@@ -324,7 +330,7 @@ fun DrawerContentPreview() {
 fun WifiRadarModalNavigationDrawerPreview() {
     WifiRadarModalNavigationDrawer(
         drawerContent = {
-            DrawerContent({}, {})
+            DrawerContent({}, {}, isDemoModeEnabled = true, {})
         }
     )
 }

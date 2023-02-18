@@ -17,6 +17,7 @@ class WifiRadarViewModel : ViewModel() {
     var iterationCounter by mutableStateOf(0)
         private set
     private var currentLocationNodeNumber by mutableStateOf(0)
+    var isDemoModeEnabled by mutableStateOf(false)
 
 
     fun onScanSuccess(scanList: MutableList<WifiAp>) {
