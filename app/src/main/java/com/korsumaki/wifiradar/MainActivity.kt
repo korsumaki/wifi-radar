@@ -38,6 +38,9 @@ class MainActivity : ComponentActivity() {
                 // Permission is granted. Continue the action or workflow in your app.
             } else {
                 println("Permission denied")
+                // Enable demo mode
+                wifiRadarViewModel.isDemoModeEnabled = true
+                startTimers()
                 // Explain to the user that the feature is unavailable because the
                 // features requires a permission that the user has denied. At the
                 // same time, respect the user's decision. Don't link to system
@@ -57,6 +60,9 @@ class MainActivity : ComponentActivity() {
                     // Permission is granted. Continue the action or workflow in your app.
                 } else {
                     println("$permission Permission denied")
+                    // Enable demo mode
+                    wifiRadarViewModel.isDemoModeEnabled = true
+                    startTimers()
                     // Explain to the user that the feature is unavailable because the
                     // features requires a permission that the user has denied. At the
                     // same time, respect the user's decision. Don't link to system
@@ -66,11 +72,8 @@ class MainActivity : ComponentActivity() {
             }
         }
 
-    //"ScanList-test2.txt"
-    //"ScanList55.txt"
     private var scanListFileName = "ScanList0.txt"
     private var enableWriteScanListToFile = false
-    private val readScanListFromFile = false
 
     private fun onScanTimer() {
         println("MainActivity: onScanTimer()")
@@ -141,7 +144,11 @@ class MainActivity : ComponentActivity() {
                     .putBoolean(isNoteAgreedKey, true)
                     .apply()
             }
-            false -> { } // TODO add visible note to screen
+            false -> {
+                // Enable demo mode
+                wifiRadarViewModel.isDemoModeEnabled = true
+                startTimers()
+            }
         }
     }
 
