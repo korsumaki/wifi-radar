@@ -1,10 +1,8 @@
 package com.korsumaki.wifiradar
 
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.onNodeWithContentDescription
-import androidx.compose.ui.test.performClick
 import androidx.compose.ui.text.ExperimentalTextApi
 import com.korsumaki.wifiradar.ui.theme.WifiRadarTheme
 
@@ -27,9 +25,10 @@ class WifiRadarScaffoldTest {
     @ExperimentalTextApi
     @Test
     fun test_WifiRadarScaffold() {
+        var clickDetected = false
         composeTestRule.setContent {
             WifiRadarTheme {
-                WifiRadarScaffold(wifiRadarViewModel = WifiRadarViewModel(), onMenuClick = {})
+                WifiRadarScaffold(wifiRadarViewModel = WifiRadarViewModel(), onMenuClick = { clickDetected = true })
             }
         }
         composeTestRule.onNodeWithContentDescription("Zoom in").assertIsDisplayed().performClick()
@@ -37,5 +36,6 @@ class WifiRadarScaffoldTest {
         composeTestRule.onNodeWithContentDescription("Clear screen").assertIsDisplayed().performClick()
 
         composeTestRule.onNodeWithContentDescription("Menu").assertIsDisplayed().performClick()
+        composeTestRule.waitUntil(1000) { clickDetected }
     }
 }

@@ -74,13 +74,6 @@ class MainActivity : ComponentActivity() {
 
     private fun onScanTimer() {
         println("MainActivity: onScanTimer()")
-        /*if (readScanListFromFile && !enableWriteScanListToFile) {
-            val inputStream = resources.openRawResource(R.raw.scanlist_demo_logo)
-            val scanListFromFile = readScanListFromInputStream(inputStream).toMutableList()
-            //val scanListFromFile = readScanListFromFile(this.filesDir, scanListFileName).toMutableList()
-            wifiRadarViewModel.onScanSuccess(scanListFromFile)
-            return // Just return, no need to scan when data is read from file
-        }*/
 
         scanner.scan { isSuccess ->
             if (isSuccess) {
