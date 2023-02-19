@@ -62,10 +62,11 @@ fun WifiRadarTopBar(zoomIn: () -> Unit, zoomOut: () -> Unit, clearMap: () -> Uni
 @ExperimentalMaterial3Api
 @ExperimentalTextApi
 @Composable
-fun WifiRadarContent(forceGraph: ForceGraph, scaleFactor: Float, iterationCount: Int) {
+fun WifiRadarContent(forceGraph: ForceGraph, scaleFactor: Float, iterationCount: Int, demoMode: Boolean) {
     // NOTE iterationCount is required in parameter to get Compose updated.
     val textMeasurer = rememberTextMeasurer()
     val emptyScreenNote = stringResource(id = R.string.empty_screen_note)
+    val demoModeText = stringResource(id = R.string.menu_demo_mode)
 
     val wifiColor = Color.Red
     val bluetoothColor = Color.Cyan
@@ -93,6 +94,15 @@ fun WifiRadarContent(forceGraph: ForceGraph, scaleFactor: Float, iterationCount:
         val canvasHeight = size.height
         val centerX = canvasWidth/2
         val centerY = canvasHeight/2
+
+        if (demoMode) {
+            drawText(
+                textMeasurer = textMeasurer,
+                text = demoModeText,
+                style = Typography.titleLarge,
+                topLeft = Offset(10f, 10f)
+            )
+        }
 
         synchronized(forceGraph) {
             // Prevent modification of ForceGraph during drawing (due iteration or new scan results)
@@ -203,7 +213,9 @@ fun WifiRadarScaffold(wifiRadarViewModel: WifiRadarViewModel, onMenuClick: () ->
             WifiRadarContent(
                 forceGraph = wifiRadarViewModel.forceGraph,
                 scaleFactor = scaleFactor,
-                iterationCount = wifiRadarViewModel.iterationCounter)
+                iterationCount = wifiRadarViewModel.iterationCounter,
+                demoMode = wifiRadarViewModel.isDemoModeEnabled
+            )
         }
     }
 }
