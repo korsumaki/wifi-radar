@@ -1,8 +1,8 @@
 # Wifi Radar
 
-## Brief
-
 ![Demo Mode](images/DemoModeScreenshot-400.png)
+
+## Brief
 
 Wifi Radar is (experimental) application to scan WiFi access points and create map about those.
 
