@@ -4,6 +4,9 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.io.File
+import java.io.InputStream
+import java.nio.charset.Charset
+import java.util.regex.Pattern
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
@@ -115,4 +118,39 @@ fun readScanListFromFile(path: File, filename: String): List<WifiAp> {
     val scanList = Json.decodeFromString<ArrayList<WifiAp>>(oneScanList)
     scanResultCount++
     return scanList
+}
+
+/*
+* TODO
+*  - separate file/res reading from ScanList creation
+*/
+
+fun readScanListFromInputStream(inputStream: InputStream): List<WifiAp> {
+    if (scanResultCount == 0) {
+        val byteArray = inputStream.readBytes()
+        val string = byteArray.toString(Charset.defaultCharset())
+        inputStream.close()
+        // Split string to List of Strings
+        scanListStringList = string.split(regex = Pattern.compile("\n"))
+
+        println("readScanListFromFile(): size=${scanListStringList.size}")
+    }
+
+    if (scanListStringList.isEmpty()) {
+        println("readScanListFromFile(): Empty list")
+        return emptyList()
+    }
+
+    if (scanResultCount >= scanListStringList.size) {
+        scanResultCount = 0
+    }
+    println("readScanListFromFile() scan ${scanResultCount+1} / ${scanListStringList.size}")
+    val oneScanList = scanListStringList[scanResultCount]
+    scanResultCount++
+
+    // Skip decoding if line is empty
+    if (oneScanList.isNotEmpty()) {
+        return Json.decodeFromString<ArrayList<WifiAp>>(oneScanList)
+    }
+    return emptyList()
 }

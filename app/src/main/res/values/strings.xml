@@ -7,6 +7,7 @@
     <string name="clear_screen_content_description">Clear screen</string>
     <string name="menu_content_description">Menu</string>
     <string name="back_content_description">Back</string>
+    <string name="demo_mode_enabled_content_description">Demo Mode is enabled</string>
 
     //
     <string name="privacy_policy_web_link">https://korsumaki.github.io/wifi-radar/PRIVACY.html</string>
@@ -15,6 +16,7 @@
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
 
+    <string name="menu_demo_mode">Demo Mode</string>
     <string name="menu_open_source_licenses">Open Source Licenses</string>
     <string name="menu_privacy_notice">Privacy Notice</string>
     <string name="menu_version">Version %1$s</string>
