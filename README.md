@@ -4,6 +4,8 @@
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/korsumaki/wifi-radar)
 ![GitHub last commit](https://img.shields.io/github/last-commit/korsumaki/wifi-radar)
 
+![Demo Mode](docs/images/DemoModeScreenshot-400.png)
+
 Wifi Radar is (experimental) application to scan WiFi access points and create map about those.
 
 Other purpose for this application is to learn more Kotlin, Jetpack Compose and Android application development.

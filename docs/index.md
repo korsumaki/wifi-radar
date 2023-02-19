@@ -2,6 +2,8 @@
 
 ## Brief
 
+![Demo Mode](images/DemoModeScreenshot-400.png)
+
 Wifi Radar is (experimental) application to scan WiFi access points and create map about those.
 
 Secondary purpose for this application is to learn more Kotlin, Jetpack Compose and Android application development.
