@@ -15,6 +15,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'org.jetbrains.kotlin.plugin.serialization'
+    id 'kotlinx-serialization'
     id 'com.google.android.gms.oss-licenses-plugin'
 
     // Comment out following two lines if building without Crashlytics

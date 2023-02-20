@@ -1,10 +1,12 @@
 package com.korsumaki.wifiradar
 
+import androidx.annotation.Keep
 import kotlin.math.abs
 import kotlin.math.log10
 import kotlin.math.pow
 import kotlinx.serialization.Serializable
 
+@Keep
 @Serializable
 data class WifiAp(val mac: String = "") {
     var name = ""
