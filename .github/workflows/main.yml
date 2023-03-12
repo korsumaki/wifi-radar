@@ -22,11 +22,11 @@ jobs:
       - name: Testing
         run: echo 'Testing job'
 
-      #- name: Checkout the code to specific branch
-      #  uses: actions/checkout@v2
-      #  with:
-      #    ref: ${{ github.event.inputs.branch }}
-            
+      - name: Checkout the code to specific branch
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.inputs.branch }}
+
       #- name: Set up JDK
       #  uses: actions/setup-java@v2
       #  with:
