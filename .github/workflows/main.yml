@@ -32,8 +32,8 @@ jobs:
           fileDir: './keystore/'
           encodedString: ${{ secrets.SIGNING_KEY }}
 
-      - run: echo plainVariable=${{ vars.PLAIN_VARIABLE }} > ./testing.properties
-      - run: echo plainVariable2=${{ vars.PLAIN_VARIABLE }} > ./testing.properties
+      - run: echo plainVariable=${{ vars.PLAIN_VARIABLE }} >> ./testing.properties
+      - run: echo plainVariable2=${{ vars.PLAIN_VARIABLE }} >> ./testing.properties
       - run: cat ./testing.properties
       
       #- name: Testing files
@@ -52,9 +52,9 @@ jobs:
           #STORE_FILE: ${{ steps.write_file.outputs.filePath }}
         run:
           echo storePassword=$KEY_STORE_PASSWORD > ./keystore.properties
-          echo keyPassword=$KEY_PASSWORD > ./keystore.properties
-          echo keyAlias=$ALIAS > ./keystore.properties
-          echo storeFile=keystore/upload-keystore.jks > ./keystore.properties
+          echo keyPassword=$KEY_PASSWORD >> ./keystore.properties
+          echo keyAlias=$ALIAS >> ./keystore.properties
+          echo storeFile=keystore/upload-keystore.jks >> ./keystore.properties
           #echo storeFile=$STORE_FILE > ./keystore.properties
 
       - name: Set up JDK
