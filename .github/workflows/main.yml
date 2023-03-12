@@ -32,6 +32,13 @@ jobs:
           fileDir: './keystore/'
           encodedString: ${{ secrets.SIGNING_KEY }}
 
+      - name: Testing files
+        env:
+          PLAIN_VARIABLE: ${{ vars.PLAIN_VARIABLE }}
+        run:
+          echo plainVariable=$PLAIN_VARIABLE > ./testing.properties
+          cat ./testing.properties
+
       - name: Preparing files
         env:
           KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
