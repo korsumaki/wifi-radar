@@ -57,7 +57,7 @@ jobs:
           echo -e "storePassword=$KEY_STORE_PASSWORD\n
           echo keyPassword=$KEY_PASSWORD\n
           echo keyAlias=$ALIAS\n
-          echo storeFile=$STORE_FILE > ./keystore.properties
+          echo storeFile=$STORE_FILE" > ./keystore.properties
           #echo storeFile=keystore/upload-keystore.jks >> ./keystore.properties
 
       - name: Set up JDK
