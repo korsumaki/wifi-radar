@@ -29,6 +29,7 @@ jobs:
         uses: timheuer/base64-to-file@v1.2
         with:
           fileName: 'upload-keystore.jks'
+          fileDir: './keystore/'
           encodedString: ${{ secrets.SIGNING_KEY }}
 
       - name: Preparing files
