@@ -45,8 +45,17 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
-      - name: Generate app bundle
-        run: ./gradlew app:bundleRelease --stacktrace
+      - name: Unit tests
+        run: bash ./gradlew test --stacktrace
+
+      # Decode Google services configuration file
+      #- name: Decode google-services.json
+      #  env:
+      #    FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
+      #  run: echo $FIREBASE_CONFIG > app/google-services.json
+
+      #- name: Generate app bundle
+      #  run: ./gradlew app:bundleRelease --stacktrace
 
       #- name: Sign app bundle
       #  run: |
