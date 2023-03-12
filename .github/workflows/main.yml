@@ -24,10 +24,24 @@ jobs:
         with:
           ref: ${{ github.event.inputs.branch }}
           
-      - name: Trying files
+      - name: Prepare Keystore
+        id: write_file
+        uses: timheuer/base64-to-file@v1.2
+        with:
+          fileName: 'upload-keystore.jks'
+          encodedString: ${{ secrets.SIGNING_KEY }}
+
+      - name: Preparing files
         env:
+          KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
           ALIAS: ${{ secrets.ALIAS }}
-        run: echo keyAlias=$ALIAS > ./testfile.properties
+          STORE_FILE: ${{ steps.write_file.outputs.filePath }}
+        run:
+          echo storePassword=$KEY_STORE_PASSWORD > ./keystore.properties
+          echo keyPassword=$KEY_PASSWORD > ./keystore.properties
+          echo keyAlias=$ALIAS > ./keystore.properties
+          echo storeFile=$STORE_FILE > ./keystore.properties
 
       - name: Set up JDK
         uses: actions/setup-java@v3
