@@ -37,7 +37,8 @@ jobs:
           KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
           ALIAS: ${{ secrets.ALIAS }}
-          STORE_FILE: ${{ steps.write_file.outputs.filePath }}
+          STORE_FILE: 'keystore/upload-keystore.jks'
+          #STORE_FILE: ${{ steps.write_file.outputs.filePath }}
         run:
           echo storePassword=$KEY_STORE_PASSWORD > ./keystore.properties
           echo keyPassword=$KEY_PASSWORD > ./keystore.properties
