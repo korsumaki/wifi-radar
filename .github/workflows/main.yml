@@ -29,7 +29,7 @@ jobs:
         uses: timheuer/base64-to-file@v1.2
         with:
           fileName: 'keystore.jks'
-          fileDir: './keystore/'
+          fileDir: './'
           encodedString: ${{ secrets.SIGNING_KEY }}
 
       #- run: echo plainVariable=${{ vars.PLAIN_VARIABLE }} >> ./testing.properties
@@ -51,8 +51,8 @@ jobs:
           KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
           ALIAS: ${{ secrets.ALIAS }}
-          STORE_FILE: 'keystore/keystore.jks'
-          #STORE_FILE: ${{ steps.write_file.outputs.filePath }}
+          #STORE_FILE: 'keystore.jks'
+          STORE_FILE: ${{ steps.write_file.outputs.filePath }}
         run:
           echo -e "storePassword=$KEY_STORE_PASSWORD\n
           echo keyPassword=$KEY_PASSWORD\n
