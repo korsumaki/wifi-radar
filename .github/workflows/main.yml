@@ -35,8 +35,8 @@ jobs:
       - run: echo plainVariable=${{ vars.PLAIN_VARIABLE }} >> ./testing.properties
       - run: echo plainVariable2=${{ vars.PLAIN_VARIABLE }} >> ./testing.properties
       - run:
-          echo plainVariable3=${{ vars.PLAIN_VARIABLE }} \n \
-              plainVariable4=${{ vars.PLAIN_VARIABLE }} >> ./testing.properties
+          echo "plainVariable3=${{ vars.PLAIN_VARIABLE }}
+          plainVariable3=${{ vars.PLAIN_VARIABLE }}" >> ./testing.properties
       - run: cat ./testing.properties
       
       #- name: Testing files
