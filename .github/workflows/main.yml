@@ -28,7 +28,7 @@ jobs:
         id: write_file
         uses: timheuer/base64-to-file@v1.2
         with:
-          fileName: 'upload-keystore.jks'
+          fileName: 'keystore.jks'
           fileDir: './keystore/'
           encodedString: ${{ secrets.SIGNING_KEY }}
 
@@ -51,14 +51,14 @@ jobs:
           KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
           ALIAS: ${{ secrets.ALIAS }}
-          STORE_FILE: 'keystore/upload-keystore.jks'
+          STORE_FILE: 'keystore/keystore.jks'
           #STORE_FILE: ${{ steps.write_file.outputs.filePath }}
         run:
           echo -e "storePassword=$KEY_STORE_PASSWORD\n
           echo keyPassword=$KEY_PASSWORD\n
           echo keyAlias=$ALIAS\n
           echo storeFile=$STORE_FILE" > ./keystore.properties
-          #echo storeFile=keystore/upload-keystore.jks >> ./keystore.properties
+          #echo storeFile=keystore/keystore.jks >> ./keystore.properties
 
       - name: Set up JDK
         uses: actions/setup-java@v3
