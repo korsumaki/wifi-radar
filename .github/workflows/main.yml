@@ -43,7 +43,8 @@ jobs:
           echo storePassword=$KEY_STORE_PASSWORD > ./keystore.properties
           echo keyPassword=$KEY_PASSWORD > ./keystore.properties
           echo keyAlias=$ALIAS > ./keystore.properties
-          echo storeFile=$STORE_FILE > ./keystore.properties
+          echo storeFile=keystore/upload-keystore.jks > ./keystore.properties
+          #echo storeFile=$STORE_FILE > ./keystore.properties
 
       - name: Set up JDK
         uses: actions/setup-java@v3
