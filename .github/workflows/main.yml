@@ -29,22 +29,8 @@ jobs:
         uses: timheuer/base64-to-file@v1.2
         with:
           fileName: 'keystore.jks'
-          fileDir: './'
+          #fileDir: './'
           encodedString: ${{ secrets.SIGNING_KEY }}
-
-      #- run: echo plainVariable=${{ vars.PLAIN_VARIABLE }} >> ./testing.properties
-      #- run: echo plainVariable2=${{ vars.PLAIN_VARIABLE }} >> ./testing.properties
-      #- run:
-      #    echo -e "plainVariable3=${{ vars.PLAIN_VARIABLE }} \n
-      #    plainVariable4=${{ vars.PLAIN_VARIABLE }}" >> ./testing.properties
-      #- run: cat ./testing.properties
-      
-      #- name: Testing files
-      #  env:
-      #    PLAIN_VARIABLE: ${{ vars.PLAIN_VARIABLE }}
-      #  run:
-      #    echo plainVariable=$PLAIN_VARIABLE > ./testing.properties
-      #    cat ./testing.properties
 
       - name: Preparing keystore file
         env:
@@ -88,19 +74,25 @@ jobs:
       - name: Unit tests
         run: bash ./gradlew test --stacktrace
 
-      # Decode Google services configuration file
-      #- name: Decode google-services.json
-      #  env:
-      #    FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
-      #  run: echo $FIREBASE_CONFIG > app/google-services.json
+      - name: Generate app bundle
+        run: ./gradlew app:bundleRelease --stacktrace
 
-      #- name: Generate app bundle
-      #  run: ./gradlew app:bundleRelease --stacktrace
-
-      #- name: Sign app bundle
-      #  run: |
-      #    jarsigner -keystore app/*.jks \
-      #    -storepass ${{ secrets.KEY_STORE_PASSWORD }} -keypass ${{ secrets.KEY_PASSWORD }} \
-      #    app/build/outputs/bundle/release/app-release.aab ${{ secrets.ALIAS }}
   # Step 2 : Upload the Artifact
+  upload:
+    needs: [ build ]
+    name: Upload the signed artifact
+    runs-on: ubuntu-latest
+    steps:
+      - name: Upload Bundle
+        uses: actions/upload-artifact@v3
+        with:
+          name: signed_app_bundle
+          path: app/build/outputs/bundle/release/*.aab
+
+      - name: Upload Test results
+        uses: actions/upload-artifact@v3
+        with:
+          name: test_reports
+          path: app/build/reports/tests
+
   # Step 3 : Release to playstore
