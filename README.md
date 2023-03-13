@@ -1,6 +1,7 @@
 # Wifi Radar
 
 ![GitHub](https://img.shields.io/github/license/korsumaki/wifi-radar)
+[![Android CI](https://github.com/korsumaki/wifi-radar/actions/workflows/main.yml/badge.svg)](https://github.com/korsumaki/wifi-radar/actions/workflows/main.yml)
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/korsumaki/wifi-radar)
 ![GitHub last commit](https://img.shields.io/github/last-commit/korsumaki/wifi-radar)
 
