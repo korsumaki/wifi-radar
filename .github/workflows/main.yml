@@ -23,7 +23,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           ref: ${{ github.event.inputs.branch }}
-          
+
       - name: Prepare Keystore
         id: write_file
         uses: timheuer/base64-to-file@v1.2
@@ -46,20 +46,23 @@ jobs:
       #    echo plainVariable=$PLAIN_VARIABLE > ./testing.properties
       #    cat ./testing.properties
 
-      - name: Preparing files
+      - name: Preparing keystore file
         env:
           KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
           ALIAS: ${{ secrets.ALIAS }}
-          #STORE_FILE: 'keystore.jks'
           STORE_FILE: ${{ steps.write_file.outputs.filePath }}
         run:
           echo -e "storePassword=$KEY_STORE_PASSWORD\n
           keyPassword=$KEY_PASSWORD\n
           keyAlias=$ALIAS\n
-          storeFile=./keystore.properties" > ./keystore.properties
-          #echo storeFile=../$STORE_FILE" > ./keystore.properties
+          storeFile=$STORE_FILE" > ./keystore.properties
           #echo storeFile=keystore/keystore.jks >> ./keystore.properties
+
+      - name: Decode google-services.json
+        env:
+          FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
+        run: echo $FIREBASE_CONFIG > app/google-services.json
 
       - name: Set up JDK
         uses: actions/setup-java@v3
