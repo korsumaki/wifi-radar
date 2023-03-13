@@ -98,7 +98,7 @@ jobs:
         if: success() || failure()    # run this step even if previous step failed
         with:
           name: Unit Tests
-          path: app/build/reports/test-results/**/*.xml    # Path to test results
+          path: app/build/test-results/**/*.xml    # Path to test results
           reporter: java-junit        # Format of test results
 
   # Step 2 : Upload the Artifact
