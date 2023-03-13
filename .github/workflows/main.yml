@@ -1,4 +1,4 @@
-name: Android Build and Deployment Pipeline
+name: Build
 
 on:
   pull_request:
@@ -76,11 +76,16 @@ jobs:
       - name: Generate app bundle
         run: ./gradlew bundleRelease --stacktrace
 
+      - name: Generate apk
+        run: ./gradlew assembleRelease --stacktrace
+
       - name: Upload Bundle
         uses: actions/upload-artifact@v3
         with:
-          #name: Bundle
-          path: app/build/outputs/bundle/release/*.aab
+          name: Apk and Bundle
+          path:
+            app/build/outputs/bundle/release/*.aab
+            app/build/outputs/apk/release/*.apk
 
       - name: Upload Test results
         uses: actions/upload-artifact@v3
