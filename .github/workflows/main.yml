@@ -55,9 +55,9 @@ jobs:
           STORE_FILE: ${{ steps.write_file.outputs.filePath }}
         run:
           echo -e "storePassword=$KEY_STORE_PASSWORD\n
-          echo keyPassword=$KEY_PASSWORD\n
-          echo keyAlias=$ALIAS\n
-          echo storeFile=./keystore.properties" > ./keystore.properties
+          keyPassword=$KEY_PASSWORD\n
+          keyAlias=$ALIAS\n
+          storeFile=./keystore.properties" > ./keystore.properties
           #echo storeFile=../$STORE_FILE" > ./keystore.properties
           #echo storeFile=keystore/keystore.jks >> ./keystore.properties
 
