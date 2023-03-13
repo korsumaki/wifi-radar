@@ -29,21 +29,19 @@ jobs:
         uses: timheuer/base64-to-file@v1.2
         with:
           fileName: 'keystore.jks'
-          #fileDir: './'
           encodedString: ${{ secrets.SIGNING_KEY }}
 
       - name: Preparing keystore file
         env:
           KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-          ALIAS: ${{ secrets.ALIAS }}
+          ALIAS: ${{ vars.ALIAS }}
           STORE_FILE: ${{ steps.write_file.outputs.filePath }}
         run:
           echo -e "storePassword=$KEY_STORE_PASSWORD\n
           keyPassword=$KEY_PASSWORD\n
           keyAlias=$ALIAS\n
           storeFile=$STORE_FILE" > ./keystore.properties
-          #echo storeFile=keystore/keystore.jks >> ./keystore.properties
 
       - name: Decode google-services.json
         env:
@@ -73,22 +71,18 @@ jobs:
 
       - name: Unit tests
         run: ./gradlew test --stacktrace
-        #run: bash ./gradlew test --stacktrace
 
       - name: Generate app bundle
         run: ./gradlew bundleRelease --stacktrace
-        #run: ./gradlew app:bundleRelease --stacktrace
 
       - name: Upload Bundle
         uses: actions/upload-artifact@v3
         with:
-          name: signed_app_bundle
           path: app/build/outputs/bundle/release/*.aab
 
       - name: Upload Test results
         uses: actions/upload-artifact@v3
         with:
-          name: test_reports
           path: app/build/reports/tests
 
   # Step 2 : Upload the Artifact
