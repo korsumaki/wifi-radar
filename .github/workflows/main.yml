@@ -72,17 +72,13 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Unit tests
-        run: bash ./gradlew test --stacktrace
+        run: ./gradlew test --stacktrace
+        #run: bash ./gradlew test --stacktrace
 
       - name: Generate app bundle
-        run: ./gradlew app:bundleRelease --stacktrace
+        run: ./gradlew bundleRelease --stacktrace
+        #run: ./gradlew app:bundleRelease --stacktrace
 
-  # Step 2 : Upload the Artifact
-  upload:
-    needs: [ build ]
-    name: Upload the signed artifact
-    runs-on: ubuntu-latest
-    steps:
       - name: Upload Bundle
         uses: actions/upload-artifact@v3
         with:
@@ -94,5 +90,23 @@ jobs:
         with:
           name: test_reports
           path: app/build/reports/tests
+
+  # Step 2 : Upload the Artifact
+  #upload:
+  #  needs: [ build ]
+  #  name: Upload the signed artifact
+  #  runs-on: ubuntu-latest
+  #  steps:
+  #    - name: Upload Bundle
+  #      uses: actions/upload-artifact@v3
+  #      with:
+  #        name: signed_app_bundle
+  #        path: app/build/outputs/bundle/release/*.aab
+
+  #    - name: Upload Test results
+  #      uses: actions/upload-artifact@v3
+  #      with:
+  #        name: test_reports
+  #        path: app/build/reports/tests
 
   # Step 3 : Release to playstore
