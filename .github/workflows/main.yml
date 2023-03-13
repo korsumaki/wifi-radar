@@ -1,6 +1,7 @@
 name: Android Build and Deployment Pipeline
 
 on:
+  pull_request:
   push:
     branches:
       - 'main'
@@ -78,11 +79,13 @@ jobs:
       - name: Upload Bundle
         uses: actions/upload-artifact@v3
         with:
+          #name: Bundle
           path: app/build/outputs/bundle/release/*.aab
 
       - name: Upload Test results
         uses: actions/upload-artifact@v3
         with:
+          name: TestResults
           path: app/build/reports/tests
 
   # Step 2 : Upload the Artifact
