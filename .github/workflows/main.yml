@@ -83,7 +83,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: Apk and Bundle
-          path:
+          path: |
             app/build/outputs/bundle/release/*.aab
             app/build/outputs/apk/release/*.apk
 
