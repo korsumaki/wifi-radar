@@ -18,7 +18,8 @@ jobs:
     - name: Find Tag
       id: tagger
       uses: jimschubert/query-tag-action@v2
-      #with:
+      with:
+        abbrev: false
         #include: 'v*'
         #exclude: '*-rc*'
      #   commit-ish: 'HEAD~'
