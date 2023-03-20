@@ -57,8 +57,8 @@ jobs:
 
     # Autobuild attempts to build any compiled languages  (C/C++, C#, Go, or Java).
     # If this step fails, then you should remove it and run the build manually (see below)
-    - name: Autobuild
-      uses: github/codeql-action/autobuild@v2
+    #- name: Autobuild
+    #  uses: github/codeql-action/autobuild@v2
 
     # ℹ️ Command-line programs to run using the OS shell.
     # 📚 See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsrun
@@ -66,6 +66,33 @@ jobs:
     #   If the Autobuild fails above, remove it and uncomment the following three lines.
     #   modify them (or add more) to build your code if your project, please refer to the EXAMPLE below for guidance.
 
+    - name: Prepare Keystore
+      id: write_file
+      uses: timheuer/base64-to-file@v1.2
+      with:
+        fileName: 'keystore.jks'
+        encodedString: ${{ secrets.SIGNING_KEY }}
+
+    - name: Preparing keystore file
+      env:
+        KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
+        KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        ALIAS: ${{ vars.ALIAS }}
+        STORE_FILE: ${{ steps.write_file.outputs.filePath }}
+      run:
+        echo -e "storePassword=$KEY_STORE_PASSWORD\n
+        keyPassword=$KEY_PASSWORD\n
+        keyAlias=$ALIAS\n
+        storeFile=$STORE_FILE" > ./keystore.properties
+
+    - name: Decode google-services.json
+      env:
+        FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
+      run: echo $FIREBASE_CONFIG > app/google-services.json
+
+    - name: Build
+      run: ./gradlew build --stacktrace
+        
     # - run: |
     #     echo "Run, Build Application using script"
     #     ./location_of_script_within_repo/buildscript.sh
