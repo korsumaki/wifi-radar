@@ -32,9 +32,12 @@ def getVersionCode = { ->
         }
         return Integer.parseInt(stdout.toString().trim())
     }
-    catch (ignored) {
-        // TODO Return 1 and print some note about error with git repo?
-        return -1
+    catch (ex) {
+        // Print note about error with git repo and return 1.
+        println("Error from git: $ex")
+        println("Possible reason is that this is CI build from specific branch, and build does not know 'main'.")
+        println("For that reason versionCode is not valid, but we use just 1.")
+        return 1
     }
 }
 
