@@ -10,5 +10,5 @@ plugins {
     id 'org.jetbrains.kotlin.plugin.serialization' version '1.8.20' apply false
     id 'com.google.android.gms.oss-licenses-plugin' version '0.10.6' apply false // This required workaround in settings.gradle
     id 'com.google.gms.google-services' version '4.3.15' apply false
-    id 'com.google.firebase.crashlytics' version '2.9.2' apply false
+    id 'com.google.firebase.crashlytics' version '2.9.5' apply false
 }
