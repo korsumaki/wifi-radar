@@ -28,7 +28,7 @@ import kotlinx.coroutines.launch
 /**
  * TopBar for application
  */
-@ExperimentalMaterial3Api
+@ExperimentalMaterial3Api // required by: TopAppBar
 @Composable
 fun WifiRadarTopBar(zoomIn: () -> Unit, zoomOut: () -> Unit, clearMap: () -> Unit, onMenuClick: () -> Unit) {
     TopAppBar(
@@ -59,8 +59,7 @@ fun WifiRadarTopBar(zoomIn: () -> Unit, zoomOut: () -> Unit, clearMap: () -> Uni
 }
 
 @Suppress("UNUSED_PARAMETER") // iterationCount
-@ExperimentalMaterial3Api
-@ExperimentalTextApi
+@ExperimentalTextApi // required by: drawText, textMeasurer
 @Composable
 fun WifiRadarContent(forceGraph: ForceGraph, scaleFactor: Float, iterationCount: Int, demoMode: Boolean) {
     // NOTE iterationCount is required in parameter to get Compose updated.
@@ -193,8 +192,8 @@ fun WifiRadarContent(forceGraph: ForceGraph, scaleFactor: Float, iterationCount:
     }
 }
 
-@ExperimentalMaterial3Api
-@ExperimentalTextApi
+@ExperimentalMaterial3Api // required by: Scaffold, WifiRadarTopBar
+@ExperimentalTextApi // required by: WifiRadarContent
 @Composable
 fun WifiRadarScaffold(wifiRadarViewModel: WifiRadarViewModel, onMenuClick: () -> Unit) {
     var scaleFactor: Float by rememberSaveable { mutableStateOf(3.0f) }
@@ -220,7 +219,6 @@ fun WifiRadarScaffold(wifiRadarViewModel: WifiRadarViewModel, onMenuClick: () ->
     }
 }
 
-@ExperimentalMaterial3Api
 @Composable
 fun DrawerContent(onOpenSourceLicences: () -> Unit, onPrivacyNotice: () -> Unit, isDemoModeEnabled: Boolean, onDemoModeChanged: () -> Unit) {
     DropdownMenuItem(
@@ -251,8 +249,8 @@ fun DrawerContent(onOpenSourceLicences: () -> Unit, onPrivacyNotice: () -> Unit,
 }
 
 
-@ExperimentalMaterial3Api
-@ExperimentalTextApi
+@ExperimentalMaterial3Api // required by: ModalNavigationDrawer, ModalDrawerSheet, WifiRadarScaffold
+@ExperimentalTextApi // required by: WifiRadarScaffold
 @Composable
 fun WifiRadarModalNavigationDrawer(wifiRadarViewModel: WifiRadarViewModel = WifiRadarViewModel(), drawerContent: @Composable ColumnScope.() -> Unit) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
@@ -290,7 +288,7 @@ fun WifiRadarModalNavigationDrawer(wifiRadarViewModel: WifiRadarViewModel = Wifi
 
 
 @Preview(showBackground = true, uiMode = UI_MODE_NIGHT_NO)
-@ExperimentalMaterial3Api
+@ExperimentalMaterial3Api // required by: WifiRadarTopBar
 @Composable
 fun WifiRadarTopBarPreview() {
     WifiRadarTopBar(
@@ -301,22 +299,9 @@ fun WifiRadarTopBarPreview() {
     )
 }
 
-/*
 @Preview(showBackground = true, uiMode = UI_MODE_NIGHT_NO)
-@ExperimentalMaterial3Api
-@Composable
-fun WifiRadarContentPreview() {
-    WifiRadarContent(
-        forceGraph = ForceGraph(),
-        scaleFactor = 3.0f,
-        iterationCount = 0
-    )
-}
-*/
-
-@Preview(showBackground = true, uiMode = UI_MODE_NIGHT_NO)
-@ExperimentalMaterial3Api
-@ExperimentalTextApi
+@ExperimentalMaterial3Api // required by: WifiRadarScaffold
+@ExperimentalTextApi // required by: WifiRadarScaffold
 @Composable
 fun WifiRadarScaffoldPreview() {
     WifiRadarScaffold(wifiRadarViewModel = WifiRadarViewModel(), onMenuClick = {})
@@ -324,7 +309,6 @@ fun WifiRadarScaffoldPreview() {
 
 
 @Preview(showBackground = true, uiMode = UI_MODE_NIGHT_NO)
-@ExperimentalMaterial3Api
 @Composable
 fun DrawerContentPreview() {
     var demoMode: Boolean by rememberSaveable { mutableStateOf(false) }
@@ -336,8 +320,8 @@ fun DrawerContentPreview() {
 
 
 @Preview(showBackground = true, uiMode = UI_MODE_NIGHT_NO)
-@ExperimentalMaterial3Api
-@ExperimentalTextApi
+@ExperimentalMaterial3Api // required by: WifiRadarModalNavigationDrawer
+@ExperimentalTextApi // required by: WifiRadarModalNavigationDrawer
 @Composable
 fun WifiRadarModalNavigationDrawerPreview() {
     WifiRadarModalNavigationDrawer(

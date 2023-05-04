@@ -97,8 +97,8 @@ class MainActivity : ComponentActivity() {
         wifiRadarViewModel.onScanSuccess(scanListFromFile)
     }
 
-    @ExperimentalMaterial3Api
-    @ExperimentalTextApi
+    @ExperimentalMaterial3Api // required by: WifiRadarModalNavigationDrawer
+    @ExperimentalTextApi // required by: WifiRadarModalNavigationDrawer
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
