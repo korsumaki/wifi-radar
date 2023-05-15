@@ -146,7 +146,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.1'
     implementation 'androidx.activity:activity-compose:1.7.1'
 
-    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1'
     implementation 'com.google.android.gms:play-services-oss-licenses:17.0.1'
 
     // Firebase Crashlytics
