@@ -19,6 +19,8 @@ jobs:
   build:
     name: Setup Environment and build
     runs-on: ubuntu-latest
+    permissions:
+      checks: write
     steps:
       - name: Checkout the code to specific branch
         uses: actions/checkout@v3
