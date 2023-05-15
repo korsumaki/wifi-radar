@@ -192,7 +192,7 @@ fun WifiRadarContent(forceGraph: ForceGraph, scaleFactor: Float, iterationCount:
     }
 }
 
-@ExperimentalMaterial3Api // required by: Scaffold, WifiRadarTopBar
+@ExperimentalMaterial3Api // required by: WifiRadarTopBar
 @ExperimentalTextApi // required by: WifiRadarContent
 @Composable
 fun WifiRadarScaffold(wifiRadarViewModel: WifiRadarViewModel, onMenuClick: () -> Unit) {
@@ -249,7 +249,7 @@ fun DrawerContent(onOpenSourceLicences: () -> Unit, onPrivacyNotice: () -> Unit,
 }
 
 
-@ExperimentalMaterial3Api // required by: ModalNavigationDrawer, ModalDrawerSheet, WifiRadarScaffold
+@ExperimentalMaterial3Api // required by: WifiRadarScaffold
 @ExperimentalTextApi // required by: WifiRadarScaffold
 @Composable
 fun WifiRadarModalNavigationDrawer(wifiRadarViewModel: WifiRadarViewModel = WifiRadarViewModel(), drawerContent: @Composable ColumnScope.() -> Unit) {
