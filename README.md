@@ -63,7 +63,6 @@ Here is list of ideas what to do
   - calculation in coroutine?
   - Canvas
     - add automatic centering and scaling (pinch zoom?)
-    - add wifi ap names to screen
   - BT scanning
   - more advanced methods for getting distance
     - https://developer.android.com/guide/topics/connectivity/wifi-rtt

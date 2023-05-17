@@ -131,27 +131,38 @@ fun WifiRadarContent(forceGraph: ForceGraph, scaleFactor: Float, iterationCount:
             }
 
             for (node in forceGraph.nodeList) {
+                val nodeLocation = Offset(
+                    node.coordinate.x*scaleFactor + centerX,
+                    node.coordinate.y*scaleFactor + centerY)
                 when (node.type) {
                     ForceNode.Type.ROUTE ->
                         drawCircle(routeColorHarmonized,
-                            center = Offset(
-                                node.coordinate.x*scaleFactor + centerX,
-                                node.coordinate.y*scaleFactor + centerY),
+                            center = nodeLocation,
                             radius = 15f)
 
-                    ForceNode.Type.WIFI ->
-                        drawCircle(wifiColorHarmonized,
-                            center = Offset(
-                                node.coordinate.x*scaleFactor + centerX,
-                                node.coordinate.y*scaleFactor + centerY),
+                    ForceNode.Type.WIFI -> {
+                        drawCircle(
+                            wifiColorHarmonized,
+                            center = nodeLocation,
                             radius = 20f,
                             alpha = 0.3f)
+                        try {
+                            drawText(
+                                textMeasurer = textMeasurer, //apNameTextMeasurer,
+                                text = node.name,
+                                style = Typography.bodySmall,
+                                topLeft = nodeLocation,
+                                maxLines = 1)
+                        }
+                        catch (_: IllegalArgumentException) {
+                            // Ignore exceptions: "java.lang.IllegalArgumentException: maxWidth(-46) must be >= than minWidth(0)"
+                            // This happens sometimes when trying to draw text outside of the canvas
+                        }
+                    }
 
                     ForceNode.Type.BT ->
                         drawCircle(bluetoothColor,
-                            center = Offset(
-                                node.coordinate.x*scaleFactor + centerX,
-                                node.coordinate.y*scaleFactor + centerY),
+                            center = nodeLocation,
                             radius = 20f,
                             alpha = 0.5f)
                 }
