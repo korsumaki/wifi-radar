@@ -153,5 +153,5 @@ dependencies {
     releaseImplementation platform('com.google.firebase:firebase-bom:32.0.0')
     releaseImplementation 'com.google.firebase:firebase-crashlytics-ktx'
 
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.10'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.11'
 }
