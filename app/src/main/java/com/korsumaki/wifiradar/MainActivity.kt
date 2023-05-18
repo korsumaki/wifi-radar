@@ -79,7 +79,8 @@ class MainActivity : ComponentActivity() {
         println("MainActivity: onScanTimer()")
 
         scanner.scan { isSuccess ->
-            if (isSuccess) {
+            if (isSuccess && !wifiRadarViewModel.isDemoModeEnabled) {
+                // ScanList handling is skipped if DemoMode is enabled
                 if (enableWriteScanListToFile) {
                     writeScanListToFile(this.filesDir, scanListFileName, scanList)
                 }
