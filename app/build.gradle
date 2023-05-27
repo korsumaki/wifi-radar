@@ -144,13 +144,13 @@ dependencies {
     // Others
     implementation 'androidx.core:core-ktx:1.10.1'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.1'
-    implementation 'androidx.activity:activity-compose:1.7.1'
+    implementation 'androidx.activity:activity-compose:1.7.2'
 
     implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1'
     implementation 'com.google.android.gms:play-services-oss-licenses:17.0.1'
 
     // Firebase Crashlytics
-    releaseImplementation platform('com.google.firebase:firebase-bom:32.0.0')
+    releaseImplementation platform('com.google.firebase:firebase-bom:32.1.0')
     releaseImplementation 'com.google.firebase:firebase-crashlytics-ktx'
 
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.11'
