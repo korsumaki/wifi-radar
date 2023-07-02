@@ -106,7 +106,7 @@ android {
     composeOptions {
         // Check Compose Compiler vs Kotlin compatibility from here:
         // https://developer.android.com/jetpack/androidx/releases/compose-kotlin
-        kotlinCompilerExtensionVersion '1.4.7'
+        kotlinCompilerExtensionVersion '1.4.8'
     }
     packagingOptions {
         resources {
