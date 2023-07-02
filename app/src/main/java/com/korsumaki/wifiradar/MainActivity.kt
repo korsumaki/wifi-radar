@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
@@ -29,7 +30,7 @@ class MainActivity : ComponentActivity() {
     private val scanList = ArrayList<WifiAp>()
     private lateinit var scanner: WiFiRadarScanner
 
-    val requestPermissionLauncher =
+    val requestPermissionLauncher: ActivityResultLauncher<String> =
         registerForActivityResult(
             ActivityResultContracts.RequestPermission()
         ) { isGranted: Boolean ->
@@ -49,7 +50,7 @@ class MainActivity : ComponentActivity() {
             }
         }
 
-    val requestMultiplePermissionsLauncher =
+    val requestMultiplePermissionsLauncher: ActivityResultLauncher<Array<String>> =
         registerForActivityResult(
             ActivityResultContracts.RequestMultiplePermissions()
         ) { isGrantedMap: Map<String, Boolean> ->
@@ -111,7 +112,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     WifiRadarModalNavigationDrawer(
                         wifiRadarViewModel = wifiRadarViewModel,
-                        drawerContent = {
+                        content = {
                             DrawerContent(
                                 onOpenSourceLicences = { onLicenseTextView() },
                                 onPrivacyNotice = { onPrivacyNoticeView() },

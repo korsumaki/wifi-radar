@@ -263,7 +263,7 @@ fun DrawerContent(onOpenSourceLicences: () -> Unit, onPrivacyNotice: () -> Unit,
 @ExperimentalMaterial3Api // required by: WifiRadarScaffold
 @ExperimentalTextApi // required by: WifiRadarScaffold
 @Composable
-fun WifiRadarModalNavigationDrawer(wifiRadarViewModel: WifiRadarViewModel = WifiRadarViewModel(), drawerContent: @Composable ColumnScope.() -> Unit) {
+fun WifiRadarModalNavigationDrawer(wifiRadarViewModel: WifiRadarViewModel = WifiRadarViewModel(), content: @Composable ColumnScope.() -> Unit) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
@@ -283,7 +283,7 @@ fun WifiRadarModalNavigationDrawer(wifiRadarViewModel: WifiRadarViewModel = Wifi
                         )
                     }
                     //Divider()
-                    drawerContent()
+                    content()
                 }
             )
         },
@@ -336,7 +336,7 @@ fun DrawerContentPreview() {
 @Composable
 fun WifiRadarModalNavigationDrawerPreview() {
     WifiRadarModalNavigationDrawer(
-        drawerContent = {
+        content = {
             DrawerContent({}, {}, isDemoModeEnabled = true, {})
         }
     )
