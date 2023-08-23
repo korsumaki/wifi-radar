@@ -1,6 +1,7 @@
 package com.korsumaki.wifiradar
 
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
@@ -14,9 +15,9 @@ import androidx.lifecycle.ViewModel
 
 class WifiRadarViewModel : ViewModel() {
     val forceGraph by mutableStateOf(ForceGraph())
-    var iterationCounter by mutableStateOf(0)
+    var iterationCounter by mutableIntStateOf(0)
         private set
-    private var currentLocationNodeNumber by mutableStateOf(0)
+    private var currentLocationNodeNumber by mutableIntStateOf(0)
     var isDemoModeEnabled by mutableStateOf(false)
 
 

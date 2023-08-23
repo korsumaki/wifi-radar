@@ -207,7 +207,7 @@ fun WifiRadarContent(forceGraph: ForceGraph, scaleFactor: Float, iterationCount:
 @ExperimentalTextApi // required by: WifiRadarContent
 @Composable
 fun WifiRadarScaffold(wifiRadarViewModel: WifiRadarViewModel, onMenuClick: () -> Unit) {
-    var scaleFactor: Float by rememberSaveable { mutableStateOf(3.0f) }
+    var scaleFactor: Float by rememberSaveable { mutableFloatStateOf(3.0f) }
 
     Scaffold(
         topBar =  { WifiRadarTopBar(
