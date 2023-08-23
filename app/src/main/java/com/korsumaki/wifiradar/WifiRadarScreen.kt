@@ -15,7 +15,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.tooling.preview.Preview
@@ -59,7 +58,6 @@ fun WifiRadarTopBar(zoomIn: () -> Unit, zoomOut: () -> Unit, clearMap: () -> Uni
 }
 
 @Suppress("UNUSED_PARAMETER") // iterationCount
-@ExperimentalTextApi // required by: drawText, textMeasurer
 @Composable
 fun WifiRadarContent(forceGraph: ForceGraph, scaleFactor: Float, iterationCount: Int, demoMode: Boolean) {
     // NOTE iterationCount is required in parameter to get Compose updated.
@@ -204,7 +202,6 @@ fun WifiRadarContent(forceGraph: ForceGraph, scaleFactor: Float, iterationCount:
 }
 
 @ExperimentalMaterial3Api // required by: WifiRadarTopBar
-@ExperimentalTextApi // required by: WifiRadarContent
 @Composable
 fun WifiRadarScaffold(wifiRadarViewModel: WifiRadarViewModel, onMenuClick: () -> Unit) {
     var scaleFactor: Float by rememberSaveable { mutableFloatStateOf(3.0f) }
@@ -261,7 +258,6 @@ fun DrawerContent(onOpenSourceLicences: () -> Unit, onPrivacyNotice: () -> Unit,
 
 
 @ExperimentalMaterial3Api // required by: WifiRadarScaffold
-@ExperimentalTextApi // required by: WifiRadarScaffold
 @Composable
 fun WifiRadarModalNavigationDrawer(wifiRadarViewModel: WifiRadarViewModel = WifiRadarViewModel(), content: @Composable ColumnScope.() -> Unit) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
@@ -312,7 +308,6 @@ fun WifiRadarTopBarPreview() {
 
 @Preview(showBackground = true, uiMode = UI_MODE_NIGHT_NO)
 @ExperimentalMaterial3Api // required by: WifiRadarScaffold
-@ExperimentalTextApi // required by: WifiRadarScaffold
 @Composable
 fun WifiRadarScaffoldPreview() {
     WifiRadarScaffold(wifiRadarViewModel = WifiRadarViewModel(), onMenuClick = {})
@@ -332,7 +327,6 @@ fun DrawerContentPreview() {
 
 @Preview(showBackground = true, uiMode = UI_MODE_NIGHT_NO)
 @ExperimentalMaterial3Api // required by: WifiRadarModalNavigationDrawer
-@ExperimentalTextApi // required by: WifiRadarModalNavigationDrawer
 @Composable
 fun WifiRadarModalNavigationDrawerPreview() {
     WifiRadarModalNavigationDrawer(

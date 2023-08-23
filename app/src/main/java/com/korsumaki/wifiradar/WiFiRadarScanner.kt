@@ -59,7 +59,7 @@ class WiFiRadarScanner(val activity: Activity, private var scanList: MutableList
     /**
      * Permission request is triggered, and we should not trigger it again (and thus not trigger Wifi scan)
      */
-    var permissionRequestOngoing = false
+    private var permissionRequestOngoing = false
 
     fun scan(_scanDoneCallback: (isSuccess: Boolean) -> Unit) {
 
