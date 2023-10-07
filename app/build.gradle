@@ -69,12 +69,12 @@ android {
         }
     }
     namespace 'com.korsumaki.wifiradar'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.korsumaki.wifiradar"
         minSdk 28
-        targetSdk 33
+        targetSdk 34
         versionCode getVersionCode()
         versionName getVersionName()
         setProperty("archivesBaseName", "WifiRadar-" + getVersionName() ) // Add version tag to apk name
@@ -125,7 +125,7 @@ dependencies {
     implementation "androidx.compose.foundation:foundation"
     implementation "androidx.compose.ui:ui"
     implementation "androidx.compose.ui:ui-graphics"
-    implementation "com.google.android.material:material:1.9.0" // TODO 1.10.0
+    implementation "com.google.android.material:material:1.10.0"
 
     // Android Studio Preview support
     implementation "androidx.compose.ui:ui-tooling-preview"
@@ -142,9 +142,9 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
     // Others
-    implementation 'androidx.core:core-ktx:1.10.1' // TODO: androidx.core:core-ktx:1.12.0 requires API 34
+    implementation 'androidx.core:core-ktx:1.12.0'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.2'
-    implementation 'androidx.activity:activity-compose:1.7.2' // TODO: androidx.activity:activity-compose:1.8.0 requires API 34
+    implementation 'androidx.activity:activity-compose:1.8.0'
 
     implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0'
     implementation 'com.google.android.gms:play-services-oss-licenses:17.0.1'
