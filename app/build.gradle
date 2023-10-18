@@ -116,7 +116,7 @@ android {
 }
 
 dependencies {
-    def composeBom = platform('androidx.compose:compose-bom:2023.10.00')
+    def composeBom = platform('androidx.compose:compose-bom:2023.10.01')
     implementation composeBom
     androidTestImplementation composeBom
 
@@ -150,7 +150,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-oss-licenses:17.0.1'
 
     // Firebase Crashlytics
-    releaseImplementation platform('com.google.firebase:firebase-bom:32.3.1')
+    releaseImplementation platform('com.google.firebase:firebase-bom:32.4.0')
     releaseImplementation 'com.google.firebase:firebase-crashlytics-ktx'
 
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.12'
