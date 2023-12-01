@@ -102,6 +102,7 @@ android {
     }
     buildFeatures {
         compose true
+        buildConfig true
     }
     composeOptions {
         // Check Compose Compiler vs Kotlin compatibility from here:
