@@ -112,7 +112,7 @@ android {
     composeOptions {
         // Check Compose Compiler vs Kotlin compatibility from here:
         // https://developer.android.com/jetpack/androidx/releases/compose-kotlin
-        kotlinCompilerExtensionVersion '1.5.4'
+        kotlinCompilerExtensionVersion '1.5.7'
     }
     packagingOptions {
         resources {
@@ -131,7 +131,7 @@ dependencies {
     implementation "androidx.compose.foundation:foundation"
     implementation "androidx.compose.ui:ui"
     implementation "androidx.compose.ui:ui-graphics"
-    implementation "com.google.android.material:material:1.10.0"
+    implementation "com.google.android.material:material:1.11.0"
 
     // Android Studio Preview support
     implementation "androidx.compose.ui:ui-tooling-preview"
@@ -150,13 +150,13 @@ dependencies {
     // Others
     implementation 'androidx.core:core-ktx:1.12.0'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.2'
-    implementation 'androidx.activity:activity-compose:1.8.1'
+    implementation 'androidx.activity:activity-compose:1.8.2'
 
     implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2'
     implementation 'com.google.android.gms:play-services-oss-licenses:17.0.1'
 
     // Firebase Crashlytics
-    releaseImplementation platform('com.google.firebase:firebase-bom:32.6.0')
+    releaseImplementation platform('com.google.firebase:firebase-bom:32.7.0')
     releaseImplementation 'com.google.firebase:firebase-crashlytics-ktx'
 
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.12'
