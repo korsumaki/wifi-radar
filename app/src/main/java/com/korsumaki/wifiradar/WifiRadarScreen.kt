@@ -5,6 +5,7 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.*
+import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.runtime.*
@@ -270,7 +271,7 @@ fun WifiRadarModalNavigationDrawer(wifiRadarViewModel: WifiRadarViewModel = Wifi
                 content = {
                     Row {
                         IconButton(onClick = { scope.launch { drawerState.close() } } ) {
-                            Icon(Icons.Outlined.ArrowBack, stringResource(id = R.string.back_content_description))
+                            Icon(Icons.AutoMirrored.Outlined.ArrowBack, stringResource(id = R.string.back_content_description))
                         }
                         Text(
                             stringResource(R.string.app_name),
