@@ -156,7 +156,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-oss-licenses:17.0.1'
 
     // Firebase Crashlytics
-    releaseImplementation platform('com.google.firebase:firebase-bom:32.7.1')
+    releaseImplementation platform('com.google.firebase:firebase-bom:32.7.2')
     releaseImplementation 'com.google.firebase:firebase-crashlytics-ktx'
 
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.13'
