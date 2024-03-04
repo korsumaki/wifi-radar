@@ -13,3 +13,7 @@ updates:
       kotlin:
         patterns:
           - "org.jetbrains.kotlin.*"
+      android-gradle-plugin:
+        patterns:
+          - "com.android.application"
+          - "com.android.library"
