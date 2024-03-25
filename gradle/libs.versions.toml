@@ -4,7 +4,7 @@ targetSdk = "34"
 compileSdk = "34"
 
 agp = "8.3.1"
-kotlin = "1.9.22"
+kotlin = "1.9.23"
 androidxComposeCompiler = "1.5.10"
 activityCompose = "1.8.2"
 composeBom = "2024.02.02"
