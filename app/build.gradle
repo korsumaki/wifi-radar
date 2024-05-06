@@ -65,6 +65,13 @@ base {
     archivesName = "WifiRadar-" + getVersionName() // Add version tag to apk name
 }
 
+// Dependency: processDebugGoogleServices must be done always before uploadCrashlyticsMappingFileRelease
+tasks.configureEach {
+    if (name == "uploadCrashlyticsMappingFileRelease") {
+        dependsOn("processDebugGoogleServices")
+    }
+}
+
 android {
     signingConfigs {
         releaseSigningConfig {
