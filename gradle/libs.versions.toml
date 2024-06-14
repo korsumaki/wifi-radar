@@ -5,7 +5,6 @@ compileSdk = "34"
 
 agp = "8.4.2"
 kotlin = "2.0.0"
-androidxComposeCompiler = "1.5.12"
 activityCompose = "1.9.0"
 composeBom = "2024.06.00"
 coreKtx = "1.13.1"
@@ -57,6 +56,7 @@ androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 jetbrainsKotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 jetbrainsKotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 ossLicenses = { id = "com.google.android.gms.oss-licenses-plugin", version.ref = "ossLicenses" }
 googleServices = { id = "com.google.gms.google-services", version.ref = "googleServices" }
 firebaseCrashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebaseCrashlytics" }

@@ -15,6 +15,7 @@ plugins {
     alias libs.plugins.androidApplication
     alias libs.plugins.jetbrainsKotlin
     alias libs.plugins.jetbrainsKotlinSerialization
+    alias libs.plugins.composeCompiler
     id 'kotlinx-serialization'
     alias libs.plugins.ossLicenses
     id 'base'
@@ -115,11 +116,6 @@ android {
     buildFeatures {
         compose true
         buildConfig true
-    }
-    composeOptions {
-        // Check Compose Compiler vs Kotlin compatibility from here:
-        // https://developer.android.com/jetpack/androidx/releases/compose-kotlin
-        kotlinCompilerExtensionVersion libs.versions.androidxComposeCompiler.get()
     }
     packagingOptions {
         resources {
