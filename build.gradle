@@ -8,6 +8,7 @@ plugins {
     alias libs.plugins.androidLibrary apply false
     alias libs.plugins.jetbrainsKotlin apply false
     alias libs.plugins.jetbrainsKotlinSerialization apply false
+    alias libs.plugins.composeCompiler apply false
     alias libs.plugins.ossLicenses apply false  // This required workaround in settings.gradle
     alias libs.plugins.googleServices apply false
     alias libs.plugins.firebaseCrashlytics apply false
