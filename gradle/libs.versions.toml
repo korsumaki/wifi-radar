@@ -3,7 +3,7 @@ minSdk = "28"
 targetSdk = "34"
 compileSdk = "34"
 
-agp = "8.4.2"
+agp = "8.5.1"
 kotlin = "2.0.0"
 activityCompose = "1.9.0"
 composeBom = "2024.06.00"
