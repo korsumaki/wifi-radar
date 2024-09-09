@@ -5,7 +5,7 @@ compileSdk = "34"
 
 agp = "8.6.0"
 kotlin = "2.0.20"
-activityCompose = "1.9.1"
+activityCompose = "1.9.2"
 composeBom = "2024.08.00"
 coreKtx = "1.13.1"
 espressoCore = "3.6.1"
