@@ -101,6 +101,8 @@ fun WifiRadarContent(forceGraph: ForceGraph, scaleFactor: Float, iterationCount:
                 topLeft = Offset(10f, 10f)
             )
         }
+        // Workaround to get canvas updated when forceGraph is updated
+        val textVariable = "$iterationCount"
 
         synchronized(forceGraph) {
             // Prevent modification of ForceGraph during drawing (due iteration or new scan results)
