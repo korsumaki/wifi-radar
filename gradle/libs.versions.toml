@@ -4,7 +4,7 @@ targetSdk = "34"
 compileSdk = "34"
 
 agp = "8.8.0"
-kotlin = "2.1.0"
+kotlin = "2.1.10"
 activityCompose = "1.9.3"
 composeBom = "2024.12.01"
 coreKtx = "1.13.1"
