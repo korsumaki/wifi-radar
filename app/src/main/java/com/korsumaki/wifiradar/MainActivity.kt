@@ -1,9 +1,7 @@
 package com.korsumaki.wifiradar
 
 import android.app.AlertDialog
-import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -21,6 +19,8 @@ import com.korsumaki.wifiradar.BuildConfig.APPLICATION_ID
 import com.korsumaki.wifiradar.ui.theme.WifiRadarTheme
 import java.util.*
 import kotlin.concurrent.timer
+import androidx.core.content.edit
+import androidx.core.net.toUri
 
 
 class MainActivity : ComponentActivity() {
@@ -133,7 +133,7 @@ class MainActivity : ComponentActivity() {
     private val isNoteAgreedKey = "isNoteAgreedKey"
 
     private fun isPermissionAndDataUsageNoteAgreed(): Boolean {
-        val sharedPref = getSharedPreferences(sharedPreferencesName, Context.MODE_PRIVATE)
+        val sharedPref = getSharedPreferences(sharedPreferencesName, MODE_PRIVATE)
         return sharedPref.getBoolean(isNoteAgreedKey, false)
     }
 
@@ -141,10 +141,10 @@ class MainActivity : ComponentActivity() {
         when (agreed) {
             true -> {
                 startTimers()
-                getSharedPreferences(sharedPreferencesName, Context.MODE_PRIVATE)
-                    .edit()
-                    .putBoolean(isNoteAgreedKey, true)
-                    .apply()
+                getSharedPreferences(sharedPreferencesName, MODE_PRIVATE)
+                    .edit {
+                        putBoolean(isNoteAgreedKey, true)
+                    }
             }
             false -> {
                 // Enable demo mode
@@ -177,7 +177,7 @@ class MainActivity : ComponentActivity() {
     private fun onPrivacyNoticeView() {
         val openURL = Intent(
             Intent.ACTION_VIEW,
-            Uri.parse(getString(R.string.privacy_policy_web_link)))
+            getString(R.string.privacy_policy_web_link).toUri())
         startActivity(openURL)
     }
 
