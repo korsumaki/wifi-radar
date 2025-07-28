@@ -80,28 +80,28 @@ android {
             storePassword keystoreProperties['storePassword']
         }
     }
-    namespace 'com.korsumaki.wifiradar'
-    compileSdk libs.versions.compileSdk.get().toInteger()
+    namespace = 'com.korsumaki.wifiradar'
+    compileSdk = libs.versions.compileSdk.get().toInteger()
 
     defaultConfig {
         applicationId "com.korsumaki.wifiradar"
-        minSdk libs.versions.minSdk.get().toInteger()
-        targetSdk libs.versions.targetSdk.get().toInteger()
-        versionCode getVersionCode()
-        versionName getVersionName()
+        minSdk = libs.versions.minSdk.get().toInteger()
+        targetSdk = libs.versions.targetSdk.get().toInteger()
+        versionCode = getVersionCode()
+        versionName = getVersionName()
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
-            useSupportLibrary true
+            useSupportLibrary = true
         }
     }
 
     buildTypes {
         release {
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled = true
+            shrinkResources = true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.releaseSigningConfig
+            signingConfig = signingConfigs.releaseSigningConfig
         }
     }
     compileOptions {
@@ -114,8 +114,8 @@ android {
         }
     }
     buildFeatures {
-        compose true
-        buildConfig true
+        compose = true
+        buildConfig = true
     }
     packagingOptions {
         resources {
