@@ -159,7 +159,6 @@ dependencies {
 
     // Firebase Crashlytics
     releaseImplementation platform(libs.firebase.bom)
-    releaseImplementation libs.firebase.crashlytics.ktx
 
     debugImplementation libs.leakcanary.android
 }
