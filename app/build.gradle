@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 /*
  * Two options, with or without Crashlytics (https://firebase.google.com/products/crashlytics)
  *
@@ -27,12 +29,10 @@ plugins {
 
 def getVersionCode = { ->
     try {
-        def stdout = new ByteArrayOutputStream()
-        exec {
+        def versionCodeProvider = providers.exec {
             commandLine 'git', 'rev-list', '--first-parent', '--count', 'main'
-            standardOutput = stdout
         }
-        return Integer.parseInt(stdout.toString().trim())
+        return Integer.parseInt(versionCodeProvider.standardOutput.asText.get().trim())
     }
     catch (ex) {
         // Print note about error with git repo and return 1.
@@ -45,15 +45,13 @@ def getVersionCode = { ->
 
 def getVersionName = { ->
     try {
-        def stdout = new ByteArrayOutputStream()
-        exec {
+        def versionProvider = providers.exec {
             commandLine 'git', 'describe', '--tags', '--dirty'
-            standardOutput = stdout
         }
-        return stdout.toString().trim()
+        return versionProvider.standardOutput.asText.get().trim()
     }
     catch (ignored) {
-        return null
+        return "unknown"
     }
 }
 
@@ -110,8 +108,10 @@ android {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = '17'
+    kotlin {
+        compilerOptions {
+            jvmTarget = JvmTarget.JVM_17
+        }
     }
     buildFeatures {
         compose true
