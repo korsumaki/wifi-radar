@@ -19,7 +19,7 @@ material = "1.13.0"
 playServicesOssLicenses = "17.2.2"
 truth = "1.4.5"
 ossLicenses = "0.10.7"
-googleServices = "4.4.3"
+googleServices = "4.4.4"
 firebaseCrashlytics = "3.0.6"
 
 [libraries]
