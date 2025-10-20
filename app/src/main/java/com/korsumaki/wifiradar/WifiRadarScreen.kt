@@ -3,9 +3,6 @@ package com.korsumaki.wifiradar
 import android.content.res.Configuration.UI_MODE_NIGHT_NO
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.*
-import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.runtime.*
@@ -35,7 +32,9 @@ fun WifiRadarTopBar(zoomIn: () -> Unit, zoomOut: () -> Unit, clearMap: () -> Uni
         title = { Text(text = stringResource(R.string.app_name)) },
         navigationIcon = {
             IconButton(onClick = { onMenuClick() } ) {
-                Icon(Icons.Outlined.Menu, stringResource(id = R.string.menu_content_description))
+                Icon(
+                    painterResource(id = R.drawable.menu_24px),
+                    stringResource(id = R.string.menu_content_description))
             }
         },
         actions = {
@@ -51,7 +50,7 @@ fun WifiRadarTopBar(zoomIn: () -> Unit, zoomOut: () -> Unit, clearMap: () -> Uni
             }
             IconButton(onClick = clearMap) {
                 Icon(
-                    Icons.Outlined.Delete,
+                    painterResource(id = R.drawable.delete_24px),
                     stringResource(id = R.string.clear_screen_content_description))
             }
         }
@@ -238,7 +237,7 @@ fun DrawerContent(onOpenSourceLicences: () -> Unit, onPrivacyNotice: () -> Unit,
         trailingIcon = {
             if (isDemoModeEnabled) {
                 Icon(
-                    Icons.Outlined.Check,
+                    painterResource(id = R.drawable.check_24px),
                     stringResource(id = R.string.demo_mode_enabled_content_description)
                 )
             }
@@ -273,7 +272,9 @@ fun WifiRadarModalNavigationDrawer(wifiRadarViewModel: WifiRadarViewModel = Wifi
                 content = {
                     Row {
                         IconButton(onClick = { scope.launch { drawerState.close() } } ) {
-                            Icon(Icons.AutoMirrored.Outlined.ArrowBack, stringResource(id = R.string.back_content_description))
+                            Icon(
+                                painterResource(id = R.drawable.arrow_back_24px),
+                                stringResource(id = R.string.back_content_description))
                         }
                         Text(
                             stringResource(R.string.app_name),
