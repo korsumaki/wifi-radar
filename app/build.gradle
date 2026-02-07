@@ -64,10 +64,15 @@ base {
     archivesName = "WifiRadar-" + getVersionName() // Add version tag to apk name
 }
 
-// Dependency: processDebugGoogleServices must be done always before uploadCrashlyticsMappingFileRelease
+// Dependency fixes for task ordering issues
 tasks.configureEach {
+    // processDebugGoogleServices must be done always before uploadCrashlyticsMappingFileRelease
     if (name == "uploadCrashlyticsMappingFileRelease") {
         dependsOn("processDebugGoogleServices")
+    }
+    // Fix for OSS Licenses plugin issue
+    if (name.endsWith("OssLicensesCleanUp")) {
+        dependsOn(name.replace("OssLicensesCleanUp", "OssDependencyTask"))
     }
 }
 
