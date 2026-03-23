@@ -18,7 +18,7 @@ lifecycleRuntimeKtx = "2.10.0"
 material = "1.13.0"
 playServicesOssLicenses = "17.3.0"
 truth = "1.4.5"
-ossLicenses = "0.10.10"
+ossLicenses = "0.11.0"
 googleServices = "4.4.4"
 firebaseCrashlytics = "3.0.6"
 
