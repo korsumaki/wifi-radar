@@ -14,7 +14,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.ExperimentalTextApi
-import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
+import com.google.android.gms.oss.licenses.v2.OssLicensesMenuActivity
 import com.korsumaki.wifiradar.BuildConfig.APPLICATION_ID
 import com.korsumaki.wifiradar.ui.theme.WifiRadarTheme
 import java.util.*
