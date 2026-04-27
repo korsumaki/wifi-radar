@@ -20,7 +20,7 @@ playServicesOssLicenses = "17.5.1"
 truth = "1.4.5"
 ossLicenses = "0.11.0"
 googleServices = "4.4.4"
-firebaseCrashlytics = "3.0.6"
+firebaseCrashlytics = "3.0.7"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
