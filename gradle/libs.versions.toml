@@ -4,9 +4,9 @@ targetSdk = "36"
 compileSdk = "36"
 
 agp = "9.2.1"
-kotlin = "2.4.0"
+kotlin = "2.4.10"
 activityCompose = "1.13.0"
-composeBom = "2026.06.01"
+composeBom = "2026.06.01" # 2026.08.00 requires compileSdk 37
 coreKtx = "1.18.0" # 1.19.0 requires SDK37
 espressoCore = "3.7.0"
 firebaseBom = "34.18.0"
@@ -20,7 +20,7 @@ playServicesOssLicenses = "17.5.1"
 truth = "1.4.5"
 ossLicenses = "0.13.0"
 googleServices = "4.5.0"
-firebaseCrashlytics = "3.0.7"
+firebaseCrashlytics = "3.0.8"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
