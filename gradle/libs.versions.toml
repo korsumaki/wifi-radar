@@ -1,7 +1,7 @@
 [versions]
 minSdk = "28"
-targetSdk = "36"
-compileSdk = "36"
+targetSdk = "37"
+compileSdk = "37"
 
 agp = "9.5.1"
 kotlinPlugins = "2.4.21"
