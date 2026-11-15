@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 /*
  * Two options, with or without Crashlytics (https://firebase.google.com/products/crashlytics)
@@ -15,7 +16,6 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias libs.plugins.androidApplication
-    alias libs.plugins.jetbrainsKotlin
     alias libs.plugins.jetbrainsKotlinSerialization
     alias libs.plugins.composeCompiler
     id 'kotlinx-serialization'
@@ -115,7 +115,8 @@ android {
     }
     kotlin {
         compilerOptions {
-            jvmTarget = JvmTarget.JVM_17
+            //languageVersion = KotlinVersion.KOTLIN_2_5
+            //jvmTarget = JvmTarget.JVM_17
         }
     }
     buildFeatures {
